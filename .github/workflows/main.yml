@@ -21,5 +21,5 @@ jobs:
 
     - name: Test with flake8 and django tests
       run: |
-        cd backend/
+        cd ASODU/
         python -m flake8
