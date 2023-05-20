@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}
+  Главная страница
+{% endblock %}
+{% block header %}
+Проекты пользователя
+{% endblock %}
+{% block content %}
+  {% comment %} {% include 'posts/includes/switcher.html' %} {% endcomment %}
+  {% load cache %}
+  {% cache 20 Index_page %}
+  {% comment %} {% include 'posts/includes/post_content.html' %}
+  {% include 'posts/includes/paginator.html' %} {% endcomment %}
+  {% endcache %}
+{% endblock %}
