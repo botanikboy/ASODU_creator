@@ -2,7 +2,7 @@ from django.db import models
 from django.core.validators import RegexValidator, MinValueValidator
 
 from users.models import User
-from .constants import FUNCTION_TYPE_CHOICES
+from .constants import FUNCTION_TYPE_CHOICES, UNITS_CHOICES
 
 
 class Vendor(models.Model):
@@ -46,7 +46,7 @@ class Project(models.Model):
         verbose_name='Описание',
         help_text='Добавьте краткое описание проекта.',
     )
-    created = models.DateField(
+    created = models.DateTimeField(
         auto_now_add=True,
         verbose_name='Дата создания'
     )
@@ -55,15 +55,36 @@ class Project(models.Model):
         null=True,
         on_delete=models.SET_NULL,
         verbose_name='Автор',
+        related_name='projects',
     )
 
     class Meta:
         verbose_name = 'Проект'
         verbose_name_plural = 'Проекты'
-        ordering = ('name',)
+        ordering = ('-created',)
 
     def __str__(self):
         return self.name
+
+
+class EquipmentGroup(models.Model):
+    title = models.CharField(
+        verbose_name='Название подгруппы оборудования',
+        blank=False,
+        null=False,
+        default='Прочее',
+        max_length=200
+    )
+    slug = models.SlugField(unique=True)
+    description = models.TextField()
+
+    class Meta():
+        verbose_name = 'Группа оборудования'
+        verbose_name_plural = 'Группы оборудования'
+        ordering = ('title',)
+
+    def __str__(self):
+        return self.title
 
 
 class Equipment(models.Model):
@@ -90,6 +111,19 @@ class Equipment(models.Model):
         blank=False,
         null=False,
     )
+    group = models.ForeignKey(
+        EquipmentGroup,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=False,
+        verbose_name='Группа оборудования',
+    )
+    units = models.CharField(
+        max_length=64,
+        choices=UNITS_CHOICES,
+        default='шт.',
+        verbose_name='Единицы измерения для спецификации'
+    )
 
     class Meta:
         verbose_name = 'Оборудование'
@@ -97,7 +131,7 @@ class Equipment(models.Model):
         ordering = ('code',)
 
     def __str__(self):
-        return f'{self.code} - {self.description[:80]}'
+        return f'{self.group} - {self.code} - {self.description[:80]}'
 
 
 class Panel(models.Model):
@@ -113,11 +147,13 @@ class Panel(models.Model):
         Project,
         on_delete=models.CASCADE,
         verbose_name='Проект',
+        related_name='panels',
     )
     function_type = models.CharField(
         max_length=64,
         choices=FUNCTION_TYPE_CHOICES,
         default='general',
+        verbose_name='Функциональное назначение',
     )
     description = models.TextField(
         max_length=500,
@@ -154,10 +190,12 @@ class EquipmentPanelAmount(models.Model):
     equipment = models.ForeignKey(
         Equipment,
         on_delete=models.CASCADE,
+        verbose_name='Оборудование',
     )
     panel = models.ForeignKey(
         Panel,
         on_delete=models.CASCADE,
+        related_name='amounts',
     )
     amount = models.PositiveIntegerField(
         blank=False,
@@ -178,6 +216,8 @@ class EquipmentPanelAmount(models.Model):
                 name='unique_equipment_in_panel',
             )
         ]
+        verbose_name = verbose_name_plural = 'Оборудование'
+        ordering = ('equipment__group', 'equipment__code')
 
     def __str__(self):
-        return str(self.id)
+        return str(self.equipment.group)

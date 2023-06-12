@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}
+  Проект: {{ project.name }}
+{% endblock %}
+{% block header %}
+Проект: {{ project.name }}
+{% endblock %}
+{% block content %}
+  <p>
+    {{ project.description }}
+  </p>
+  <p>
+  <a href="{% url 'panels:panel_create' project.id %}" class="btn btn-light">+ Добавить новый щит</a>
+  <a href="#" class="btn btn-light">Скачать полную спецификацию</a>
+  </p>
+  {% include 'panels/includes/project_content.html' %}
+{% endblock %}

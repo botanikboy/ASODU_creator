@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}
+  Щит: {{ panel.name }}
+{% endblock %}
+{% block header %}
+Проект: {{ panel.project }}
+{% endblock %}
+{% block content %}
+<p>
+  {{ project.description }}
+</p>
+  {% include 'panels/includes/panel_content.html' %}
+{% endblock %}
