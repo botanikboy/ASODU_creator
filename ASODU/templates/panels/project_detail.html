@@ -10,8 +10,11 @@
     {{ project.description }}
   </p>
   <p>
-  <a href="{% url 'panels:panel_create' project.id %}" class="btn btn-light">+ Добавить новый щит</a>
-  <a href="#" class="btn btn-light">Скачать полную спецификацию</a>
+    <a href="#" class="btn btn-light">Скачать полную спецификацию</a>
+    {% if user == project.author %}
+      <a href="{% url 'panels:panel_create' project.id %}" class="btn btn-light">+ Добавить новый щит</a>
+      <a href="{% url 'panels:project_delete' project.id %}" class="btn btn-danger" onclick="return confirm('Вы уверены что хотите полностью удалить проект? Проект удалится только после удаления всех щитов');">Удалить проект</a>
+    {% endif %}
   </p>
   {% include 'panels/includes/project_content.html' %}
 {% endblock %}

@@ -7,7 +7,7 @@
 {% endblock %}
 {% block content %}
   <p>
-  <a href="#" class="btn btn-light">+ Создать новый проект</a>
+  <a href="{% url 'panels:project_create' %}" class="btn btn-light">+ Создать новый проект</a>
   </p>
   {% include 'panels/includes/project_list_content.html' %}
 {% endblock %}

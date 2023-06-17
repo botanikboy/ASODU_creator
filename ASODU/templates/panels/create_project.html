@@ -1,16 +1,16 @@
 {% extends 'base.html' %}
 {% block title %}
-  Новый щит
+  Новый проект
 {% endblock %}
 {% block header %}
-Проект: {{ project.name }}
+Автор: {{ user.get_full_name }}
 {% endblock %}
 {% block content %}
   <div class="row justify-content-center">
     <div class="col-md-8 p-5">
       <div class="card">
         <h5 class="card-header">       
-            Новый щит
+            Новый проект
         </h5>
         <div class="card-body">
           {% load user_filters %}
@@ -38,7 +38,7 @@
                     <span class="required text-danger">*</span>
                   {% endif %}
                 </label>    
-                {{ field }}
+                {{ field|addclass:'form-control' }}
                 {% if field.help_text %}
                   <small 
                     id="{{ field.id_for_label }}-help" 
@@ -50,7 +50,7 @@
             {% endfor %}
             <div class="d-flex justify-content-end">
               <button type="submit" class="btn btn-outline-primary">
-                  Добавить в проект
+                  Создать проект
               </button>
             </div>
             </div>

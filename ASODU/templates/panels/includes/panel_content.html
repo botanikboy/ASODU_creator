@@ -34,9 +34,9 @@
         </p>
         <a href="#" class="btn btn-outline-dark">Скачать спецификацию щита</a>
         {% if user == panel.project.author %}
-          <a href="#" class="btn btn-outline-primary">Редактировать</a>
+          <a href="{% url 'panels:panel_edit' panel.id %}" class="btn btn-outline-primary">Редактировать</a>
           <a href="#" class="btn btn-outline-primary">Создать копию</a>
-          <a href="#" class="btn btn-outline-danger">Удалить щит</a>
+          <a href="{% url 'panels:panel_delete' panel.id %}" class="btn btn-outline-danger" onclick="return confirm('Вы уверены что хотите полностью удалить щит?');">Удалить щит</a>
         {% endif %}
       </div>
     </div>
