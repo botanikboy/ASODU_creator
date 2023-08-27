@@ -15,7 +15,7 @@ class EquipmentPanelAmountInline(admin.TabularInline):
 class PanelAdmin(admin.ModelAdmin):
     list_display = ('name', 'project', 'description')
     search_fields = ('project', 'name')
-    list_filter = ('function_type',)
+    list_filter = ('function_type', 'project')
     inlines = (EquipmentPanelAmountInline,)
 
 

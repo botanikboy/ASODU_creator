@@ -8,12 +8,13 @@
 {% block content %}
   <p>
     {{ project.description }}
+    <a href="{% url 'panels:project_edit' project.id %}">Изменить название и описание</a>
   </p>
   <p>
     <a href="#" class="btn btn-light">Скачать полную спецификацию</a>
     {% if user == project.author %}
       <a href="{% url 'panels:panel_create' project.id %}" class="btn btn-light">+ Добавить новый щит</a>
-      <a href="{% url 'panels:project_delete' project.id %}" class="btn btn-danger" onclick="return confirm('Вы уверены что хотите полностью удалить проект? Проект удалится только после удаления всех щитов');">Удалить проект</a>
+      <a href="{% url 'panels:project_delete' project.id %}" class="btn btn-outline-danger" onclick="return confirm('Вы уверены что хотите полностью удалить проект? Проект удалится только после удаления всех щитов');">Удалить проект</a>
     {% endif %}
   </p>
   {% include 'panels/includes/project_content.html' %}

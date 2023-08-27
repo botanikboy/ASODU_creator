@@ -15,14 +15,9 @@ urlpatterns = [
         name='project_detail',
     ),
     path(
-        'panels/<int:panel_id>/',
-        views.panel_detail,
-        name='panel_detail',
-    ),
-    path(
-        'projects/<int:project_id>/create/',
-        views.panel_create,
-        name='panel_create',
+        'projects/<int:project_id>/edit/',
+        views.project_edit,
+        name='project_edit',
     ),
     path(
         'projects/create/',
@@ -35,6 +30,16 @@ urlpatterns = [
         name='project_delete',
     ),
     path(
+        'panels/<int:panel_id>/',
+        views.panel_detail,
+        name='panel_detail',
+    ),
+    path(
+        'projects/<int:project_id>/add/',
+        views.panel_create,
+        name='panel_create',
+    ),
+    path(
         'panels/<int:panel_id>/delete/',
         views.panel_delete,
         name='panel_delete',
@@ -43,5 +48,10 @@ urlpatterns = [
         'panels/<int:panel_id>/edit/',
         views.panel_edit,
         name='panel_edit',
+    ),
+    path(
+        'panels/<int:panel_id>/edit_contents/',
+        views.panel_edit_contents,
+        name='panel_edit_contents',
     ),
 ]

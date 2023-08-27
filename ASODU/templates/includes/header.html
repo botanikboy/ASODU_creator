@@ -7,23 +7,25 @@
       <a class="navbar-brand" href="{% url 'panels:index' %}">
       <img 
         src="{% static 'img/logo.png' %}"
-        width="30"
-        height="30"
+        width="60"
+        height="60"
         class="d-inline-block align-top" 
         alt="">
-      <span style="color:coral">ASODU</span>creator
+      <span style="color:white" class="align-bottom">ASODUcreator</span>
       </a>
-      <button 
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent"
-        aria-expanded="false"
-        aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <div class="text-center">
+        <button 
+          class="navbar-toggler"
+          type="button"
+          data-toggle="collapse"
+          data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent" style="color:white">
         {% with request.resolver_match.view_name as view_name %}
         <ul class="nav nav-pills">
           <li class="nav-item"> 
@@ -32,7 +34,7 @@
               {% if view_name  == 'about:author' %}active{% endif %}"
               href="{% url 'about:author' %}"
               > {% endcomment %}
-            Об авторе
+            Мои проекты
             </a>
           </li>
           <li class="nav-item">
@@ -41,7 +43,7 @@
               {% if view_name  == 'about:tech' %}active{% endif %}"
               href="{% url 'about:tech' %}"
               > {% endcomment %}
-            Технологии
+            Создать новый проект
             </a>
           </li>
           {% if user.is_authenticated %}

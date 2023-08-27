@@ -3,11 +3,10 @@
   Щит: {{ panel.name }}
 {% endblock %}
 {% block header %}
-Проект: {{ panel.project }}
+Проект: {{ panel.project }} -> Щит: {{ panel.name }}
 {% endblock %}
 {% block content %}
 <p>
-  {{ project.description }}
-</p>
-  {% include 'panels/includes/panel_content.html' %}
+  <a href="{% url 'panels:project_detail' panel.project.id %}" class="btn btn-light">Вернуться к списку щитов в проекте</a></p>
+{% include 'panels/includes/panel_content.html' %}
 {% endblock %}
