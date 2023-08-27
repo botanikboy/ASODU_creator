@@ -64,7 +64,7 @@ def project_delete(request, project_id):
     return redirect('panels:index')
 
 
-# -----------------------------------------panels----
+# -----------------------------------------panels---------------------
 def panel_detail(request, panel_id):
     panel = get_object_or_404(Panel, pk=panel_id)
     context = {
@@ -112,7 +112,14 @@ def panel_edit_contents(request, panel_id):
     formset = EquipmentFormset(request.POST or None, instance=panel)
     project = panel.project
     if formset.is_valid():
-        panel.save()
+        for form in formset:
+            if form.is_valid() and not form.empty_permitted:
+                if form.cleaned_data.get('DELETE'):
+                    form.instance.delete()
+                else:
+                    equipment = form.save(commit=False)
+                    equipment.panel = panel
+                    equipment.save()
         return redirect('panels:panel_detail', panel.id)
     else:
         print(formset.non_form_errors())

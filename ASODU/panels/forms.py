@@ -37,5 +37,5 @@ class EquipmentForm(forms.ModelForm):
 
 
 EquipmentFormset = forms.inlineformset_factory(
-    Panel, EquipmentPanelAmount, form=EquipmentForm, extra=2
+    Panel, EquipmentPanelAmount, form=EquipmentForm, extra=3
 )
