@@ -113,7 +113,7 @@ def panel_edit_contents(request, panel_id):
     project = panel.project
     if formset.is_valid():
         for form in formset:
-            if form.is_valid() and not form.empty_permitted:
+            if form.is_valid():
                 if form.cleaned_data.get('DELETE'):
                     form.instance.delete()
                 else:
@@ -124,7 +124,7 @@ def panel_edit_contents(request, panel_id):
     else:
         print(formset.non_form_errors())
         context = {
-            'form': formset,
+            'equipment_formset': formset,
             'project': project,
             'is_edit': True,
         }

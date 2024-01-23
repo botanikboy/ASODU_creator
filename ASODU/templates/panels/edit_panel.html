@@ -1,49 +1,43 @@
 {% extends 'base.html' %}
 {% block title %}
 {% if is_edit %}
-  Щит: {{ form.instance }}
+  Щит: {{ equipment_formset.instance }}
 {% else %}
   Новый щит
 {% endif %}
 {% endblock %}
 {% block header %}
-Проект: {{ project.name }} -> Щит: {{ form.instance.name }}
+Проект: {{ project.name }} -> Щит: {{ equipment_formset.instance.name }}
 {% endblock %}
 {% block content %}
 <p>
-  <a href="{% url 'panels:panel_detail' form.instance.id %}" class="btn btn-light">Вернуться к просмотру щита</a></p>
+  <a href="{% url 'panels:panel_detail' equipment_formset.instance.id %}" class="btn btn-light">Вернуться к просмотру щита</a></p>
   <article class="mb-3">
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">
           {% if is_edit %}
-            {{ form.instance }}
+            {{ equipment_formset.instance }}
           {% else %}
             Новый щит
           {% endif %}
         </h5>
         <h6 class="card-subtitle mb-2 text-muted">
-          Тип щита: {{ form.instance.get_function_type_display }}
+          Тип щита: {{ equipment_formset.instance.get_function_type_display }}
         </h6>
-        <p class="card-text">{{ form.instance.description }}
+        <p class="card-text">{{ equipment_formset.instance.description }}
           {% load user_filters %}
-          {% if form.errors %}
-            {% for field in form %}
-              {% for error in field.errors %}
-                <div class="alert alert-danger">
-                  {{ error|escape }}
-                </div>
-              {% endfor %}
-            {% endfor %}
-            {% for error in form.non_field_errors %}
-              <div class="alert alert-danger">
-                {{ error|escape }}
-              </div>
-            {% endfor %}
-          {% endif %}
-        <form method="post" action="" enctype="multipart/form-data">
+          {% comment %} {% if form.errors %}
+            <div class="alert alert-danger">
+              {{ form.non_field_errors|escape }}
+            </div>
+          {% endif %} {% endcomment %}
+        <form id="form-container" method="post" action="" enctype="multipart/form-data">
           {% csrf_token %}
-          {{ form.as_p }}
+          {{ equipment_formset.management_form }}
+          <div class="eqipment-form">
+          {{ equipment_formset.as_p }}
+          </div>
           {% comment %} {% for field in form %}
             <div class="form-group row my-3 p-3">
               <label for="{{ field.id_for_label }}">
@@ -62,8 +56,11 @@
               {% endif %}
             </div>
           {% endfor %} {% endcomment %}
+          <button id="add-form" type="button" class="btn btn-outline-primary">Добавить строку</button>
+          <br>
+          <br>
           <div class="d-flex justify-content-between">
-            <a href="{% url 'panels:panel_detail' form.instance.id %}" class="btn btn-outline-dark">Отмена</a></p>
+            <a href="{% url 'panels:panel_detail' equipment_formset.instance.id %}" class="btn btn-outline-dark">Отмена</a></p>
             <button type="submit" class="btn btn-outline-primary">
               {% if is_edit %}
                 Сохранить изменения
@@ -77,3 +74,5 @@
     </div>
   </div>
 {% endblock %}
+
+
