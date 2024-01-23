@@ -13,10 +13,13 @@ class PanelForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
-        if Panel.objects.filter(
+        matching_panels = Panel.objects.filter(
             project=self.instance.project,
             name=cleaned_data.get('name')
-        ).exists():
+        )
+        if self.instance:
+            matching_panels = matching_panels.exclude(pk=self.instance.pk)
+        if matching_panels.exists():
             raise ValidationError(
                 'Щит с таким именем уже существует в этом проекте.'
             )
