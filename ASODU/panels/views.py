@@ -94,9 +94,9 @@ def panel_create(request, project_id):
 def panel_edit(request, panel_id):
     panel = get_object_or_404(Panel, pk=panel_id)
     form = PanelForm(request.POST or None, instance=panel)
+    print(form)
     if form.is_valid():
-        panel = form.save(commit=False)
-        panel.save()
+        form.save()
         return redirect('panels:panel_detail', panel.id)
     else:
         context = {
