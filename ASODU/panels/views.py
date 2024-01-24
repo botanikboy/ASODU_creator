@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
-from .models import Project, Panel
+from .models import EquipmentPanelAmount, Project, Panel
 from .forms import PanelForm, ProjectForm, EquipmentFormset
 from .utils import paginator_create
 
@@ -44,8 +44,7 @@ def project_edit(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     form = ProjectForm(request.POST or None, instance=project)
     if form.is_valid():
-        project = form.save(commit=False)
-        project.save()
+        form.save()
         return redirect('panels:project_detail', project.id)
     else:
         context = {
@@ -113,9 +112,12 @@ def panel_edit_contents(request, panel_id):
     project = panel.project
     if formset.is_valid():
         for form in formset:
-            if form.is_valid():
+            if form.is_valid() and form['equipment'].value():
                 if form.cleaned_data.get('DELETE'):
-                    form.instance.delete()
+                    pk=form.instance.pk
+                    if pk:
+                        equipment = EquipmentPanelAmount.objects.get(pk=pk)
+                        equipment.delete()
                 else:
                     equipment = form.save(commit=False)
                     equipment.panel = panel

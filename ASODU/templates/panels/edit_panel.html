@@ -32,30 +32,21 @@
               {{ form.non_field_errors|escape }}
             </div>
           {% endif %} {% endcomment %}
-        <form id="form-container" method="post" action="" enctype="multipart/form-data">
+        <template id="id_formset_empty_form">{{ equipment_formset.empty_form.as_p }}</template>
+        <form id="form-container" method="post" action="" enctype="multipart/form-data" autocomplete="off">
           {% csrf_token %}
           {{ equipment_formset.management_form }}
-          <div class="eqipment-form">
-          {{ equipment_formset.as_p }}
-          </div>
-          {% comment %} {% for field in form %}
-            <div class="form-group row my-3 p-3">
-              <label for="{{ field.id_for_label }}">
-                {{ field.label }}
-                {% if field.field.required %}
-                  <span class="required text-danger">*</span>
-                {% endif %}
-              </label>    
-              {{ field }}
-              {% if field.help_text %}
-                <small 
-                  id="{{ field.id_for_label }}-help" 
-                  class="form-text text-muted">
-                  {{ field.help_text|safe }}
-                </small>
-              {% endif %}
+          {% for form in equipment_formset %}
+            {% if form.errors %}
+            <div class="alert alert-danger">
+              {{ form.non_field_errors|escape }}
             </div>
-          {% endfor %} {% endcomment %}
+            {% endif %}
+            <div class="eqipment-form">
+            {{ form.as_p }}
+            </div>
+          {% endfor %}
+
           <button id="add-form" type="button" class="btn btn-outline-primary">Добавить строку</button>
           <br>
           <br>

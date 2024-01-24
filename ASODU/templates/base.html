@@ -35,24 +35,21 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <script>
+      let templateForm = document.getElementById("id_formset_empty_form")
       let equipmentForm = document.querySelectorAll(".eqipment-form")
       let container = document.querySelector("#form-container")
       let addButton = document.querySelector("#add-form")
-      let totalForms = document.querySelector("#id_form-TOTAL_FORMS")
-    
+      let totalForms = document.querySelector("#id_amounts-TOTAL_FORMS")    
       let formNum = equipmentForm.length-1
       addButton.addEventListener('click', addForm)
     
       function addForm(e){
           e.preventDefault()
-    
-          let newForm = equipmentForm[0].cloneNode(true)
-          let formRegex = RegExp(`form-(\\d){1}-`,'g')
-    
+          let newForm = templateForm.content.cloneNode(true)
+          let formRegex = RegExp(`amounts-(__prefix__){1}-`,'g')
           formNum++
-          newForm.innerHTML = newForm.innerHTML.replace(formRegex, `form-${formNum}-`)
+          {% comment %} newForm.innerHTML = newForm.innerHTML.replace(formRegex, `amounts-${formNum}-`) {% endcomment %}
           container.insertBefore(newForm, addButton)
-          
           totalForms.setAttribute('value', `${formNum+1}`)
       }
     </script>
