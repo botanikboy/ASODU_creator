@@ -1,0 +1,2018 @@
+[
+{
+    "model": "admin.logentry",
+    "pk": 1,
+    "fields": {
+        "action_time": "2023-06-11T11:56:03.386Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "1",
+        "object_repr": "Crevis",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 2,
+    "fields": {
+        "action_time": "2023-06-11T11:56:14.390Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "2",
+        "object_repr": "ДКС",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 3,
+    "fields": {
+        "action_time": "2023-06-11T11:56:26.596Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "3",
+        "object_repr": "Mean Well",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 4,
+    "fields": {
+        "action_time": "2023-06-11T11:56:37.674Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "4",
+        "object_repr": "Овен",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 5,
+    "fields": {
+        "action_time": "2023-06-11T12:19:19.738Z",
+        "user": 1,
+        "content_type": 12,
+        "object_id": "1",
+        "object_repr": "EquipmentGroup object (1)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 6,
+    "fields": {
+        "action_time": "2023-06-11T12:21:09.782Z",
+        "user": 1,
+        "content_type": 12,
+        "object_id": "2",
+        "object_repr": "EquipmentGroup object (2)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 7,
+    "fields": {
+        "action_time": "2023-06-11T12:21:59.249Z",
+        "user": 1,
+        "content_type": 12,
+        "object_id": "3",
+        "object_repr": "EquipmentGroup object (3)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 8,
+    "fields": {
+        "action_time": "2023-06-11T12:22:29.956Z",
+        "user": 1,
+        "content_type": 12,
+        "object_id": "4",
+        "object_repr": "EquipmentGroup object (4)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 9,
+    "fields": {
+        "action_time": "2023-06-11T12:22:54.699Z",
+        "user": 1,
+        "content_type": 12,
+        "object_id": "5",
+        "object_repr": "EquipmentGroup object (5)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 10,
+    "fields": {
+        "action_time": "2023-06-11T12:23:35.717Z",
+        "user": 1,
+        "content_type": 12,
+        "object_id": "6",
+        "object_repr": "EquipmentGroup object (6)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 11,
+    "fields": {
+        "action_time": "2023-06-11T12:24:54.210Z",
+        "user": 1,
+        "content_type": 12,
+        "object_id": "7",
+        "object_repr": "EquipmentGroup object (7)",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 12,
+    "fields": {
+        "action_time": "2023-06-11T12:27:19.414Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "GN-9372 - ПЛК, Codesys, MODBUS TCP/RTU, OPC UA",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 13,
+    "fields": {
+        "action_time": "2023-06-11T12:28:14.522Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "2",
+        "object_repr": "GL-9089 - Адаптер Modbus TCP/UDP, Ethernet/IP",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 14,
+    "fields": {
+        "action_time": "2023-06-11T12:28:42.545Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "3",
+        "object_repr": "GT-1238 - Дискретный ввод, 8DI, 24 В (DC), Sink/Source, RTB 10",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 15,
+    "fields": {
+        "action_time": "2023-06-11T12:29:07.972Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "4",
+        "object_repr": "GT-3118 - Аналоговый ввод, 8AI, 0-20/4-20 мА, 12 бит АЦП, RTB 10",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 16,
+    "fields": {
+        "action_time": "2023-06-11T12:29:39.001Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "5",
+        "object_repr": "GT-2328 - Дискретный вывод, 8DO, 24 В/0.5А (DC), Source, RTB 10",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 17,
+    "fields": {
+        "action_time": "2023-06-11T12:30:12.273Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "6",
+        "object_repr": "GT-4424 - Аналоговый вывод, 4AO, 0-10 В (DC), 12 бит АЦП, RTB 10",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 18,
+    "fields": {
+        "action_time": "2023-06-11T12:31:11.912Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "7",
+        "object_repr": "GT-3468 - Аналоговый ввод, 8AI, 0-10/0-5/1-5 В (DC), 16 бит АЦП, RTB 10",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 19,
+    "fields": {
+        "action_time": "2023-06-11T12:32:34.470Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "8",
+        "object_repr": "R5CE1083 - Корпус навесной CE c М/П ВхШхГ 1000x800x300 мм",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 20,
+    "fields": {
+        "action_time": "2023-06-11T12:33:23.500Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "9",
+        "object_repr": "R5CE0869 - Корпус навесной CE c М/П ВхШхГ 800x600x250 мм",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 21,
+    "fields": {
+        "action_time": "2023-06-11T12:36:05.370Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "10",
+        "object_repr": "HDR-60-24 - Блок питания на din-рейку 60Вт, 24В DC",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 22,
+    "fields": {
+        "action_time": "2023-06-11T12:37:36.151Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "11",
+        "object_repr": "ПВТ10-Н2.3.И - ПВТ10 датчик (преобразователь) влажности и температуры воздуха",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 23,
+    "fields": {
+        "action_time": "2023-06-11T13:51:38.886Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "ЦОД на Марсе",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 24,
+    "fields": {
+        "action_time": "2023-06-11T13:56:22.438Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "2",
+        "object_repr": "Офис на Юпитере",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 25,
+    "fields": {
+        "action_time": "2023-06-11T14:02:31.569Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "3",
+        "object_repr": "Склад на Плутоне",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 26,
+    "fields": {
+        "action_time": "2023-06-11T14:12:23.713Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "3",
+        "object_repr": "Склад на Плутоне",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 27,
+    "fields": {
+        "action_time": "2023-06-11T14:12:26.223Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "2",
+        "object_repr": "Офис на Юпитере",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 28,
+    "fields": {
+        "action_time": "2023-06-11T14:12:27.903Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "1",
+        "object_repr": "ЦОД на Марсе",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 29,
+    "fields": {
+        "action_time": "2023-06-11T14:26:21.277Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "1",
+        "object_repr": "ЩА-01",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"equipment panel amount\", \"object\": \"1\"}}, {\"added\": {\"name\": \"equipment panel amount\", \"object\": \"2\"}}, {\"added\": {\"name\": \"equipment panel amount\", \"object\": \"3\"}}, {\"added\": {\"name\": \"equipment panel amount\", \"object\": \"4\"}}, {\"added\": {\"name\": \"equipment panel amount\", \"object\": \"5\"}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 30,
+    "fields": {
+        "action_time": "2023-06-11T14:26:41.488Z",
+        "user": 1,
+        "content_type": 12,
+        "object_id": "4",
+        "object_repr": "Блок питания",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041d\\u0430\\u0437\\u0432\\u0430\\u043d\\u0438\\u0435 \\u043f\\u043e\\u0434\\u0433\\u0440\\u0443\\u043f\\u043f\\u044b \\u043e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u044f\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 31,
+    "fields": {
+        "action_time": "2023-06-11T14:26:48.865Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "1",
+        "object_repr": "ЩА-01",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 32,
+    "fields": {
+        "action_time": "2023-06-11T14:26:59.579Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "1",
+        "object_repr": "ЩА-01",
+        "action_flag": 2,
+        "change_message": "[{\"added\": {\"name\": \"equipment panel amount\", \"object\": \"6\"}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 33,
+    "fields": {
+        "action_time": "2023-06-11T14:27:21.791Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "1",
+        "object_repr": "ЩА-01",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 34,
+    "fields": {
+        "action_time": "2023-06-11T14:46:11.945Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "1",
+        "object_repr": "ЩА-01",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 35,
+    "fields": {
+        "action_time": "2023-06-11T14:46:59.407Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "2",
+        "object_repr": "ЩА-01",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"equipment panel amount\", \"object\": \"7\"}}, {\"added\": {\"name\": \"equipment panel amount\", \"object\": \"8\"}}, {\"added\": {\"name\": \"equipment panel amount\", \"object\": \"9\"}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 36,
+    "fields": {
+        "action_time": "2023-06-11T14:47:10.576Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "2",
+        "object_repr": "ЩА-01",
+        "action_flag": 2,
+        "change_message": "[{\"added\": {\"name\": \"equipment panel amount\", \"object\": \"10\"}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 37,
+    "fields": {
+        "action_time": "2023-06-11T14:47:59.277Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "2",
+        "object_repr": "ЩА-01",
+        "action_flag": 2,
+        "change_message": "[{\"deleted\": {\"name\": \"equipment panel amount\", \"object\": \"None\"}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 38,
+    "fields": {
+        "action_time": "2023-06-11T14:48:10.137Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "2",
+        "object_repr": "ЩА-01",
+        "action_flag": 2,
+        "change_message": "[{\"added\": {\"name\": \"equipment panel amount\", \"object\": \"11\"}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 39,
+    "fields": {
+        "action_time": "2023-06-11T14:54:37.010Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "2",
+        "object_repr": "ЩА-01",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 40,
+    "fields": {
+        "action_time": "2023-06-11T16:00:10.301Z",
+        "user": 1,
+        "content_type": 12,
+        "object_id": "8",
+        "object_repr": "Кабель",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 41,
+    "fields": {
+        "action_time": "2023-06-11T16:03:16.111Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "12",
+        "object_repr": "Кабель - ВВГнг-LS 3х1,5 - Кабель силовой огнестойкий, не распространяющий горение, с низким дымо- и газовы",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 42,
+    "fields": {
+        "action_time": "2023-06-11T16:03:30.873Z",
+        "user": 1,
+        "content_type": 9,
+        "object_id": "5",
+        "object_repr": "Москабельмет",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 43,
+    "fields": {
+        "action_time": "2023-06-11T16:03:38.450Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "12",
+        "object_repr": "Кабель - ВВГнг-LS 3х1,5 - Кабель силовой огнестойкий, не распространяющий горение, с низким дымо- и газовы",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"\\u041f\\u0440\\u043e\\u0438\\u0437\\u0432\\u043e\\u0434\\u0438\\u0442\\u0435\\u043b\\u044c\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 44,
+    "fields": {
+        "action_time": "2023-06-11T16:04:02.811Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "2",
+        "object_repr": "ЩА-01",
+        "action_flag": 2,
+        "change_message": "[{\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u041a\\u0430\\u0431\\u0435\\u043b\\u044c\"}}, {\"changed\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u0412\\u0432\\u043e\\u0434-\\u0432\\u044b\\u0432\\u043e\\u0434\", \"fields\": [\"\\u041a\\u043e\\u043b\\u0438\\u0447\\u0435\\u0441\\u0442\\u0432\\u043e\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 45,
+    "fields": {
+        "action_time": "2023-06-11T16:04:11.998Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "2",
+        "object_repr": "ЩА-01",
+        "action_flag": 2,
+        "change_message": "[{\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u0412\\u0432\\u043e\\u0434-\\u0432\\u044b\\u0432\\u043e\\u0434\"}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 46,
+    "fields": {
+        "action_time": "2023-06-11T16:17:01.343Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "3",
+        "object_repr": "ЩА-02",
+        "action_flag": 1,
+        "change_message": "[{\"added\": {}}, {\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u0412\\u0432\\u043e\\u0434-\\u0432\\u044b\\u0432\\u043e\\u0434\"}}, {\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u041a\\u043e\\u0440\\u043f\\u0443\\u0441\"}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 47,
+    "fields": {
+        "action_time": "2023-06-11T18:32:59.974Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "2",
+        "object_repr": "ПЛК - GL-9089 - Адаптер Modbus TCP/UDP, Ethernet/IP",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Units\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 48,
+    "fields": {
+        "action_time": "2023-06-11T18:33:27.063Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "10",
+        "object_repr": "Блок питания - HDR-60-24 - Блок питания на din-рейку 60Вт, 24В DC",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Units\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 49,
+    "fields": {
+        "action_time": "2023-06-11T18:33:37.966Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "11",
+        "object_repr": "Периферия - ПВТ10-Н2.3.И - ПВТ10 датчик (преобразователь) влажности и температуры воздуха",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Units\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 50,
+    "fields": {
+        "action_time": "2023-06-11T18:33:41.894Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "12",
+        "object_repr": "Кабель - ВВГнг-LS 3х1,5 - Кабель силовой огнестойкий, не распространяющий горение, с низким дымо- и газовы",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Units\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 51,
+    "fields": {
+        "action_time": "2023-06-11T18:33:47.947Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "9",
+        "object_repr": "Корпус - R5CE0869 - Корпус навесной CE c М/П ВхШхГ 800x600x250 мм",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Units\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 52,
+    "fields": {
+        "action_time": "2023-06-11T18:33:51.612Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "8",
+        "object_repr": "Корпус - R5CE1083 - Корпус навесной CE c М/П ВхШхГ 1000x800x300 мм",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Units\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 53,
+    "fields": {
+        "action_time": "2023-06-11T18:33:55.999Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "2",
+        "object_repr": "ПЛК - GL-9089 - Адаптер Modbus TCP/UDP, Ethernet/IP",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 54,
+    "fields": {
+        "action_time": "2023-06-11T18:33:59.046Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "1",
+        "object_repr": "ПЛК - GN-9372 - ПЛК, Codesys, MODBUS TCP/RTU, OPC UA",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Units\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 55,
+    "fields": {
+        "action_time": "2023-06-11T18:34:02.583Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "5",
+        "object_repr": "Ввод-вывод - GT-2328 - Дискретный вывод, 8DO, 24 В/0.5А (DC), Source, RTB 10",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Units\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 56,
+    "fields": {
+        "action_time": "2023-06-11T18:34:05.764Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "4",
+        "object_repr": "Ввод-вывод - GT-3118 - Аналоговый ввод, 8AI, 0-20/4-20 мА, 12 бит АЦП, RTB 10",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Units\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 57,
+    "fields": {
+        "action_time": "2023-06-11T18:34:08.293Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "7",
+        "object_repr": "Ввод-вывод - GT-3468 - Аналоговый ввод, 8AI, 0-10/0-5/1-5 В (DC), 16 бит АЦП, RTB 10",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Units\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 58,
+    "fields": {
+        "action_time": "2023-06-11T18:34:10.873Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "6",
+        "object_repr": "Ввод-вывод - GT-4424 - Аналоговый вывод, 4AO, 0-10 В (DC), 12 бит АЦП, RTB 10",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"Units\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 59,
+    "fields": {
+        "action_time": "2023-06-11T18:34:13.601Z",
+        "user": 1,
+        "content_type": 7,
+        "object_id": "7",
+        "object_repr": "Ввод-вывод - GT-3468 - Аналоговый ввод, 8AI, 0-10/0-5/1-5 В (DC), 16 бит АЦП, RTB 10",
+        "action_flag": 2,
+        "change_message": "[]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 60,
+    "fields": {
+        "action_time": "2023-06-11T19:18:36.516Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "2",
+        "object_repr": "ЩА-01",
+        "action_flag": 2,
+        "change_message": "[{\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u041f\\u0435\\u0440\\u0438\\u0444\\u0435\\u0440\\u0438\\u044f\"}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 61,
+    "fields": {
+        "action_time": "2023-06-11T19:18:58.304Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "2",
+        "object_repr": "ЩА-01",
+        "action_flag": 2,
+        "change_message": "[{\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u0412\\u0432\\u043e\\u0434-\\u0432\\u044b\\u0432\\u043e\\u0434\"}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 62,
+    "fields": {
+        "action_time": "2023-06-11T19:19:19.041Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "2",
+        "object_repr": "ЩА-01",
+        "action_flag": 2,
+        "change_message": "[{\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u041f\\u041b\\u041a\"}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 63,
+    "fields": {
+        "action_time": "2023-06-11T20:45:08.022Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "9",
+        "object_repr": "ЩА-00",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 64,
+    "fields": {
+        "action_time": "2023-06-11T20:45:23.958Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "6",
+        "object_repr": "ЩА-04",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 65,
+    "fields": {
+        "action_time": "2023-06-11T20:45:23.961Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "8",
+        "object_repr": "ЩА-05",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 66,
+    "fields": {
+        "action_time": "2023-08-27T07:46:01.123Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "20",
+        "object_repr": "ШУ-ПВ10",
+        "action_flag": 2,
+        "change_message": "[{\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u041f\\u041b\\u041a\"}}, {\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u0412\\u0432\\u043e\\u0434-\\u0432\\u044b\\u0432\\u043e\\u0434\"}}, {\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u041a\\u043e\\u0440\\u043f\\u0443\\u0441\"}}, {\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u041a\\u0430\\u0431\\u0435\\u043b\\u044c\"}}, {\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u0412\\u0432\\u043e\\u0434-\\u0432\\u044b\\u0432\\u043e\\u0434\"}}, {\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u041f\\u0435\\u0440\\u0438\\u0444\\u0435\\u0440\\u0438\\u044f\"}}, {\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u0412\\u0432\\u043e\\u0434-\\u0432\\u044b\\u0432\\u043e\\u0434\"}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 67,
+    "fields": {
+        "action_time": "2023-08-27T08:29:15.014Z",
+        "user": 1,
+        "content_type": 6,
+        "object_id": "1",
+        "object_repr": "ilya@ilya.com",
+        "action_flag": 2,
+        "change_message": "[{\"changed\": {\"fields\": [\"First name\", \"Last name\"]}}]"
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 68,
+    "fields": {
+        "action_time": "2023-09-27T10:12:56.110Z",
+        "user": 1,
+        "content_type": 10,
+        "object_id": "15",
+        "object_repr": "Столовая в подвале",
+        "action_flag": 3,
+        "change_message": ""
+    }
+},
+{
+    "model": "admin.logentry",
+    "pk": 69,
+    "fields": {
+        "action_time": "2023-10-18T18:03:01.476Z",
+        "user": 1,
+        "content_type": 11,
+        "object_id": "18",
+        "object_repr": "ЩА-00",
+        "action_flag": 2,
+        "change_message": "[{\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u041a\\u043e\\u0440\\u043f\\u0443\\u0441\"}}, {\"added\": {\"name\": \"\\u041e\\u0431\\u043e\\u0440\\u0443\\u0434\\u043e\\u0432\\u0430\\u043d\\u0438\\u0435\", \"object\": \"\\u041f\\u041b\\u041a\"}}]"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 1,
+    "fields": {
+        "name": "Can add log entry",
+        "content_type": 1,
+        "codename": "add_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 2,
+    "fields": {
+        "name": "Can change log entry",
+        "content_type": 1,
+        "codename": "change_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 3,
+    "fields": {
+        "name": "Can delete log entry",
+        "content_type": 1,
+        "codename": "delete_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 4,
+    "fields": {
+        "name": "Can view log entry",
+        "content_type": 1,
+        "codename": "view_logentry"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 5,
+    "fields": {
+        "name": "Can add permission",
+        "content_type": 2,
+        "codename": "add_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 6,
+    "fields": {
+        "name": "Can change permission",
+        "content_type": 2,
+        "codename": "change_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 7,
+    "fields": {
+        "name": "Can delete permission",
+        "content_type": 2,
+        "codename": "delete_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 8,
+    "fields": {
+        "name": "Can view permission",
+        "content_type": 2,
+        "codename": "view_permission"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 9,
+    "fields": {
+        "name": "Can add group",
+        "content_type": 3,
+        "codename": "add_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 10,
+    "fields": {
+        "name": "Can change group",
+        "content_type": 3,
+        "codename": "change_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 11,
+    "fields": {
+        "name": "Can delete group",
+        "content_type": 3,
+        "codename": "delete_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 12,
+    "fields": {
+        "name": "Can view group",
+        "content_type": 3,
+        "codename": "view_group"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 13,
+    "fields": {
+        "name": "Can add content type",
+        "content_type": 4,
+        "codename": "add_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 14,
+    "fields": {
+        "name": "Can change content type",
+        "content_type": 4,
+        "codename": "change_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 15,
+    "fields": {
+        "name": "Can delete content type",
+        "content_type": 4,
+        "codename": "delete_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 16,
+    "fields": {
+        "name": "Can view content type",
+        "content_type": 4,
+        "codename": "view_contenttype"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 17,
+    "fields": {
+        "name": "Can add session",
+        "content_type": 5,
+        "codename": "add_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 18,
+    "fields": {
+        "name": "Can change session",
+        "content_type": 5,
+        "codename": "change_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 19,
+    "fields": {
+        "name": "Can delete session",
+        "content_type": 5,
+        "codename": "delete_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 20,
+    "fields": {
+        "name": "Can view session",
+        "content_type": 5,
+        "codename": "view_session"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 21,
+    "fields": {
+        "name": "Can add Пользователь",
+        "content_type": 6,
+        "codename": "add_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 22,
+    "fields": {
+        "name": "Can change Пользователь",
+        "content_type": 6,
+        "codename": "change_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 23,
+    "fields": {
+        "name": "Can delete Пользователь",
+        "content_type": 6,
+        "codename": "delete_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 24,
+    "fields": {
+        "name": "Can view Пользователь",
+        "content_type": 6,
+        "codename": "view_user"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 25,
+    "fields": {
+        "name": "Can add Оборудование",
+        "content_type": 7,
+        "codename": "add_equipment"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 26,
+    "fields": {
+        "name": "Can change Оборудование",
+        "content_type": 7,
+        "codename": "change_equipment"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 27,
+    "fields": {
+        "name": "Can delete Оборудование",
+        "content_type": 7,
+        "codename": "delete_equipment"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 28,
+    "fields": {
+        "name": "Can view Оборудование",
+        "content_type": 7,
+        "codename": "view_equipment"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 29,
+    "fields": {
+        "name": "Can add equipment panel amount",
+        "content_type": 8,
+        "codename": "add_equipmentpanelamount"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 30,
+    "fields": {
+        "name": "Can change equipment panel amount",
+        "content_type": 8,
+        "codename": "change_equipmentpanelamount"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 31,
+    "fields": {
+        "name": "Can delete equipment panel amount",
+        "content_type": 8,
+        "codename": "delete_equipmentpanelamount"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 32,
+    "fields": {
+        "name": "Can view equipment panel amount",
+        "content_type": 8,
+        "codename": "view_equipmentpanelamount"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 33,
+    "fields": {
+        "name": "Can add Вендор",
+        "content_type": 9,
+        "codename": "add_vendor"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 34,
+    "fields": {
+        "name": "Can change Вендор",
+        "content_type": 9,
+        "codename": "change_vendor"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 35,
+    "fields": {
+        "name": "Can delete Вендор",
+        "content_type": 9,
+        "codename": "delete_vendor"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 36,
+    "fields": {
+        "name": "Can view Вендор",
+        "content_type": 9,
+        "codename": "view_vendor"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 37,
+    "fields": {
+        "name": "Can add Проект",
+        "content_type": 10,
+        "codename": "add_project"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 38,
+    "fields": {
+        "name": "Can change Проект",
+        "content_type": 10,
+        "codename": "change_project"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 39,
+    "fields": {
+        "name": "Can delete Проект",
+        "content_type": 10,
+        "codename": "delete_project"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 40,
+    "fields": {
+        "name": "Can view Проект",
+        "content_type": 10,
+        "codename": "view_project"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 41,
+    "fields": {
+        "name": "Can add Щит",
+        "content_type": 11,
+        "codename": "add_panel"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 42,
+    "fields": {
+        "name": "Can change Щит",
+        "content_type": 11,
+        "codename": "change_panel"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 43,
+    "fields": {
+        "name": "Can delete Щит",
+        "content_type": 11,
+        "codename": "delete_panel"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 44,
+    "fields": {
+        "name": "Can view Щит",
+        "content_type": 11,
+        "codename": "view_panel"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 45,
+    "fields": {
+        "name": "Can add equipment group",
+        "content_type": 12,
+        "codename": "add_equipmentgroup"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 46,
+    "fields": {
+        "name": "Can change equipment group",
+        "content_type": 12,
+        "codename": "change_equipmentgroup"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 47,
+    "fields": {
+        "name": "Can delete equipment group",
+        "content_type": 12,
+        "codename": "delete_equipmentgroup"
+    }
+},
+{
+    "model": "auth.permission",
+    "pk": 48,
+    "fields": {
+        "name": "Can view equipment group",
+        "content_type": 12,
+        "codename": "view_equipmentgroup"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 1,
+    "fields": {
+        "app_label": "admin",
+        "model": "logentry"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 2,
+    "fields": {
+        "app_label": "auth",
+        "model": "permission"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 3,
+    "fields": {
+        "app_label": "auth",
+        "model": "group"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 4,
+    "fields": {
+        "app_label": "contenttypes",
+        "model": "contenttype"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 5,
+    "fields": {
+        "app_label": "sessions",
+        "model": "session"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 6,
+    "fields": {
+        "app_label": "users",
+        "model": "user"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 7,
+    "fields": {
+        "app_label": "panels",
+        "model": "equipment"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 8,
+    "fields": {
+        "app_label": "panels",
+        "model": "equipmentpanelamount"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 9,
+    "fields": {
+        "app_label": "panels",
+        "model": "vendor"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 10,
+    "fields": {
+        "app_label": "panels",
+        "model": "project"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 11,
+    "fields": {
+        "app_label": "panels",
+        "model": "panel"
+    }
+},
+{
+    "model": "contenttypes.contenttype",
+    "pk": 12,
+    "fields": {
+        "app_label": "panels",
+        "model": "equipmentgroup"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "4asqk5zel2iuxijg6ygm725ie8sietd0",
+    "fields": {
+        "session_data": ".eJxVjEsOAiEQBe_C2hBAoMGl-zkDabo7MmqGZD4r4911klno9lXVe6mC29rKtshcRlYXZdXpd6tID5l2wHecbl1Tn9Z5rHpX9EEXPXSW5_Vw_w4aLu1bA2bPFAzyubooZBgCAVhxEiwlppggZPGQsrHsKPqIKTvwhtHb6tX7A-XsN3s:1rPhvj:1fVeZa_Tp-K8KMYbtpRrhBfhMTYPylLel8w12a5q9ic",
+        "expire_date": "2024-01-30T11:48:31.610Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "d8cmt9ycny592h0z6cyqxv0r5wnvlv3z",
+    "fields": {
+        "session_data": ".eJxVjEsOAiEQBe_C2hBAoMGl-zkDabo7MmqGZD4r4911klno9lXVe6mC29rKtshcRlYXZdXpd6tID5l2wHecbl1Tn9Z5rHpX9EEXPXSW5_Vw_w4aLu1bA2bPFAzyubooZBgCAVhxEiwlppggZPGQsrHsKPqIKTvwhtHb6tX7A-XsN3s:1qlRUO:emvkHknTiRYdU-1abb2dtzfMLEse3DL5pdYlmM4bhZ0",
+        "expire_date": "2023-10-11T10:09:52.597Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "jqfhk7b4iq6b2dt57v2k8ocl8lbo3y96",
+    "fields": {
+        "session_data": ".eJxVjEsOAiEQBe_C2hBAoMGl-zkDabo7MmqGZD4r4911klno9lXVe6mC29rKtshcRlYXZdXpd6tID5l2wHecbl1Tn9Z5rHpX9EEXPXSW5_Vw_w4aLu1bA2bPFAzyubooZBgCAVhxEiwlppggZPGQsrHsKPqIKTvwhtHb6tX7A-XsN3s:1qZqVB:B1vgWpt29D_o823psfBXgGoD4ck7DQJqZixsSlvi0jQ",
+        "expire_date": "2023-09-09T10:26:45.091Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "l73i4yl8xff6a0cs55ru0bhw3y2e0ff2",
+    "fields": {
+        "session_data": ".eJxVjEsOAiEQBe_C2hBAoMGl-zkDabo7MmqGZD4r4911klno9lXVe6mC29rKtshcRlYXZdXpd6tID5l2wHecbl1Tn9Z5rHpX9EEXPXSW5_Vw_w4aLu1bA2bPFAzyubooZBgCAVhxEiwlppggZPGQsrHsKPqIKTvwhtHb6tX7A-XsN3s:1q8Jfc:rpfPKDvYHibq6t4Ou6EOR3cDtMngX7FmnG5UiobsHgw",
+        "expire_date": "2023-06-25T11:55:44.511Z"
+    }
+},
+{
+    "model": "sessions.session",
+    "pk": "upk7hfpwxs9n2rucq33jx6wlr15lu9w0",
+    "fields": {
+        "session_data": ".eJxVjEsOAiEQBe_C2hBAoMGl-zkDabo7MmqGZD4r4911klno9lXVe6mC29rKtshcRlYXZdXpd6tID5l2wHecbl1Tn9Z5rHpX9EEXPXSW5_Vw_w4aLu1bA2bPFAzyubooZBgCAVhxEiwlppggZPGQsrHsKPqIKTvwhtHb6tX7A-XsN3s:1qtAqs:R8PfW0_1OMHIL8-PDWjyB_eq9pyxYUbHum8f9GRdJMA",
+        "expire_date": "2023-11-01T18:01:02.054Z"
+    }
+},
+{
+    "model": "users.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$cQalPXN7hxEpfOst4gx9en$W9yLSbhGtZ4EcJE+Vd/wIQRsobFC1kpIUnU/L/p/zqY=",
+        "last_login": "2024-01-16T11:48:31.606Z",
+        "is_superuser": true,
+        "username": "ilya",
+        "first_name": "Илья",
+        "last_name": "Фамилия",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2023-06-11T11:55:33Z",
+        "email": "ilya@ilya.com",
+        "groups": [],
+        "user_permissions": []
+    }
+},
+{
+    "model": "panels.vendor",
+    "pk": 1,
+    "fields": {
+        "name": "Crevis"
+    }
+},
+{
+    "model": "panels.vendor",
+    "pk": 2,
+    "fields": {
+        "name": "ДКС"
+    }
+},
+{
+    "model": "panels.vendor",
+    "pk": 3,
+    "fields": {
+        "name": "Mean Well"
+    }
+},
+{
+    "model": "panels.vendor",
+    "pk": 4,
+    "fields": {
+        "name": "Овен"
+    }
+},
+{
+    "model": "panels.vendor",
+    "pk": 5,
+    "fields": {
+        "name": "Москабельмет"
+    }
+},
+{
+    "model": "panels.project",
+    "pk": 1,
+    "fields": {
+        "name": "ЦОД на Марсе",
+        "description": "Очень важный ЦОД за миллиард денег для зеленых человечков и их помощников, стены из мармелада, стойки из зефирок, охлаждение чистейшим лимонадом со вкусом Тархуна.",
+        "created": "2023-06-11T00:00:00Z",
+        "author": 1
+    }
+},
+{
+    "model": "panels.project",
+    "pk": 2,
+    "fields": {
+        "name": "Офис на Юпитере",
+        "description": "Офис в котором никто не ходит без скафандра.",
+        "created": "2023-06-11T00:00:00Z",
+        "author": 1
+    }
+},
+{
+    "model": "panels.project",
+    "pk": 3,
+    "fields": {
+        "name": "Склад на Плутоне",
+        "description": "Самый обычный склад дройдеков.",
+        "created": "2023-06-11T00:00:00Z",
+        "author": 1
+    }
+},
+{
+    "model": "panels.project",
+    "pk": 4,
+    "fields": {
+        "name": "Гостиница на Меркурии",
+        "description": "Очень теплая и комфортабельная гостиница недалеко от центра Солнечной системы.",
+        "created": "2023-06-12T16:29:41.410Z",
+        "author": 1
+    }
+},
+{
+    "model": "panels.project",
+    "pk": 14,
+    "fields": {
+        "name": "Склад на комете Галлея",
+        "description": "Редко доступен, но есть ценные товары.",
+        "created": "2023-06-17T06:39:23.826Z",
+        "author": 1
+    }
+},
+{
+    "model": "panels.equipmentgroup",
+    "pk": 1,
+    "fields": {
+        "title": "ПЛК",
+        "slug": "plc",
+        "description": "Контроллеры, каплеры, сетевые интерфейсы, моноблочные контроллеры"
+    }
+},
+{
+    "model": "panels.equipmentgroup",
+    "pk": 2,
+    "fields": {
+        "title": "Корпус",
+        "slug": "body",
+        "description": "Корпус шкафа/щита, монтажные платы, дин-рейки, двери, цоколи с аксессуарами"
+    }
+},
+{
+    "model": "panels.equipmentgroup",
+    "pk": 3,
+    "fields": {
+        "title": "Ввод-вывод",
+        "slug": "modules",
+        "description": "Модули ввода вывода и самостоятельные устройства распределенного ввода"
+    }
+},
+{
+    "model": "panels.equipmentgroup",
+    "pk": 4,
+    "fields": {
+        "title": "Блок питания",
+        "slug": "psu",
+        "description": "Блоки питания и трансформаторы"
+    }
+},
+{
+    "model": "panels.equipmentgroup",
+    "pk": 5,
+    "fields": {
+        "title": "Прочее",
+        "slug": "misc",
+        "description": "Прочее оборудование"
+    }
+},
+{
+    "model": "panels.equipmentgroup",
+    "pk": 6,
+    "fields": {
+        "title": "Шлюз",
+        "slug": "gateway",
+        "description": "Шлюзы протоколов"
+    }
+},
+{
+    "model": "panels.equipmentgroup",
+    "pk": 7,
+    "fields": {
+        "title": "Периферия",
+        "slug": "sensors",
+        "description": "Датчики, приводы, KNX оконечка (всё что не устанавливается в шкаф, но относится к нему логически)"
+    }
+},
+{
+    "model": "panels.equipmentgroup",
+    "pk": 8,
+    "fields": {
+        "title": "Кабель",
+        "slug": "cable",
+        "description": "Кабели и провода"
+    }
+},
+{
+    "model": "panels.equipment",
+    "pk": 1,
+    "fields": {
+        "description": "ПЛК, Codesys, MODBUS TCP/RTU, OPC UA",
+        "code": "GN-9372",
+        "vendor": 1,
+        "group": 1,
+        "units": "psc"
+    }
+},
+{
+    "model": "panels.equipment",
+    "pk": 2,
+    "fields": {
+        "description": "Адаптер Modbus TCP/UDP, Ethernet/IP",
+        "code": "GL-9089",
+        "vendor": 1,
+        "group": 1,
+        "units": "psc"
+    }
+},
+{
+    "model": "panels.equipment",
+    "pk": 3,
+    "fields": {
+        "description": "Дискретный ввод, 8DI, 24 В (DC), Sink/Source, RTB 10",
+        "code": "GT-1238",
+        "vendor": 1,
+        "group": 3,
+        "units": "шт."
+    }
+},
+{
+    "model": "panels.equipment",
+    "pk": 4,
+    "fields": {
+        "description": "Аналоговый ввод, 8AI, 0-20/4-20 мА, 12 бит АЦП, RTB 10",
+        "code": "GT-3118",
+        "vendor": 1,
+        "group": 3,
+        "units": "psc"
+    }
+},
+{
+    "model": "panels.equipment",
+    "pk": 5,
+    "fields": {
+        "description": "Дискретный вывод, 8DO, 24 В/0.5А (DC), Source, RTB 10",
+        "code": "GT-2328",
+        "vendor": 1,
+        "group": 3,
+        "units": "psc"
+    }
+},
+{
+    "model": "panels.equipment",
+    "pk": 6,
+    "fields": {
+        "description": "Аналоговый вывод, 4AO, 0-10 В (DC), 12 бит АЦП, RTB 10",
+        "code": "GT-4424",
+        "vendor": 1,
+        "group": 3,
+        "units": "psc"
+    }
+},
+{
+    "model": "panels.equipment",
+    "pk": 7,
+    "fields": {
+        "description": "Аналоговый ввод, 8AI, 0-10/0-5/1-5 В (DC), 16 бит АЦП, RTB 10",
+        "code": "GT-3468",
+        "vendor": 1,
+        "group": 3,
+        "units": "psc"
+    }
+},
+{
+    "model": "panels.equipment",
+    "pk": 8,
+    "fields": {
+        "description": "Корпус навесной CE c М/П ВхШхГ 1000x800x300 мм",
+        "code": "R5CE1083",
+        "vendor": 2,
+        "group": 2,
+        "units": "psc"
+    }
+},
+{
+    "model": "panels.equipment",
+    "pk": 9,
+    "fields": {
+        "description": "Корпус навесной CE c М/П ВхШхГ 800x600x250 мм",
+        "code": "R5CE0869",
+        "vendor": 2,
+        "group": 2,
+        "units": "psc"
+    }
+},
+{
+    "model": "panels.equipment",
+    "pk": 10,
+    "fields": {
+        "description": "Блок питания на din-рейку 60Вт, 24В DC",
+        "code": "HDR-60-24",
+        "vendor": 3,
+        "group": 4,
+        "units": "psc"
+    }
+},
+{
+    "model": "panels.equipment",
+    "pk": 11,
+    "fields": {
+        "description": "ПВТ10 датчик (преобразователь) влажности и температуры воздуха",
+        "code": "ПВТ10-Н2.3.И",
+        "vendor": 4,
+        "group": 7,
+        "units": "psc"
+    }
+},
+{
+    "model": "panels.equipment",
+    "pk": 12,
+    "fields": {
+        "description": "Кабель силовой огнестойкий, не распространяющий горение, с низким дымо- и газовыделением",
+        "code": "ВВГнг-LS 3х1,5",
+        "vendor": 5,
+        "group": 8,
+        "units": "m"
+    }
+},
+{
+    "model": "panels.panel",
+    "pk": 2,
+    "fields": {
+        "name": "ЩА-01",
+        "project": 1,
+        "function_type": "dispatch",
+        "description": "Щит диспетчеризации машзала №1"
+    }
+},
+{
+    "model": "panels.panel",
+    "pk": 3,
+    "fields": {
+        "name": "ЩА-02",
+        "project": 1,
+        "function_type": "dispatch",
+        "description": "Щит автоматизации общего назначения"
+    }
+},
+{
+    "model": "panels.panel",
+    "pk": 4,
+    "fields": {
+        "name": "ЩА-03",
+        "project": 1,
+        "function_type": "room",
+        "description": "Щит автоматизации АБК"
+    }
+},
+{
+    "model": "panels.panel",
+    "pk": 18,
+    "fields": {
+        "name": "ЩА-00",
+        "project": 4,
+        "function_type": "general",
+        "description": "Щит автоматизации общего назначения"
+    }
+},
+{
+    "model": "panels.panel",
+    "pk": 19,
+    "fields": {
+        "name": "ЩА-01",
+        "project": 4,
+        "function_type": "automation",
+        "description": "Щит автоматизации общего назначения"
+    }
+},
+{
+    "model": "panels.panel",
+    "pk": 20,
+    "fields": {
+        "name": "ШУ-ПВ10",
+        "project": 14,
+        "function_type": "automation",
+        "description": "Щит автоматизации общеобменной вентиляции, установка ПВ10."
+    }
+},
+{
+    "model": "panels.panel",
+    "pk": 21,
+    "fields": {
+        "name": "ЩА-00",
+        "project": 14,
+        "function_type": "general",
+        "description": "Щит автоматизации общего назначения"
+    }
+},
+{
+    "model": "panels.panel",
+    "pk": 29,
+    "fields": {
+        "name": "ЩА-02",
+        "project": 14,
+        "function_type": "general",
+        "description": "Щит автоматизации общего назначения"
+    }
+},
+{
+    "model": "panels.panel",
+    "pk": 33,
+    "fields": {
+        "name": "ЩА-05",
+        "project": 14,
+        "function_type": "general",
+        "description": "Щит автоматизации общего назначения"
+    }
+},
+{
+    "model": "panels.panel",
+    "pk": 34,
+    "fields": {
+        "name": "ЩА-22",
+        "project": 14,
+        "function_type": "general",
+        "description": "Щит автоматизации общего назначения"
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 7,
+    "fields": {
+        "equipment": 1,
+        "panel": 2,
+        "amount": 1
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 8,
+    "fields": {
+        "equipment": 9,
+        "panel": 2,
+        "amount": 1
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 10,
+    "fields": {
+        "equipment": 10,
+        "panel": 2,
+        "amount": 1
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 11,
+    "fields": {
+        "equipment": 5,
+        "panel": 2,
+        "amount": 5
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 12,
+    "fields": {
+        "equipment": 12,
+        "panel": 2,
+        "amount": 150
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 13,
+    "fields": {
+        "equipment": 7,
+        "panel": 2,
+        "amount": 4
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 14,
+    "fields": {
+        "equipment": 3,
+        "panel": 3,
+        "amount": 2
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 15,
+    "fields": {
+        "equipment": 9,
+        "panel": 3,
+        "amount": 1
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 16,
+    "fields": {
+        "equipment": 11,
+        "panel": 2,
+        "amount": 3
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 17,
+    "fields": {
+        "equipment": 6,
+        "panel": 2,
+        "amount": 1
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 18,
+    "fields": {
+        "equipment": 2,
+        "panel": 2,
+        "amount": 2
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 22,
+    "fields": {
+        "equipment": 12,
+        "panel": 20,
+        "amount": 6
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 23,
+    "fields": {
+        "equipment": 7,
+        "panel": 20,
+        "amount": 1
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 25,
+    "fields": {
+        "equipment": 6,
+        "panel": 20,
+        "amount": 970
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 28,
+    "fields": {
+        "equipment": 9,
+        "panel": 18,
+        "amount": 1
+    }
+},
+{
+    "model": "panels.equipmentpanelamount",
+    "pk": 29,
+    "fields": {
+        "equipment": 1,
+        "panel": 18,
+        "amount": 2
+    }
+}
+]

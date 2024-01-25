@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block title %}
+  Главная страница
+{% endblock %}
+{% block header %}
+Мои проекты
+{% endblock %}
+{% block content %}
+  <p>
+  <a href="{% url 'panels:project_create' %}" class="btn btn-light">+ Создать новый проект</a>
+  </p>
+  {% include 'panels/includes/project_list_content.html' %}
+{% endblock %}

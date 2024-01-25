@@ -1,0 +1,18 @@
+{% for project in page_obj %}
+<article class="mb-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ project.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Дата создания: {{ project.created|date:"d E Y" }}</h6>
+        <p class="card-text">
+          {% if project.description|length > 100 %}
+            {{ project.description|slice:":100" }} ...
+          {% else %}
+            {{ project.description }}
+          {% endif %}
+        </p>
+        <a href="{% url 'panels:project_detail' project.id %}" class="btn btn-outline-dark">Перейти к проекту</a>
+      </div>
+    </div>
+</article>
+{% endfor %}

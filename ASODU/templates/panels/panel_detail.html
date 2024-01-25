@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}
+  Щит: {{ panel.name }}
+{% endblock %}
+{% block header %}
+Проект: {{ panel.project }} -> Щит: {{ panel.name }}
+{% endblock %}
+{% block content %}
+<p>
+  <a href="{% url 'panels:project_detail' panel.project.id %}" class="btn btn-light">Вернуться к списку щитов в проекте</a></p>
+{% include 'panels/includes/panel_content.html' %}
+{% endblock %}

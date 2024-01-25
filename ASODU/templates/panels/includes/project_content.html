@@ -1,0 +1,40 @@
+{% for panel in page_obj %}
+<article class="mb-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">{{ panel.name }}</h5>
+        <h6 class="card-subtitle mb-2 text-muted">Тип щита: {{ panel.get_function_type_display }}</h6>
+        <p class="card-text">{{ panel.description }}
+          <table class="table table-light table-striped">
+            <thead>
+              <tr>
+                <th scope="col">№ п/п</th>
+                <th scope="col">Завод изготовитель</th>
+                <th scope="col">Артикул</th>
+                <th scope="col">Наименование, техническая характеристика</th>
+                <th scope="col">Единицы измерения</th>
+                <th scope="col">Количество</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for item in panel.amounts.all|slice:":3" %}
+                <tr>
+                  <td>{{ forloop.counter }}</td>
+                  <td>{{ item.equipment.vendor }}</td>
+                  <td>{{ item.equipment.code }}</td>
+                  <td>{{ item.equipment.description }}</td>
+                  <td>{{ item.equipment.get_units_display }}</td>
+                  <td>{{ item.amount }}</td>
+                </tr>
+              {% endfor %}
+              {% if panel.amounts.all|length > 5 %}
+                <td colspan="6">. . .</td>
+              {% endif %}
+            </tbody>
+          </table>
+        </p>
+        <a href="{% url 'panels:panel_detail' panel.id %}" class="btn btn-outline-dark">Посмотреть полную спецификацию щита</a>
+      </div>
+    </div>
+</article>
+{% endfor %}

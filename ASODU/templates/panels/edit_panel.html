@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}
+{% if is_edit %}
+  Щит: {{ equipment_formset.instance }}
+{% else %}
+  Новый щит
+{% endif %}
+{% endblock %}
+{% block header %}
+Проект: {{ project.name }} -> Щит: {{ equipment_formset.instance.name }}
+{% endblock %}
+{% block content %}
+<p>
+  <a href="{% url 'panels:panel_detail' equipment_formset.instance.id %}" class="btn btn-light">Вернуться к просмотру щита</a></p>
+  <article class="mb-3">
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">
+          {% if is_edit %}
+            {{ equipment_formset.instance }}
+          {% else %}
+            Новый щит
+          {% endif %}
+        </h5>
+        <h6 class="card-subtitle mb-2 text-muted">
+          Тип щита: {{ equipment_formset.instance.get_function_type_display }}
+        </h6>
+        <p class="card-text">{{ equipment_formset.instance.description }}
+          {% load user_filters %}
+
+        <template id="id_formset_empty_form">
+          <div class="new-eqipment-form">
+          {{ equipment_formset.empty_form.as_p }}
+          </div>
+        </template>
+
+        <form id="form-container" method="post" action="" enctype="multipart/form-data" autocomplete="off">
+          {% csrf_token %}
+          {{ equipment_formset.management_form }}
+          {% for form in equipment_formset %}
+            <div class="eqipment-form">
+            {{ form.as_p }}
+            </div>
+          {% endfor %}
+
+          <button id="add-form" type="button" class="btn btn-outline-primary">Добавить строку</button>
+          <br>
+          <br>
+          <div class="d-flex justify-content-between">
+            <a href="{% url 'panels:panel_detail' equipment_formset.instance.id %}" class="btn btn-outline-dark">Отмена</a></p>
+            <button type="submit" class="btn btn-outline-primary">
+              {% if is_edit %}
+                Сохранить изменения
+              {% else %}
+                Добавить в проект
+              {% endif %}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+
