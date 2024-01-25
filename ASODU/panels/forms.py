@@ -1,5 +1,7 @@
 from django import forms
 from django.core.exceptions import ValidationError
+from django.forms.utils import ErrorList
+from django.utils.safestring import mark_safe
 
 from .models import Panel, Project, EquipmentPanelAmount
 
@@ -32,6 +34,19 @@ class ProjectForm(forms.ModelForm):
         fields = ('name', 'description')
 
 
+class UlErrorList(ErrorList):
+    def __str__(self):
+        return self.as_ul()
+
+    def as_ul(self):
+        if not self:
+            return ''
+        error_list = [
+            f'<li class="error alert alert-danger mt-1">{e}</li>' for e in self
+        ]
+        return mark_safe(f'<ul class="errorlist">{"".join(error_list)}</ul>')
+
+
 class EquipmentForm(forms.ModelForm):
 
     class Meta:
@@ -40,5 +55,5 @@ class EquipmentForm(forms.ModelForm):
 
 
 EquipmentFormset = forms.inlineformset_factory(
-    Panel, EquipmentPanelAmount, form=EquipmentForm, extra=1
+    Panel, EquipmentPanelAmount, form=EquipmentForm, extra=0
 )

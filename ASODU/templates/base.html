@@ -40,15 +40,20 @@
       let container = document.querySelector("#form-container")
       let addButton = document.querySelector("#add-form")
       let totalForms = document.querySelector("#id_amounts-TOTAL_FORMS")    
-      let formNum = equipmentForm.length-1
+      let formNum = equipmentForm.length
+
       addButton.addEventListener('click', addForm)
-    
+
       function addForm(e){
           e.preventDefault()
           let newForm = templateForm.content.cloneNode(true)
-          let formRegex = RegExp(`amounts-(__prefix__){1}-`,'g')
+          let formFields = newForm.querySelectorAll("[id^=id_amounts-__prefix__-]")
+          formFields.forEach(field => {
+            let formRegex = RegExp("amounts-__prefix__", 'g')
+            field.id = field.id.replace(formRegex, `amounts-${formNum}`)
+            field.name = field.name.replace(formRegex, `amounts-${formNum}`)
+          })
           formNum++
-          {% comment %} newForm.innerHTML = newForm.innerHTML.replace(formRegex, `amounts-${formNum}-`) {% endcomment %}
           container.insertBefore(newForm, addButton)
           totalForms.setAttribute('value', `${formNum+1}`)
       }

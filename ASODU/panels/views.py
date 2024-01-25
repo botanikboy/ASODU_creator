@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
 from .models import EquipmentPanelAmount, Project, Panel
-from .forms import PanelForm, ProjectForm, EquipmentFormset
+from .forms import PanelForm, ProjectForm, EquipmentFormset, UlErrorList
 from .utils import paginator_create
 
 
@@ -93,7 +93,6 @@ def panel_create(request, project_id):
 def panel_edit(request, panel_id):
     panel = get_object_or_404(Panel, pk=panel_id)
     form = PanelForm(request.POST or None, instance=panel)
-    print(form)
     if form.is_valid():
         form.save()
         return redirect('panels:panel_detail', panel.id)
@@ -108,13 +107,14 @@ def panel_edit(request, panel_id):
 
 def panel_edit_contents(request, panel_id):
     panel = get_object_or_404(Panel, pk=panel_id)
-    formset = EquipmentFormset(request.POST or None, instance=panel)
+    formset = EquipmentFormset(
+        request.POST or None, instance=panel, error_class=UlErrorList)
     project = panel.project
     if formset.is_valid():
         for form in formset:
             if form.is_valid() and form['equipment'].value():
                 if form.cleaned_data.get('DELETE'):
-                    pk=form.instance.pk
+                    pk = form.instance.pk
                     if pk:
                         equipment = EquipmentPanelAmount.objects.get(pk=pk)
                         equipment.delete()
@@ -124,7 +124,6 @@ def panel_edit_contents(request, panel_id):
                     equipment.save()
         return redirect('panels:panel_detail', panel.id)
     else:
-        print(formset.non_form_errors())
         context = {
             'equipment_formset': formset,
             'project': project,

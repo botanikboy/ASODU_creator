@@ -27,21 +27,17 @@
         </h6>
         <p class="card-text">{{ equipment_formset.instance.description }}
           {% load user_filters %}
-          {% comment %} {% if form.errors %}
-            <div class="alert alert-danger">
-              {{ form.non_field_errors|escape }}
-            </div>
-          {% endif %} {% endcomment %}
-        <template id="id_formset_empty_form">{{ equipment_formset.empty_form.as_p }}</template>
+
+        <template id="id_formset_empty_form">
+          <div class="new-eqipment-form">
+          {{ equipment_formset.empty_form.as_p }}
+          </div>
+        </template>
+
         <form id="form-container" method="post" action="" enctype="multipart/form-data" autocomplete="off">
           {% csrf_token %}
           {{ equipment_formset.management_form }}
           {% for form in equipment_formset %}
-            {% if form.errors %}
-            <div class="alert alert-danger">
-              {{ form.non_field_errors|escape }}
-            </div>
-            {% endif %}
             <div class="eqipment-form">
             {{ form.as_p }}
             </div>
