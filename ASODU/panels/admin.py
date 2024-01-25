@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from .models import (Vendor, Panel, Equipment, Project, EquipmentPanelAmount,
-                     EquipmentGroup)
+from .models import (Equipment, EquipmentGroup, EquipmentPanelAmount, Panel,
+                     Project, Vendor)
 
 
 class EquipmentPanelAmountInline(admin.TabularInline):

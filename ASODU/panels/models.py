@@ -1,8 +1,8 @@
+from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
-from django.core.validators import RegexValidator, MinValueValidator
 
-from users.models import User
 from .constants import FUNCTION_TYPE_CHOICES, UNITS_CHOICES
+from users.models import User
 
 
 class Vendor(models.Model):

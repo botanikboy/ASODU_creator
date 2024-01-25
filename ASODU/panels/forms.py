@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
 from django.utils.safestring import mark_safe
 
-from .models import Panel, Project, EquipmentPanelAmount
+from .models import EquipmentPanelAmount, Panel, Project
 
 
 class PanelForm(forms.ModelForm):
