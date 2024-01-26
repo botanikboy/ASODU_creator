@@ -42,6 +42,7 @@ urlpatterns = [
     path(
         'projects/<int:obj_id>/boq_download/',
         views.boq_download,
+        {'model': 'project'},
         name='boq_download_project',
     ),
     path(
@@ -67,6 +68,7 @@ urlpatterns = [
     path(
         'panels/<int:obj_id>/boq_download/',
         views.boq_download,
+        {'model': 'panel'},
         name='boq_download_panel',
     ),
 ]

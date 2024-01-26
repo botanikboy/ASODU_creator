@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.http import FileResponse
+from django.http import FileResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import (EquipmentFormset, PanelCopyForm, PanelForm, ProjectForm,
@@ -158,29 +158,45 @@ def panel_copy(request, panel_id):
         return render(request, 'panels/create_panel.html', context)
 
 
-def boq_download(request, obj_id):
-    obj = get_object_or_404(Panel, pk=obj_id)
-    equipment = (
-        EquipmentPanelAmount.objects.filter(panel=obj)
-        .values(
-            'equipment__description',
-            'equipment__units',
-            'equipment__group',
-            'amount',
-            'equipment__code',
-            'equipment__vendor__name',
-        )
-        .order_by('equipment__group', 'equipment__description')
-    )
+def boq_download(request, obj_id, model):
+    if model == 'panel':
+        obj = get_object_or_404(Panel, pk=obj_id)
+        panels = [obj]
+    elif model == 'project':
+        obj = get_object_or_404(Project, pk=obj_id)
+        panels = Panel.objects.filter(project=obj).order_by('name')
+    else:
+        return HttpResponseBadRequest("Invalid model parameter")
+
     filename = f'{obj.name} спецификация.xlsx'
     boq = []
-    for item in equipment:
+    for panel in panels:
         boq.append([
-            f'{item['equipment__vendor__name']}',
-            f'{item['equipment__description']}',
-            f'{item['equipment__code']}',
-            f'{item['equipment__units']}',
-            f'{item['amount']}',
+            'Инд. изготовление',
+            f'{panel.description}',
+            f'{panel.name}',
+            'шт.',
+            '1',
         ])
+        equipment = (
+            EquipmentPanelAmount.objects.filter(panel=panel)
+            .values(
+                'equipment__description',
+                'equipment__units',
+                'equipment__group',
+                'amount',
+                'equipment__code',
+                'equipment__vendor__name',
+            )
+            .order_by('panel', 'equipment__group', 'equipment__vendor')
+        )
+        for item in equipment:
+            boq.append([
+                f'{item['equipment__vendor__name']}',
+                f'{item['equipment__description']}',
+                f'{item['equipment__code']}',
+                f'{item['equipment__units']}',
+                f'{item['amount']}',
+            ])
     report = excelreport(boq, filename)
     return FileResponse(report, as_attachment=True, filename=filename)

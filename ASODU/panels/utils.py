@@ -32,6 +32,8 @@ def excelreport(data: list, filename: str):
     col = 0
     counter = 1
     for vendor, description, code, units, amount in data:
+        if vendor == 'Инд. изготовление':
+            worksheet.set_row(row, None, bold)
         worksheet.write(row, col, counter)
         worksheet.write(row, col + 1, vendor)
         worksheet.write(row, col + 2, description)
