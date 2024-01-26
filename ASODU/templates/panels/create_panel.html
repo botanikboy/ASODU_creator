@@ -7,14 +7,19 @@
 {% endif %}
 {% endblock %}
 {% block header %}
+{% if is_edit or is_copy %}
+Укажите новое имя и проект, в который хотите скопировать щит {{ form.instance }}
+{% else %}
 Проект: {{ project.name }}
+{% endif %}
+
 {% endblock %}
 {% block content %}
   <div class="row justify-content-center">
     <div class="col-md-8 p-5">
       <div class="card">
         <h5 class="card-header">       
-          {% if is_edit %}
+          {% if is_edit or is_copy %}
             Щит: {{ form.instance }}
           {% else %}
             Новый щит
