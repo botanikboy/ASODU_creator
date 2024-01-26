@@ -1,10 +1,11 @@
 from django.contrib.auth.decorators import login_required
+from django.http import FileResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import (EquipmentFormset, PanelCopyForm, PanelForm, ProjectForm,
                     UlErrorList)
 from .models import EquipmentPanelAmount, Panel, Project
-from .utils import paginator_create
+from .utils import excelreport, paginator_create
 
 
 @login_required
@@ -155,3 +156,31 @@ def panel_copy(request, panel_id):
             'project': panel.project,
         }
         return render(request, 'panels/create_panel.html', context)
+
+
+def boq_download(request, obj_id):
+    obj = get_object_or_404(Panel, pk=obj_id)
+    equipment = (
+        EquipmentPanelAmount.objects.filter(panel=obj)
+        .values(
+            'equipment__description',
+            'equipment__units',
+            'equipment__group',
+            'amount',
+            'equipment__code',
+            'equipment__vendor__name',
+        )
+        .order_by('equipment__group', 'equipment__description')
+    )
+    filename = f'{obj.name} спецификация.xlsx'
+    boq = []
+    for item in equipment:
+        boq.append([
+            f'{item['equipment__vendor__name']}',
+            f'{item['equipment__description']}',
+            f'{item['equipment__code']}',
+            f'{item['equipment__units']}',
+            f'{item['amount']}',
+        ])
+    report = excelreport(boq, filename)
+    return FileResponse(report, as_attachment=True, filename=filename)

@@ -40,6 +40,11 @@ urlpatterns = [
         name='panel_create',
     ),
     path(
+        'projects/<int:obj_id>/boq_download/',
+        views.boq_download,
+        name='boq_download_project',
+    ),
+    path(
         'panels/<int:panel_id>/delete/',
         views.panel_delete,
         name='panel_delete',
@@ -58,5 +63,10 @@ urlpatterns = [
         'panels/<int:panel_id>/copy/',
         views.panel_copy,
         name='panel_copy',
+    ),
+    path(
+        'panels/<int:obj_id>/boq_download/',
+        views.boq_download,
+        name='boq_download_panel',
     ),
 ]
