@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import EquipmentFormset, PanelForm, ProjectForm, UlErrorList
+from .forms import (EquipmentFormset, PanelCopyForm, PanelForm, ProjectForm,
+                    UlErrorList)
 from .models import EquipmentPanelAmount, Panel, Project
 from .utils import paginator_create
 
@@ -63,7 +64,6 @@ def project_delete(request, project_id):
     return redirect('panels:index')
 
 
-# -----------------------------------------panels---------------------
 def panel_detail(request, panel_id):
     panel = get_object_or_404(Panel, pk=panel_id)
     context = {
@@ -79,7 +79,6 @@ def panel_create(request, project_id):
         form.instance.project = project
     if form.is_valid():
         panel = form.save(commit=False)
-        # panel.project = project уже присваивается выше в инстансе
         panel.save()
         return redirect('panels:project_detail', project.id)
     else:
@@ -135,3 +134,24 @@ def panel_delete(request, panel_id):
     if project.author == request.user:
         panel.delete()
     return redirect('panels:project_detail', project.id)
+
+
+def panel_copy(request, panel_id):
+    panel = get_object_or_404(Panel, pk=panel_id)
+    equipment = EquipmentPanelAmount.objects.filter(panel=panel)
+    form = PanelCopyForm(request.POST or None, instance=panel)
+    form.instance.pk = None
+    if form.is_valid():
+        form.save()
+        for item in equipment:
+            item.pk = None
+            item.panel = form.instance
+            item.save()
+        return redirect('panels:panel_detail', panel.id)
+    else:
+        context = {
+            'form': form,
+            'is_copy': True,
+            'project': panel.project,
+        }
+        return render(request, 'panels/create_panel.html', context)

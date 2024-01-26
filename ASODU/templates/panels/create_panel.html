@@ -61,6 +61,8 @@
               <button type="submit" class="btn btn-outline-primary">
                 {% if is_edit %}
                   Сохранить изменения
+                {% elif is_copy %}
+                  Создать копию
                 {% else %}
                   Добавить в проект
                 {% endif %}

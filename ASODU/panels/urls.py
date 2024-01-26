@@ -54,4 +54,9 @@ urlpatterns = [
         views.panel_edit_contents,
         name='panel_edit_contents',
     ),
+    path(
+        'panels/<int:panel_id>/copy/',
+        views.panel_copy,
+        name='panel_copy',
+    ),
 ]
