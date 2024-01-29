@@ -27,6 +27,26 @@ class PanelForm(forms.ModelForm):
             )
 
 
+class PanelCopyForm(forms.ModelForm):
+
+    class Meta:
+        model = Panel
+        fields = ('name', 'project',)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        matching_panels = Panel.objects.filter(
+            project=cleaned_data.get('project'),
+            name=cleaned_data.get('name')
+        )
+        if self.instance:
+            matching_panels = matching_panels.exclude(pk=self.instance.pk)
+        if matching_panels.exists():
+            raise ValidationError(
+                'Щит с таким именем уже существует в этом проекте.'
+            )
+
+
 class ProjectForm(forms.ModelForm):
 
     class Meta:
