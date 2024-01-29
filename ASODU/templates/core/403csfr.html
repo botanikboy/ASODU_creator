@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Ошибка проверки подлинности 403{% endblock %}
+{% block content %}
+  <h1>403 CSFR токен не прошел проверку</h1>
+  <p>Перейдите на главную и заново заполните форму</p>
+  <a href="{% url 'panels:index' %}">Идите на главную</a>
+{% endblock %}

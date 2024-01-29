@@ -21,6 +21,9 @@
     {% include 'includes/header.html' %}
     <main>
       <div class="container py-5">
+        {% if user.is_authenticated %}
+        Пользователь: {{ user.get_full_name }}
+        {% endif %}
         <h1>
           {% block header %}
           {% endblock %}

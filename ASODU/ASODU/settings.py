@@ -108,3 +108,13 @@ AUTH_USER_MODEL = 'users.User'
 CSRF_TRUSTED_ORIGINS = ['http://localhost/*']
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+
+LOGIN_URL = 'users:login'
+
+LOGIN_REDIRECT_URL = 'panels:index'
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, 'sent_emails')
+
+CSRF_FAILURE_VIEW = 'core.views.csrf_failure'

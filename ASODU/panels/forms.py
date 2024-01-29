@@ -28,15 +28,30 @@ class PanelForm(forms.ModelForm):
 
 
 class PanelCopyForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        self.request = kwargs.pop('request', None)
+        super(PanelCopyForm, self).__init__(*args, **kwargs)
+
+        if self.request and self.request.user.is_authenticated:
+            self.fields['project'].queryset = Project.objects.filter(author=self.request.user)
 
     class Meta:
         model = Panel
         fields = ('name', 'project',)
 
+    project = forms.ModelChoiceField(
+        queryset=Project.objects.none()
+    )
+
     def clean(self):
         cleaned_data = super().clean()
+        project = cleaned_data.get('project')
+        if project.author != self.request.user:
+            raise ValidationError(
+                'Можно копировать только в собственные проекты.'
+            )
         matching_panels = Panel.objects.filter(
-            project=cleaned_data.get('project'),
+            project=project,
             name=cleaned_data.get('name')
         )
         if self.instance:

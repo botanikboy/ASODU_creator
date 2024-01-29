@@ -17,6 +17,21 @@ def index(request):
     return render(request, 'panels/index.html', context)
 
 
+@login_required
+def projects(request):
+    projects = Project.objects.all()
+    context = {
+        'page_obj': paginator_create(projects, request.GET.get('page')),
+    }
+    return render(request, 'panels/index.html', context)
+
+
+@login_required
+def templates(request):
+    return render(request, 'panels/templates.html')
+
+
+@login_required
 def project_detail(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     panels = project.panels.all()
@@ -27,6 +42,7 @@ def project_detail(request, project_id):
     return render(request, 'panels/project_detail.html', context)
 
 
+@login_required
 def project_create(request):
     form = ProjectForm(request.POST or None)
     user = request.user
@@ -42,6 +58,7 @@ def project_create(request):
         return render(request, 'panels/create_project.html', context)
 
 
+@login_required
 def project_edit(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     form = ProjectForm(request.POST or None, instance=project)
@@ -56,6 +73,7 @@ def project_edit(request, project_id):
         return render(request, 'panels/create_project.html', context)
 
 
+@login_required
 def project_delete(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     if Panel.objects.filter(project=project).exists():
@@ -65,6 +83,7 @@ def project_delete(request, project_id):
     return redirect('panels:index')
 
 
+@login_required
 def panel_detail(request, panel_id):
     panel = get_object_or_404(Panel, pk=panel_id)
     context = {
@@ -73,6 +92,7 @@ def panel_detail(request, panel_id):
     return render(request, 'panels/panel_detail.html', context)
 
 
+@login_required
 def panel_create(request, project_id):
     project = get_object_or_404(Project, pk=project_id)
     form = PanelForm(request.POST or None)
@@ -90,6 +110,7 @@ def panel_create(request, project_id):
         return render(request, 'panels/create_panel.html', context)
 
 
+@login_required
 def panel_edit(request, panel_id):
     panel = get_object_or_404(Panel, pk=panel_id)
     form = PanelForm(request.POST or None, instance=panel)
@@ -105,6 +126,7 @@ def panel_edit(request, panel_id):
         return render(request, 'panels/create_panel.html', context)
 
 
+@login_required
 def panel_edit_contents(request, panel_id):
     panel = get_object_or_404(Panel, pk=panel_id)
     formset = EquipmentFormset(
@@ -129,6 +151,7 @@ def panel_edit_contents(request, panel_id):
         return render(request, 'panels/edit_panel.html', context)
 
 
+@login_required
 def panel_delete(request, panel_id):
     panel = get_object_or_404(Panel, pk=panel_id)
     project = panel.project
@@ -137,10 +160,11 @@ def panel_delete(request, panel_id):
     return redirect('panels:project_detail', project.id)
 
 
+@login_required
 def panel_copy(request, panel_id):
     panel = get_object_or_404(Panel, pk=panel_id)
     equipment = EquipmentPanelAmount.objects.filter(panel=panel)
-    form = PanelCopyForm(request.POST or None, instance=panel)
+    form = PanelCopyForm(request.POST or None, instance=panel, request=request)
     form.instance.pk = None
     if form.is_valid():
         form.save()
@@ -158,6 +182,7 @@ def panel_copy(request, panel_id):
         return render(request, 'panels/create_panel.html', context)
 
 
+@login_required
 def boq_download(request, obj_id, model):
     if model == 'panel':
         obj = get_object_or_404(Panel, pk=obj_id)

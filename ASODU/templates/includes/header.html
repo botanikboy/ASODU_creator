@@ -28,71 +28,68 @@
       <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent" style="color:white">
         {% with request.resolver_match.view_name as view_name %}
         <ul class="nav nav-pills">
+          {% if user.is_authenticated %}
           <li class="nav-item"> 
-            {% comment %} <a 
+            <a 
               class="nav-link
-              {% if view_name  == 'about:author' %}active{% endif %}"
-              href="{% url 'about:author' %}"
-              > {% endcomment %}
+              {% if view_name  == 'panels:index' %}active{% endif %}"
+              href="{% url 'panels:index' %}"
+              >
             Мои проекты
             </a>
           </li>
           <li class="nav-item">
-            {% comment %} <a 
+            <a 
               class="nav-link
-              {% if view_name  == 'about:tech' %}active{% endif %}"
-              href="{% url 'about:tech' %}"
-              > {% endcomment %}
-            Создать новый проект
-            </a>
-          </li>
-          {% if user.is_authenticated %}
-          <li class="nav-item"> 
-            {% comment %} <a 
-              class="nav-link
-              {% if view_name  == 'posts:post_create' %}active{% endif %}"
-              href="{% url 'posts:post_create' %}"
-              > {% endcomment %}
-            Новая запись
+              {% if view_name  == 'panels:templates' %}active{% endif %}"
+              href="{% url 'panels:templates' %}"
+              >
+            Шаблоны
             </a>
           </li>
           <li class="nav-item"> 
-            {% comment %} <a 
+            <a 
+              class="nav-link
+              {% if view_name  == 'panels:projects' %}active{% endif %}"
+              href="{% url 'panels:projects' %}"
+              >
+            База проектов
+            </a>
+          </li>
+          <li class="nav-item"> 
+            <a 
               class="nav-link link-light
               {% if view_name  == 'users:password_change' %}active{% endif %}"
               href="{% url 'users:password_change' %}"
-              > {% endcomment %}
+              >
             Изменить пароль
             </a>
           </li>
           <li class="nav-item"> 
-            {% comment %} <a 
+            <a 
               class="nav-link link-light
               {% if view_name  == 'users:logout' %}active{% endif %}"
               href="{% url 'users:logout' %}"
-              > {% endcomment %}
+              >
             Выйти
             </a>
           </li>
-          <li>
-            Пользователь: {{ user.username }}
-          </li>
           {% else %}
           <li class="nav-item"> 
-            {% comment %} <a 
+            <a 
               class="nav-link link-light
               {% if view_name  == 'users:login' %}active{% endif %}"
               href="{% url 'users:login' %}"
-              > {% endcomment %}
+              >
             Войти
             </a>
           </li>
           <li class="nav-item"> 
-            {% comment %} <a 
+            <a 
               class="nav-link link-light
               {% if view_name  == 'users:signup' %}active{% endif %}"
               href="{% url 'users:signup' %}"
-              > {% endcomment %}
+              >
             Регистрация
             </a>
           </li>

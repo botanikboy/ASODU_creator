@@ -10,6 +10,16 @@ urlpatterns = [
         views.index, name='index',
     ),
     path(
+        'templates/',
+        views.templates,
+        name='templates',
+    ),
+    path(
+        'projects/',
+        views.projects,
+        name='projects',
+    ),
+    path(
         'projects/<int:project_id>/',
         views.project_detail,
         name='project_detail',
