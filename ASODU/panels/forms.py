@@ -33,11 +33,14 @@ class PanelCopyForm(forms.ModelForm):
         super(PanelCopyForm, self).__init__(*args, **kwargs)
 
         if self.request and self.request.user.is_authenticated:
-            self.fields['project'].queryset = Project.objects.filter(author=self.request.user)
+            self.fields['project'].queryset = Project.objects.filter(
+                author=self.request.user)
+        self.fields['name'].label = 'Новое имя щита'
+        self.fields['project'].label = 'Проект'
 
     class Meta:
         model = Panel
-        fields = ('name', 'project',)
+        fields = ('name', 'project')
 
     project = forms.ModelChoiceField(
         queryset=Project.objects.none()

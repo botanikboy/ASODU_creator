@@ -5,9 +5,9 @@
   <div class="row justify-content-center">
     <div class="col-md-8 p-5">
       <div class="card">
-        <div class="card-header">
+        <h5 class="card-header">
           Войти на сайт
-        </div>
+        </h5>
         <div class="card-body">
           {% if form.errors %}
             {% for field in form %}
@@ -28,8 +28,9 @@
             action="{% url action_url %}"
             {% endif %}>
             {% csrf_token %}
+            <div class="row">
             {% for field in form %}
-              <div class="form-group row my-3"
+              <div class="form-group col-md-12 my-3 p-2"
                 {% if field.field.required %} 
                   aria-required="true"
                 {% else %}
@@ -53,8 +54,9 @@
                 </div>
               </div>
             {% endfor %}
+            </div>
             <div class="col-md-6 offset-md-4">
-              <button type="submit" class="btn btn-primary">
+              <button type="submit" class="btn btn-outline-primary">
               Войти
               </button>
               <a 

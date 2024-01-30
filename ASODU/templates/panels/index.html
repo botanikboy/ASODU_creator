@@ -2,13 +2,13 @@
 {% block title %}
 {% with request.resolver_match.view_name as view_name %}
   {% if view_name  == 'panels:index' %}Главная страница{% endif %}
-  {% if view_name  == 'panels:projects' %}Все проекты{% endif %}
+  {% if view_name  == 'panels:project_list' %}Все проекты{% endif %}
   {% endwith %}
 {% endblock %}
 {% block header %}
 {% with request.resolver_match.view_name as view_name %}
   {% if view_name  == 'panels:index' %}Мои проекты{% endif %}
-  {% if view_name  == 'panels:projects' %}Все проекты{% endif %}
+  {% if view_name  == 'panels:project_list' %}Все проекты{% endif %}
 {% endwith %}
 {% endblock %}
 {% block content %}

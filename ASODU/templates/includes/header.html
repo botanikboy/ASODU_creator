@@ -9,9 +9,9 @@
         src="{% static 'img/logo.png' %}"
         width="60"
         height="60"
-        class="d-inline-block align-top" 
+        class="d-inline-block align-middle" 
         alt="">
-      <span style="color:white" class="align-bottom">ASODUcreator</span>
+      <span style="color:white" class="align-middle">ASODUcreator</span>
       </a>
       <div class="text-center">
         <button 
@@ -32,7 +32,7 @@
           <li class="nav-item"> 
             <a 
               class="nav-link
-              {% if view_name  == 'panels:index' %}active{% endif %}"
+              {% if view_name  == 'panels:index' %}active bg-dark{% endif %} text-light"
               href="{% url 'panels:index' %}"
               >
             Мои проекты
@@ -41,8 +41,8 @@
           <li class="nav-item">
             <a 
               class="nav-link
-              {% if view_name  == 'panels:templates' %}active{% endif %}"
-              href="{% url 'panels:templates' %}"
+              {% if view_name  == 'panels:template_list' %}active bg-dark{% endif %} text-light"
+              href="{% url 'panels:template_list' %}"
               >
             Шаблоны
             </a>
@@ -50,8 +50,8 @@
           <li class="nav-item"> 
             <a 
               class="nav-link
-              {% if view_name  == 'panels:projects' %}active{% endif %}"
-              href="{% url 'panels:projects' %}"
+              {% if view_name  == 'panels:project_list' %}active bg-dark{% endif %} text-light"
+              href="{% url 'panels:project_list' %}"
               >
             База проектов
             </a>
@@ -59,7 +59,7 @@
           <li class="nav-item"> 
             <a 
               class="nav-link link-light
-              {% if view_name  == 'users:password_change' %}active{% endif %}"
+              {% if view_name  == 'users:password_change' %}active bg-dark{% endif %} text-light"
               href="{% url 'users:password_change' %}"
               >
             Изменить пароль
@@ -68,7 +68,7 @@
           <li class="nav-item"> 
             <a 
               class="nav-link link-light
-              {% if view_name  == 'users:logout' %}active{% endif %}"
+              {% if view_name  == 'users:logout' %}active bg-dark{% endif %} text-light"
               href="{% url 'users:logout' %}"
               >
             Выйти
@@ -78,7 +78,7 @@
           <li class="nav-item"> 
             <a 
               class="nav-link link-light
-              {% if view_name  == 'users:login' %}active{% endif %}"
+              {% if view_name  == 'users:login' %}active bg-dark{% endif %} text-light"
               href="{% url 'users:login' %}"
               >
             Войти
@@ -87,7 +87,7 @@
           <li class="nav-item"> 
             <a 
               class="nav-link link-light
-              {% if view_name  == 'users:signup' %}active{% endif %}"
+              {% if view_name  == 'users:signup' %}active bg-dark{% endif %} text-light"
               href="{% url 'users:signup' %}"
               >
             Регистрация

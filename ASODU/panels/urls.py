@@ -11,13 +11,13 @@ urlpatterns = [
     ),
     path(
         'templates/',
-        views.templates,
-        name='templates',
+        views.template_list,
+        name='template_list',
     ),
     path(
         'projects/',
-        views.projects,
-        name='projects',
+        views.project_list,
+        name='project_list',
     ),
     path(
         'projects/<int:project_id>/',

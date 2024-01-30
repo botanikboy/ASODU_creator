@@ -18,7 +18,7 @@ def index(request):
 
 
 @login_required
-def projects(request):
+def project_list(request):
     projects = Project.objects.all()
     context = {
         'page_obj': paginator_create(projects, request.GET.get('page')),
@@ -27,8 +27,8 @@ def projects(request):
 
 
 @login_required
-def templates(request):
-    return render(request, 'panels/templates.html')
+def template_list(request):
+    return render(request, 'panels/template_list.html')
 
 
 @login_required
