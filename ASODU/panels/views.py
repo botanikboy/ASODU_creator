@@ -2,9 +2,9 @@ from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import (EquipmentFormset, PanelCopyForm, PanelForm, ProjectForm,
-                    UlErrorList)
-from .models import EquipmentPanelAmount, Panel, Project
+from .forms import (AttachmentForm, EquipmentFormset, PanelCopyForm, PanelForm,
+                    ProjectForm, UlErrorList)
+from .models import Attachment, EquipmentPanelAmount, Panel, Project
 from .utils import excelreport, paginator_create
 
 
@@ -225,3 +225,31 @@ def boq_download(request, obj_id, model):
             ])
     report = excelreport(boq, filename)
     return FileResponse(report, as_attachment=True, filename=filename)
+
+
+@login_required
+def file_add(request, panel_id):
+    panel = get_object_or_404(Panel, pk=panel_id)
+    form = AttachmentForm(request.POST or None, request.FILES or None)
+    if request.method == 'POST':
+        form.instance.panel = panel
+    print(form.errors)
+    if form.is_valid():
+        file = form.save(commit=False)
+        file.panel = panel
+        file.save()
+        return redirect('panels:panel_detail', panel.id)
+    else:
+        context = {
+            'panel': panel,
+            'form': form,
+        }
+        return render(request, 'panels/add_file.html', context)
+
+
+@login_required
+def file_delete(request, panel_id, attachment_id):
+    attachment = get_object_or_404(Attachment, pk=attachment_id)
+    if attachment.panel.project.author == request.user:
+        attachment.delete()
+    return redirect('panels:panel_detail', attachment.panel.id)

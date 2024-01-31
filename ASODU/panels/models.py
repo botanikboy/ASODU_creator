@@ -134,6 +134,38 @@ class Equipment(models.Model):
         return f'{self.group} - {self.code} - {self.description[:80]}'
 
 
+class Attachment(models.Model):
+    drawing = models.FileField(
+        upload_to='panels/',
+        null=False,
+        blank=False,
+        verbose_name='Файл',
+        help_text='Загрузите файл'
+    )
+    panel = models.ForeignKey(
+        'Panel',
+        null=False,
+        on_delete=models.CASCADE,
+        related_name='attachments',
+    )
+    description = models.CharField(
+        max_length=256,
+        blank=False,
+        null=True,
+        verbose_name='Наименование чертежа',
+        help_text='Добавьте краткое описание файла',
+        default='Чертеж',
+    )
+
+    class Meta:
+        verbose_name = 'Приложение'
+        verbose_name_plural = 'Приложения'
+        ordering = ('drawing',)
+
+    def __str__(self):
+        return self.drawing.name
+
+
 class Panel(models.Model):
     name = models.CharField(
         max_length=64,
@@ -167,6 +199,13 @@ class Panel(models.Model):
         Equipment,
         verbose_name='Оборудование в щите',
         through='EquipmentPanelAmount',
+    )
+    files = models.ManyToManyField(
+        Attachment,
+        blank=True,
+        verbose_name='Файлы',
+        help_text='Загрузите схемы.',
+        related_name='panels',
     )
 
     class Meta:

@@ -1,7 +1,7 @@
 from django.contrib import admin
 
-from .models import (Equipment, EquipmentGroup, EquipmentPanelAmount, Panel,
-                     Project, Vendor)
+from .models import (Attachment, Equipment, EquipmentGroup,
+                     EquipmentPanelAmount, Panel, Project, Vendor)
 
 
 class EquipmentPanelAmountInline(admin.TabularInline):
@@ -12,11 +12,20 @@ class EquipmentPanelAmountInline(admin.TabularInline):
     verbose_name_plural = 'Оборудование в щите'
 
 
+class AttachmentInline(admin.TabularInline):
+    model = Attachment
+    fields = ('drawing', 'description')
+    extra = 0
+    verbose_name = 'Файл'
+    verbose_name_plural = 'Файлы'
+
+
 class PanelAdmin(admin.ModelAdmin):
     list_display = ('name', 'project', 'description')
+    exclude = ('files',)
     search_fields = ('project', 'name')
     list_filter = ('function_type', 'project')
-    inlines = (EquipmentPanelAmountInline,)
+    inlines = (EquipmentPanelAmountInline, AttachmentInline)
 
 
 class VendorAdmin(admin.ModelAdmin):
@@ -42,8 +51,15 @@ class EquipmentGroupAdmin(admin.ModelAdmin):
     list_filter = ('title',)
 
 
+class AttachmentAdmin(admin.ModelAdmin):
+    list_display = ('drawing', 'panel', 'description')
+    search_fields = ('drawing', 'panel')
+    list_filter = ('panel',)
+
+
 admin.site.register(Vendor, VendorAdmin)
 admin.site.register(Project, ProjectAdmin)
 admin.site.register(Equipment, EquipmentAdmin)
 admin.site.register(Panel, PanelAdmin)
 admin.site.register(EquipmentGroup, EquipmentGroupAdmin)
+admin.site.register(Attachment, AttachmentAdmin)

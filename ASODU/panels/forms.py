@@ -3,14 +3,14 @@ from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
 from django.utils.safestring import mark_safe
 
-from .models import EquipmentPanelAmount, Panel, Project
+from .models import EquipmentPanelAmount, Panel, Project, Attachment
 
 
 class PanelForm(forms.ModelForm):
 
     class Meta:
         model = Panel
-        fields = ('name', 'function_type', 'description')
+        fields = ('name', 'function_type', 'description', 'files')
         exclude = ('project',)
 
     def clean(self):
@@ -40,7 +40,7 @@ class PanelCopyForm(forms.ModelForm):
 
     class Meta:
         model = Panel
-        fields = ('name', 'project')
+        fields = ('name', 'description', 'project')
 
     project = forms.ModelChoiceField(
         queryset=Project.objects.none()
@@ -90,6 +90,13 @@ class EquipmentForm(forms.ModelForm):
     class Meta:
         model = EquipmentPanelAmount
         fields = ('equipment', 'amount')
+
+
+class AttachmentForm(forms.ModelForm):
+
+    class Meta:
+        model = Attachment
+        fields = ('drawing', 'description')
 
 
 EquipmentFormset = forms.inlineformset_factory(

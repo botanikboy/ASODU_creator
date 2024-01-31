@@ -81,4 +81,14 @@ urlpatterns = [
         {'model': 'panel'},
         name='boq_download_panel',
     ),
+    path(
+        'panels/<int:panel_id>/file_add/',
+        views.file_add,
+        name='file_add',
+    ),
+    path(
+        'panels/<int:panel_id>/file_delete/<int:attachment_id>',
+        views.file_delete,
+        name='file_delete',
+    ),
 ]
