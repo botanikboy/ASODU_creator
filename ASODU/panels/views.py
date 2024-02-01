@@ -238,11 +238,11 @@ def boq_download(request, obj_id, model):
         )
         for item in equipment:
             boq.append([
-                f'{item['equipment__vendor__name']}',
-                f'{item['equipment__description']}',
-                f'{item['equipment__code']}',
-                f'{item['equipment__units']}',
-                f'{item['amount']}',
+                f'{item["equipment__vendor__name"]}',
+                f'{item["equipment__description"]}',
+                f'{item["equipment__code"]}',
+                f'{item["equipment__units"]}',
+                f'{item["amount"]}',
             ])
     report = excelreport(boq, filename)
     return FileResponse(report, as_attachment=True, filename=filename)
