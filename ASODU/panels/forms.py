@@ -10,7 +10,7 @@ class PanelForm(forms.ModelForm):
 
     class Meta:
         model = Panel
-        fields = ('name', 'function_type', 'description', 'files')
+        fields = ('name', 'function_type', 'description')
         exclude = ('project',)
 
     def clean(self):

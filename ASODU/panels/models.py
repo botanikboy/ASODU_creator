@@ -1,9 +1,12 @@
 import os
+import shutil
 
+from django.conf import settings
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
 
 from .constants import FUNCTION_TYPE_CHOICES, UNITS_CHOICES
+from panels.utils import transliterate
 from users.models import User
 
 
@@ -64,6 +67,17 @@ class Project(models.Model):
         verbose_name = 'Проект'
         verbose_name_plural = 'Проекты'
         ordering = ('-created',)
+
+    def delete(self, *args, **kwargs):
+        storage_dir = os.path.join(
+            settings.MEDIA_ROOT,
+            'panels',
+            f'{self.pk}',
+        )
+        if os.path.exists(storage_dir):
+            shutil.rmtree(storage_dir)
+
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return self.name
@@ -136,9 +150,18 @@ class Equipment(models.Model):
         return f'{self.group} - {self.code} - {self.description[:80]}'
 
 
+def get_storage_path(instance, filename):
+    return os.path.join(
+        'panels',
+        f'{instance.panel.project.pk}',
+        f'{instance.panel.pk}_{transliterate(instance.panel.name)}',
+        filename
+    )
+
+
 class Attachment(models.Model):
     drawing = models.FileField(
-        upload_to='panels/',
+        upload_to=get_storage_path,
         null=False,
         blank=False,
         verbose_name='Файл',
@@ -234,6 +257,14 @@ class Panel(models.Model):
     def delete(self, *args, **kwargs):
         for attachment in self.attachments.all():
             attachment.delete()
+        storage_dir = os.path.join(
+            settings.MEDIA_ROOT,
+            'panels',
+            f'{self.project.pk}',
+            f'{self.pk}_{transliterate(self.name)}',
+        )
+        if os.path.exists(storage_dir):
+            shutil.rmtree(storage_dir)
 
         super().delete(*args, **kwargs)
 

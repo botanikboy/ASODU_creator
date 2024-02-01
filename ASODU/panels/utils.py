@@ -11,6 +11,13 @@ def paginator_create(objects_list, page_number):
     return paginator.get_page(page_number)
 
 
+def transliterate(any_string: str) -> str:
+    return any_string.translate(str.maketrans(
+        "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ",
+        "abvgdeejzijklmnoprstufhzcss_y_euaABVGDEEJZIJKLMNOPRSTUFHZCSS_Y_EUA"
+    ))
+
+
 def excelreport(data: list, filename: str):
     buffer = io.BytesIO()
     workbook = xlsxwriter.Workbook(buffer)

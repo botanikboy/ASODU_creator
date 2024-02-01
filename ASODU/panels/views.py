@@ -1,6 +1,7 @@
 import os
 import shutil
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
@@ -8,7 +9,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .forms import (AttachmentForm, EquipmentFormset, PanelCopyForm, PanelForm,
                     ProjectForm, UlErrorList)
 from .models import Attachment, EquipmentPanelAmount, Panel, Project
-from .utils import excelreport, paginator_create
+from .utils import excelreport, paginator_create, transliterate
 
 
 @login_required
@@ -180,12 +181,17 @@ def panel_copy(request, panel_id):
             attachment.pk = None
             attachment.panel = form.instance
             source_path = attachment.drawing.path
-            destination_path = os.path.join(
-                'media', 'copy', os.path.basename(source_path)
+            new_folder = os.path.join(
+                settings.MEDIA_ROOT,
+                'panels/',
+                f'{panel.project.pk}',
+                f'{form.instance.pk}_{transliterate(form.instance.name)}'
             )
-            shutil.copy2(source_path, destination_path)
+            os.makedirs(new_folder, exist_ok=True)
+            new_file = os.path.join(new_folder, os.path.basename(source_path))
+            shutil.copy2(source_path, new_file)
             attachment.drawing.name = os.path.relpath(
-                destination_path, 'madia/')
+                new_file, settings.MEDIA_ROOT)
             attachment.save()
         return redirect('panels:panel_detail', panel.id)
     else:
