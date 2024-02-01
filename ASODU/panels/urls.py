@@ -87,7 +87,7 @@ urlpatterns = [
         name='file_add',
     ),
     path(
-        'panels/<int:panel_id>/file_delete/<int:attachment_id>',
+        'panels/<int:attachment_id>/file_delete/',
         views.file_delete,
         name='file_delete',
     ),

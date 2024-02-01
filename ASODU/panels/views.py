@@ -1,3 +1,6 @@
+import os
+import shutil
+
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
@@ -164,6 +167,7 @@ def panel_delete(request, panel_id):
 def panel_copy(request, panel_id):
     panel = get_object_or_404(Panel, pk=panel_id)
     equipment = EquipmentPanelAmount.objects.filter(panel=panel)
+    attachments = Attachment.objects.filter(panel=panel)
     form = PanelCopyForm(request.POST or None, instance=panel, request=request)
     form.instance.pk = None
     if form.is_valid():
@@ -172,6 +176,17 @@ def panel_copy(request, panel_id):
             item.pk = None
             item.panel = form.instance
             item.save()
+        for attachment in attachments:
+            attachment.pk = None
+            attachment.panel = form.instance
+            source_path = attachment.drawing.path
+            destination_path = os.path.join(
+                'media', 'copy', os.path.basename(source_path)
+            )
+            shutil.copy2(source_path, destination_path)
+            attachment.drawing.name = os.path.relpath(
+                destination_path, 'madia/')
+            attachment.save()
         return redirect('panels:panel_detail', panel.id)
     else:
         context = {
@@ -248,7 +263,7 @@ def file_add(request, panel_id):
 
 
 @login_required
-def file_delete(request, panel_id, attachment_id):
+def file_delete(request, attachment_id):
     attachment = get_object_or_404(Attachment, pk=attachment_id)
     if attachment.panel.project.author == request.user:
         attachment.delete()

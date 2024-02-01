@@ -43,7 +43,7 @@
           <h6 class="card-subtitle mb-2 text-muted">Приложенные файлы:</h6>
           {% for att in panel.attachments.all %}
             {% if user == panel.project.author %}
-              <a href="{% url 'panels:file_delete' panel.id att.id %}" class="btn-sm btn-outline-danger" onclick="return confirm('Вы уверены что хотите удалить файл?');">Удалить</a>
+              <a href="{% url 'panels:file_delete' att.id %}" class="btn-sm btn-outline-danger" onclick="return confirm('Вы уверены что хотите удалить файл?');">Удалить</a>
             {% endif %}
             <a href="{{ att.drawing.url }}" download>{{ att.description }}</a>
            <br>

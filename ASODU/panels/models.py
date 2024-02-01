@@ -1,3 +1,5 @@
+import os
+
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
 
@@ -162,6 +164,14 @@ class Attachment(models.Model):
         verbose_name_plural = 'Приложения'
         ordering = ('drawing',)
 
+    def delete(self, *args, **kwargs):
+        if self.drawing:
+            file_path = self.drawing.path
+            if os.path.exists(file_path):
+                os.remove(file_path)
+
+        super().delete(*args, **kwargs)
+
     def __str__(self):
         return self.drawing.name
 
@@ -220,6 +230,12 @@ class Panel(models.Model):
                     'Имя щита должно быть уникальным в проекте'),
             )
         ]
+
+    def delete(self, *args, **kwargs):
+        for attachment in self.attachments.all():
+            attachment.delete()
+
+        super().delete(*args, **kwargs)
 
     def __str__(self):
         return self.name
