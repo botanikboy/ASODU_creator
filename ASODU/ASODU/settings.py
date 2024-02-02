@@ -10,7 +10,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv('SECRET_KEY', default=get_random_secret_key())
 
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -105,7 +105,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-CSRF_TRUSTED_ORIGINS = ['https://159.89.213.155/*']
+CSRF_TRUSTED_ORIGINS = ['https://159.89.213.155/*', "http://localhost/*",]
 
 # STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 
