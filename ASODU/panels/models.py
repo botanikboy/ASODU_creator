@@ -63,6 +63,12 @@ class Project(models.Model):
         related_name='projects',
     )
 
+    is_published = models.BooleanField(
+        'Флаг общего доступа',
+        help_text='Открыть доступ для просмотра всем',
+        default=True,
+    )
+
     class Meta:
         verbose_name = 'Проект'
         verbose_name_plural = 'Проекты'
