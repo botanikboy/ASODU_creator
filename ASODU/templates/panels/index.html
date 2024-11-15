@@ -16,4 +16,5 @@
   <a href="{% url 'panels:project_create' %}" class="btn btn-light">+ Создать новый проект</a>
   </p>
   {% include 'panels/includes/project_list_content.html' %}
+  {% include "includes/pagination.html" %}
 {% endblock %}

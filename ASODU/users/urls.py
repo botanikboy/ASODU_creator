@@ -68,4 +68,14 @@ urlpatterns = [
         ),
         name='password_reset_complete'
     ),
+    path(
+        '<str:username>/profile',
+        views.user_profile_view,
+        name='profile'
+    ),
+    path(
+        'profile/<int:pk>/edit/',
+        views.UserChangeView.as_view(),
+        name='profile_edit'
+    ),
 ]

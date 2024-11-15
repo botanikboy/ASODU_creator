@@ -20,7 +20,7 @@
   <body style="background-color: #88BDBC">
     {% include 'includes/header.html' %}
     <main>
-      <div class="container py-5">
+      <div class="container-fluid py-5 px-4">
         {% if user.is_authenticated %}
         Пользователь: {{ user.get_full_name }}
         {% endif %}

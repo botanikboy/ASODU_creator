@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}
+Blogeteria. Профиль пользователя {{ user.username }}
+{% endblock title %}  
+
+{% block content %}
+  <div class="row mt-3">
+    <div class="col-12 col-md-6">
+      <h1>Профиль пользователя {{ user.username }}</h1>
+      <ul>
+        <li>E-mail: {{ user.email }}</li>
+        <li>Дата регистрации: {{ user.date_joined }}</li>
+        <li>Имя:{{ user.first_name }} {{ user.last_name }}</li>
+      </ul>
+      {% if user.is_authenticated and request.resolver_match.captured_kwargs.username == request.user.username %}
+        <a class="btn btn-light" href="{% url 'users:profile_edit' request.user.id %}">Редактировать профиль</a>
+        <a class="btn btn-light" href="{% url 'users:password_change' %}">Изменить пароль</a>
+      {% endif %}
+    </div>
+  </div>
+  <br>
+  <h5 class="pb-2 mb-0">Проекты пользователя {{ user.username }}:</h5>
+  {% include "panels/includes/project_list_content.html" %}
+  {% include "includes/pagination.html" %}
+{% endblock content %}
