@@ -77,7 +77,11 @@ class ProjectForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = ('name', 'description')
+        fields = ('is_published', 'name', 'description')
+        widgets = {
+            'is_published': forms.CheckboxInput(
+                attrs={'class': 'form-check-input'}),
+        }
 
 
 class UlErrorList(ErrorList):

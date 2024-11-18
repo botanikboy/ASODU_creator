@@ -4,33 +4,12 @@
 {% endblock %}
 {% block header %}
 Проект: {{ project.name }}
-{% if not project.is_published %}
-  <span class="badge bg-warning">
-    Неопубликован
-  </span>
-{% endif %}
 <br>
-<a href="{% url 'panels:project_edit' project.id %}" class="btn btn-outline-light btn-sm">Изменить название и описание</a>
+{% if project.author == request.user %}
+  <a href="{% url 'panels:project_edit' project.id %}" class="btn btn-outline-light btn-sm">Изменить название и описание/ Опубликовать</a>
+{% endif %}
 {% endblock %}
 {% block content %}
-  <p>
-    {{ project.description }}
-  </p>
-  <p>
-    Проект создан пользователем: <a href="{% url 'users:profile' project.author.username %}">{{ project.author.get_full_name }}</a>
-    <br>
-    Соавторы: 
-    {% for co_author in project.co_authors.all %}
-    <a href="{% url 'users:profile' co_author.username %}">{{ co_author.get_full_name }}</a> ({{ co_author.email }}) |
-    {% endfor %}
-    <a href="{% url 'panels:add_author' project.pk %}" class="btn btn-outline-light btn-sm">Изменить</a>
-  </p>
-  <p>
-    <a href="{% url 'panels:boq_download_project' project.id %}" class="btn btn-light">Скачать полную спецификацию</a>
-    {% if user == project.author %}
-      <a href="{% url 'panels:panel_create' project.id %}" class="btn btn-light">+ Добавить новый щит</a>
-      <a href="{% url 'panels:project_delete' project.id %}" class="btn btn-outline-danger" onclick="return confirm('Вы уверены что хотите полностью удалить проект? Проект удалится только после удаления всех щитов');">Удалить проект</a>
-    {% endif %}
-  </p>
+  {% include 'panels/includes/project_card.html' %}
   {% include 'panels/includes/project_content.html' %}
 {% endblock %}
