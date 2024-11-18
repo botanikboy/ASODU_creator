@@ -91,4 +91,9 @@ urlpatterns = [
         views.file_delete,
         name='file_delete',
     ),
+    path(
+        'projects/<int:project_id>/add_author/',
+        views.author_add,
+        name='add_author'
+    )
 ]

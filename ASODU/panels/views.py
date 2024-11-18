@@ -2,14 +2,17 @@ import os
 import shutil
 
 from django.conf import settings
+from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, HttpResponseBadRequest
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, get_list_or_404, redirect, render
 
 from .forms import (AttachmentForm, EquipmentFormset, PanelCopyForm, PanelForm,
-                    ProjectForm, UlErrorList)
+                    ProjectForm, UlErrorList, CoAuthorForm)
 from .models import Attachment, EquipmentPanelAmount, Panel, Project
 from .utils import excelreport, paginator_create, transliterate
+
+User = get_user_model()
 
 
 @login_required
@@ -274,3 +277,20 @@ def file_delete(request, attachment_id):
     if attachment.panel.project.author == request.user:
         attachment.delete()
     return redirect('panels:panel_detail', attachment.panel.id)
+
+
+@login_required
+def author_add(request, project_id):
+    project = get_object_or_404(Project, pk=project_id)
+    form = CoAuthorForm(request.POST or None, project=project)
+    users = User.objects.all()
+    if form.is_valid():
+        form.save()
+        return redirect('panels:project_detail', project.id)
+    else:
+        context = {
+            'project': project,
+            'form': form,
+            'users': users
+        }
+        return render(request, 'panels/coauthor_form.html', context)

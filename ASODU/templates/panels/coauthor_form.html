@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ form.project }}
+{% endblock %}
+
+{% block header %}
+  Проект: {{ project }}
+{% endblock %}
+
+{% block content %}
+  <div class="row justify-content-center">
+    <div class="col-md-8 p-5">
+      <div class="card">
+        <h5 class="card-header">
+          Изменить список соавторов
+        </h5>
+        <div class="card-body">
+          {% load user_filters %}
+          {% if form.errors %}
+            {% for field in form %}
+              {% for error in field.errors %}
+                <div class="alert alert-danger">
+                  {{ field.label }}: {{ error|escape }}
+                </div>
+              {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+              <div class="alert alert-danger">
+                {{ error|escape }}
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <form method="post" id="co-author-form">
+            {% csrf_token %}
+            
+            <!-- Селект для добавления соавтора -->
+            <div class="form-group">
+              <label for="co-author-select">Добавить нового соавтора</label>
+              <select id="co-author-select" name="co_author" class="form-control">
+                {% for user in users.all %}
+                  <option value="{{ user.id }}">{{ user.get_full_name }}</option>
+                {% endfor %}
+              </select>
+              <button type="button" class="btn btn-outline-primary mt-2" id="add-co-author-btn">Добавить</button>
+            </div>
+
+            <!-- Список текущих соавторов -->
+            <h6 class="mt-4">Список соавторов</h6>
+            <ul id="co-authors-list" class="list-group">
+              {% for co_author in project.co_authors.all %}
+                <li class="list-group-item d-flex justify-content-between" data-author-id="{{ co_author.id }}">
+                  {{ co_author.get_full_name }}
+                  <button type="button" class="btn btn-outline-danger btn-sm remove-co-author-btn">Удалить</button>
+                </li>
+              {% endfor %}
+            </ul>
+            <input type="hidden" name="co_authors" id="co-authors-input" value="{{ form.co_authors.value|join:', ' }}">
+            <!-- Кнопка сохранения изменений -->
+            <div class="d-flex justify-content-between mt-4">
+              <input type="button" class="btn btn-outline-dark" value="Назад" onClick="javascript:history.go(-1);">
+              <button type="submit" class="btn btn-outline-primary">
+                Сохранить изменения
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('add-co-author-btn').addEventListener('click', function() {
+      var select = document.getElementById('co-author-select');
+      var authorId = select.value;
+      var authorName = select.options[select.selectedIndex].text;
+
+      // Проверяем, есть ли уже такой соавтор в списке
+      var existingAuthors = document.querySelectorAll('#co-authors-list li');
+      var alreadyAdded = false;
+
+      existingAuthors.forEach(function(item) {
+        if (item.getAttribute('data-author-id') === authorId) {
+          alreadyAdded = true;
+        }
+      });
+
+      if (alreadyAdded) {
+        alert('Этот соавтор уже добавлен!');
+        return; // Если соавтор уже есть, выходим из функции
+      }
+
+      // Если не найдено, добавляем соавтора в список
+      var newAuthorItem = document.createElement('li');
+      newAuthorItem.classList.add('list-group-item', 'd-flex', 'justify-content-between');
+      newAuthorItem.setAttribute('data-author-id', authorId);
+      newAuthorItem.innerHTML = `${authorName} <button type="button" class="btn btn-outline-danger btn-sm remove-co-author-btn">Удалить</button>`;
+
+      document.getElementById('co-authors-list').appendChild(newAuthorItem);
+
+      // Очистить выбор
+      select.value = '';
+
+      // Обновить скрытое поле соавторов
+      updateCoAuthorsInput();
+    });
+
+    document.getElementById('co-authors-list').addEventListener('click', function(event) {
+      if (event.target.classList.contains('remove-co-author-btn')) {
+        var authorItem = event.target.closest('li');
+        authorItem.remove();
+        updateCoAuthorsInput(); // Обновляем список соавторов
+      }
+    });
+
+// Обновляем скрытое поле с идентификаторами соавторов
+function updateCoAuthorsInput() {
+  var authorIds = [];
+  document.querySelectorAll('#co-authors-list li').forEach(function(item) {
+    authorIds.push(item.getAttribute('data-author-id'));
+  });
+
+  document.getElementById('co-authors-input').value = authorIds.join(',');
+};
+
+    // Передача формы
+    document.getElementById('co-author-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Предотвращаем стандартную отправку формы
+      updateCoAuthorsInput(); // Убедитесь, что поле обновлено перед отправкой
+      this.submit(); // Отправляем форму
+    });
+
+  </script>
+{% endblock %}

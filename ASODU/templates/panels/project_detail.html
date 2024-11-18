@@ -18,7 +18,7 @@
     {% for co_author in project.co_authors.all %}
     <a href="{% url 'users:profile' co_author.username %}">{{ co_author.get_full_name }}</a> ({{ co_author.email }}) |
     {% endfor %}
-    <a href="" class="btn btn-outline-light btn-sm">Изменить</a>
+    <a href="{% url 'panels:add_author' project.pk %}" class="btn btn-outline-light btn-sm">Изменить</a>
   </p>
   <p>
     <a href="{% url 'panels:boq_download_project' project.id %}" class="btn btn-light">Скачать полную спецификацию</a>

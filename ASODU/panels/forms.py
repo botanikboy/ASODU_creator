@@ -1,9 +1,14 @@
+import json
+
 from django import forms
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
 from django.utils.safestring import mark_safe
 
 from .models import Attachment, EquipmentPanelAmount, Panel, Project
+
+User = get_user_model()
 
 
 class PanelForm(forms.ModelForm):
@@ -102,3 +107,28 @@ class AttachmentForm(forms.ModelForm):
 EquipmentFormset = forms.inlineformset_factory(
     Panel, EquipmentPanelAmount, form=EquipmentForm, extra=0
 )
+
+
+class CoAuthorForm(forms.Form):
+    co_author = forms.ModelChoiceField(
+        queryset=User.objects.all(),
+        label="Соавтор",
+        widget=forms.Select(attrs={"class": "form-control"}),
+        required=False
+    )
+    co_authors = forms.CharField(widget=forms.HiddenInput(), required=False)
+
+    def __init__(self, *args, project=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not project:
+            raise ValueError("Необходимо передать проект")
+        self.project = project
+
+    def save(self):
+        if self.cleaned_data['co_authors']:
+            co_authors_ids = [int(id) for id in self.cleaned_data['co_authors'].split(',')]
+        else:
+            co_authors_ids = []
+        co_authors = User.objects.filter(id__in=co_authors_ids)
+        self.project.co_authors.set(co_authors)
+        self.project.save()
