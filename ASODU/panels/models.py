@@ -78,11 +78,16 @@ class Project(models.Model):
         verbose_name='Автор',
         related_name='projects',
     )
-
     is_published = models.BooleanField(
         'Флаг общего доступа',
         help_text='Открыть доступ для просмотра всем',
         default=True,
+    )
+    co_authors = models.ManyToManyField(
+        User,
+        verbose_name='Соавторы',
+        blank=True,
+        related_name='co_projects'
     )
 
     class Meta:
