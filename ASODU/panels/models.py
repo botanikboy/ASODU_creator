@@ -4,15 +4,31 @@ import shutil
 from django.conf import settings
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
+from django.utils import timezone
 
 from .constants import FUNCTION_TYPE_CHOICES, UNITS_CHOICES
 from panels.utils import transliterate
 from users.models import User
 
 
+class DeletableObject(models.Model):
+    is_deleted = models.BooleanField(
+        'Удален из просмотра пользователями',
+        default=False,
+    )
+    date_deleted = models.DateTimeField()
+
+    def save(self, *args, **kwargs):
+        if self.is_deleted and not self.date_deleted:
+            self.date_deleted = timezone.now()
+        elif not self.is_deleted:
+            self.date_deleted = None
+        super().save(*args, **kwargs)
+
+
 class Vendor(models.Model):
     name = models.CharField(
-        max_length=64,
+        max_length=254,
         blank=False,
         null=False,
         verbose_name='Завод изготовитель',
@@ -42,14 +58,14 @@ class Project(models.Model):
                 code='invalid_name')
         ],
         unique=True,
-        help_text='Введите название проекта.',
+        help_text='Введите название проекта',
     )
     description = models.TextField(
         max_length=500,
         blank=True,
         null=True,
         verbose_name='Описание',
-        help_text='Добавьте краткое описание проекта.',
+        help_text='Добавьте краткое описание',
     )
     created = models.DateTimeField(
         auto_now_add=True,

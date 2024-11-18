@@ -4,16 +4,18 @@
   Редактирование профиля
 {% endblock title %}
 {% block content %}
-  <div class="card col-4 m-3 p-0">
-    <div class="card-header w-100 p-3">
-      Редактирование данных пользователя {{ request.user.username }}
-    </div>
-    <div class="card-body">
-      <form method="post">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% bootstrap_button button_type="submit" content="Сохранить" %}
-      </form>
+  <div class="row justify-content-center">
+    <div class="card col-4 m-3 p-0">
+      <div class="card-header w-100 p-3">
+        Редактирование данных пользователя {{ request.user.username }}
+      </div>
+      <div class="card-body">
+        <form method="post">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          {% bootstrap_button button_type="submit" content="Сохранить" %}
+        </form>
+      </div>
     </div>
   </div>
 {% endblock %}
