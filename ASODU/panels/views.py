@@ -5,7 +5,7 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.http import FileResponse, HttpResponseBadRequest
-from django.shortcuts import get_object_or_404, get_list_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import (AttachmentForm, EquipmentFormset, PanelCopyForm, PanelForm,
                     ProjectForm, UlErrorList, CoAuthorForm)

@@ -1,6 +1,5 @@
-import json
-
 from django import forms
+from django.shortcuts import get_list_or_404
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
@@ -126,9 +125,10 @@ class CoAuthorForm(forms.Form):
 
     def save(self):
         if self.cleaned_data['co_authors']:
-            co_authors_ids = [int(id) for id in self.cleaned_data['co_authors'].split(',')]
+            co_authors_ids = [
+                int(id) for id in self.cleaned_data['co_authors'].split(',')]
+            co_authors = get_list_or_404(User, id__in=co_authors_ids)
+            self.project.co_authors.set(co_authors)
         else:
-            co_authors_ids = []
-        co_authors = User.objects.filter(id__in=co_authors_ids)
-        self.project.co_authors.set(co_authors)
+            self.project.co_authors.clear()
         self.project.save()
