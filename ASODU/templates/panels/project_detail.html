@@ -4,6 +4,11 @@
 {% endblock %}
 {% block header %}
 Проект: {{ project.name }}
+{% if not project.is_published %}
+  <span class="badge bg-warning">
+    Неопубликован
+  </span>
+{% endif %}
 <br>
 <a href="{% url 'panels:project_edit' project.id %}" class="btn btn-outline-light btn-sm">Изменить название и описание</a>
 {% endblock %}

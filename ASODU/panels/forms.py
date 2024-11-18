@@ -1,4 +1,5 @@
 from django import forms
+from django.db.models import Q
 from django.shortcuts import get_list_or_404
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
@@ -38,7 +39,9 @@ class PanelCopyForm(forms.ModelForm):
 
         if self.request and self.request.user.is_authenticated:
             self.fields['project'].queryset = Project.objects.filter(
-                author=self.request.user)
+                Q(author=self.request.user) | Q(
+                    id__in=self.request.user.co_projects.values('id'))
+            )
         self.fields['name'].label = 'Новое имя щита'
         self.fields['project'].label = 'Проект'
 
@@ -53,7 +56,8 @@ class PanelCopyForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         project = cleaned_data.get('project')
-        if project.author != self.request.user:
+        if (project.author != self.request.user
+                and project not in self.request.user.co_projects.all()):
             raise ValidationError(
                 'Можно копировать только в собственные проекты.'
             )

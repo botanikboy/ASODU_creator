@@ -4,6 +4,7 @@ import shutil
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 from django.http import FileResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -26,7 +27,9 @@ def index(request):
 
 @login_required
 def project_list(request):
-    projects = Project.objects.all()
+    projects = Project.objects.filter(
+        Q(is_published=True) | Q(id__in=request.user.co_projects.values('id'))
+    )
     context = {
         'page_obj': paginator_create(projects, request.GET.get('page')),
     }
@@ -40,7 +43,11 @@ def template_list(request):
 
 @login_required
 def project_detail(request, project_id):
-    project = get_object_or_404(Project, pk=project_id)
+    project = get_object_or_404(
+        Project,
+        Q(is_published=True) | Q(id__in=request.user.co_projects.values('id')),
+        pk=project_id,
+    )
     panels = project.panels.all()
     context = {
         'page_obj': paginator_create(panels, request.GET.get('page')),
@@ -67,7 +74,9 @@ def project_create(request):
 
 @login_required
 def project_edit(request, project_id):
-    project = get_object_or_404(Project, pk=project_id)
+    project = get_object_or_404(
+        Project, pk=project_id,
+        author=request.user)
     form = ProjectForm(request.POST or None, instance=project)
     if form.is_valid():
         form.save()
@@ -82,17 +91,23 @@ def project_edit(request, project_id):
 
 @login_required
 def project_delete(request, project_id):
-    project = get_object_or_404(Project, pk=project_id)
+    project = get_object_or_404(
+        Project, pk=project_id,
+        author=request.user)
     if Panel.objects.filter(project=project).exists():
         return redirect('panels:project_detail', project.id)
-    if project.author == request.user:
-        project.delete()
+    project.delete()
     return redirect('panels:index')
 
 
 @login_required
 def panel_detail(request, panel_id):
-    panel = get_object_or_404(Panel, pk=panel_id)
+    panel = get_object_or_404(
+        Panel,
+        Q(project__is_published=True) | Q(
+            project__in=request.user.co_projects.all()),
+        pk=panel_id,
+    )
     context = {
         'panel': panel
     }
@@ -101,7 +116,12 @@ def panel_detail(request, panel_id):
 
 @login_required
 def panel_create(request, project_id):
-    project = get_object_or_404(Project, pk=project_id)
+    project = get_object_or_404(
+        Project,
+        Q(author=request.user) | Q(
+            id__in=request.user.co_projects.values('id')),
+        pk=project_id,
+    )
     form = PanelForm(request.POST or None)
     if request.method == 'POST':
         form.instance.project = project
@@ -119,7 +139,12 @@ def panel_create(request, project_id):
 
 @login_required
 def panel_edit(request, panel_id):
-    panel = get_object_or_404(Panel, pk=panel_id)
+    panel = get_object_or_404(
+        Panel,
+        Q(project__author=request.user) | Q(
+            project__in=request.user.co_projects.all()),
+        pk=panel_id,
+    )
     form = PanelForm(request.POST or None, instance=panel)
     if form.is_valid():
         form.save()
@@ -135,7 +160,11 @@ def panel_edit(request, panel_id):
 
 @login_required
 def panel_edit_contents(request, panel_id):
-    panel = get_object_or_404(Panel, pk=panel_id)
+    panel = get_object_or_404(
+        Panel,
+        Q(project__author=request.user) | Q(
+            project__in=request.user.co_projects.all()),
+        pk=panel_id,)
     formset = EquipmentFormset(
         request.POST or None, instance=panel, error_class=UlErrorList)
     project = panel.project
@@ -160,7 +189,11 @@ def panel_edit_contents(request, panel_id):
 
 @login_required
 def panel_delete(request, panel_id):
-    panel = get_object_or_404(Panel, pk=panel_id)
+    panel = get_object_or_404(
+        Panel,
+        Q(project__author=request.user) | Q(
+            project__in=request.user.co_projects.all()),
+        pk=panel_id)
     project = panel.project
     if project.author == request.user:
         panel.delete()
@@ -169,7 +202,12 @@ def panel_delete(request, panel_id):
 
 @login_required
 def panel_copy(request, panel_id):
-    panel = get_object_or_404(Panel, pk=panel_id)
+    panel = get_object_or_404(
+        Panel,
+        Q(project__is_published=True) | Q(
+            project__in=request.user.co_projects.all()),
+        pk=panel_id
+    )
     equipment = EquipmentPanelAmount.objects.filter(panel=panel)
     attachments = Attachment.objects.filter(panel=panel)
     form = PanelCopyForm(request.POST or None, instance=panel, request=request)
@@ -209,10 +247,18 @@ def panel_copy(request, panel_id):
 @login_required
 def boq_download(request, obj_id, model):
     if model == 'panel':
-        obj = get_object_or_404(Panel, pk=obj_id)
+        obj = get_object_or_404(
+            Panel,
+            Q(project__is_published=True) | Q(
+                project__in=request.user.co_projects.all()),
+            pk=obj_id)
         panels = [obj]
     elif model == 'project':
-        obj = get_object_or_404(Project, pk=obj_id)
+        obj = get_object_or_404(
+            Project,
+            Q(is_published=True) | Q(
+                id__in=request.user.co_projects.values('id')),
+            pk=obj_id)
         panels = Panel.objects.filter(project=obj).order_by('name')
     else:
         return HttpResponseBadRequest("Invalid model parameter")
@@ -253,7 +299,11 @@ def boq_download(request, obj_id, model):
 
 @login_required
 def file_add(request, panel_id):
-    panel = get_object_or_404(Panel, pk=panel_id)
+    panel = get_object_or_404(
+        Panel,
+        Q(project__author=request.user) | Q(
+            project__in=request.user.co_projects.all()),
+        pk=panel_id)
     form = AttachmentForm(request.POST or None, request.FILES or None)
     if request.method == 'POST':
         form.instance.panel = panel
@@ -273,7 +323,11 @@ def file_add(request, panel_id):
 
 @login_required
 def file_delete(request, attachment_id):
-    attachment = get_object_or_404(Attachment, pk=attachment_id)
+    attachment = get_object_or_404(
+        Attachment,
+        Q(panel__project__author=request.user) | Q(
+            panel__project__in=request.user.co_projects.all()),
+        pk=attachment_id)
     if attachment.panel.project.author == request.user:
         attachment.delete()
     return redirect('panels:panel_detail', attachment.panel.id)
@@ -281,7 +335,10 @@ def file_delete(request, attachment_id):
 
 @login_required
 def author_add(request, project_id):
-    project = get_object_or_404(Project, pk=project_id)
+    project = get_object_or_404(
+        Project,
+        author=request.user,
+        pk=project_id)
     form = CoAuthorForm(request.POST or None, project=project)
     users = User.objects.all()
     if form.is_valid():

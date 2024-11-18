@@ -2,7 +2,13 @@
 <article class="mb-3">
     <div class="card">
       <div class="card-body">
-        <h5 class="card-title">{{ project.name }}</h5>
+        <h5 class="card-title">{{ project.name }}
+          {% if not project.is_published %}
+            <span class="badge bg-warning">
+              Неопубликован
+            </span>
+          {% endif %}
+        </h5>
         <h6 class="card-subtitle mb-2 text-muted">Дата создания: {{ project.created|date:"d E Y" }}</h6>
         <p class="card-text">
           {% if project.description|length > 100 %}
