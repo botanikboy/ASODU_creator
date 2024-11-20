@@ -4,15 +4,31 @@ import shutil
 from django.conf import settings
 from django.core.validators import MinValueValidator, RegexValidator
 from django.db import models
+from django.utils import timezone
 
 from .constants import FUNCTION_TYPE_CHOICES, UNITS_CHOICES
 from panels.utils import transliterate
 from users.models import User
 
 
+class DeletableObject(models.Model):
+    is_deleted = models.BooleanField(
+        'Удален из просмотра пользователями',
+        default=False,
+    )
+    date_deleted = models.DateTimeField()
+
+    def save(self, *args, **kwargs):
+        if self.is_deleted and not self.date_deleted:
+            self.date_deleted = timezone.now()
+        elif not self.is_deleted:
+            self.date_deleted = None
+        super().save(*args, **kwargs)
+
+
 class Vendor(models.Model):
     name = models.CharField(
-        max_length=64,
+        max_length=254,
         blank=False,
         null=False,
         verbose_name='Завод изготовитель',
@@ -42,14 +58,14 @@ class Project(models.Model):
                 code='invalid_name')
         ],
         unique=True,
-        help_text='Введите название проекта.',
+        help_text='Введите название проекта',
     )
     description = models.TextField(
         max_length=500,
         blank=True,
         null=True,
         verbose_name='Описание',
-        help_text='Добавьте краткое описание проекта.',
+        help_text='Добавьте краткое описание',
     )
     created = models.DateTimeField(
         auto_now_add=True,
@@ -61,6 +77,17 @@ class Project(models.Model):
         on_delete=models.SET_NULL,
         verbose_name='Автор',
         related_name='projects',
+    )
+    is_published = models.BooleanField(
+        'Флаг общего доступа',
+        help_text='Открыть доступ для просмотра всем',
+        default=True,
+    )
+    co_authors = models.ManyToManyField(
+        User,
+        verbose_name='Соавторы',
+        blank=True,
+        related_name='co_projects'
     )
 
     class Meta:
@@ -147,7 +174,7 @@ class Equipment(models.Model):
         ordering = ('code',)
 
     def __str__(self):
-        return f'{self.group} - {self.code} - {self.description[:80]}'
+        return f'{self.group} - {self.code} - {self.description[:50]}'
 
 
 def get_storage_path(instance, filename):
@@ -300,6 +327,8 @@ class EquipmentPanelAmount(models.Model):
             models.UniqueConstraint(
                 fields=['equipment', 'panel'],
                 name='unique_equipment_in_panel',
+                violation_error_message=(
+                    'Такое оборудование уже есть в этом щите')
             )
         ]
         verbose_name = verbose_name_plural = 'Оборудование'

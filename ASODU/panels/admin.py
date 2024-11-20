@@ -1,7 +1,10 @@
 from django.contrib import admin
+from django.contrib.auth import get_user_model
 
 from .models import (Attachment, Equipment, EquipmentGroup,
                      EquipmentPanelAmount, Panel, Project, Vendor)
+
+User = get_user_model()
 
 
 class EquipmentPanelAmountInline(admin.TabularInline):
@@ -37,6 +40,7 @@ class ProjectAdmin(admin.ModelAdmin):
     list_display = ('name', 'author')
     search_fields = ('name',)
     list_filter = ('author',)
+    filter_horizontal = ('co_authors',)
 
 
 class EquipmentAdmin(admin.ModelAdmin):

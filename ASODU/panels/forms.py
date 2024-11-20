@@ -1,9 +1,14 @@
 from django import forms
+from django.db.models import Q
+from django.shortcuts import get_list_or_404
+from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
 from django.forms.utils import ErrorList
 from django.utils.safestring import mark_safe
 
 from .models import Attachment, EquipmentPanelAmount, Panel, Project
+
+User = get_user_model()
 
 
 class PanelForm(forms.ModelForm):
@@ -34,7 +39,9 @@ class PanelCopyForm(forms.ModelForm):
 
         if self.request and self.request.user.is_authenticated:
             self.fields['project'].queryset = Project.objects.filter(
-                author=self.request.user)
+                Q(author=self.request.user) | Q(
+                    id__in=self.request.user.co_projects.values('id'))
+            )
         self.fields['name'].label = 'Новое имя щита'
         self.fields['project'].label = 'Проект'
 
@@ -49,7 +56,8 @@ class PanelCopyForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         project = cleaned_data.get('project')
-        if project.author != self.request.user:
+        if (project.author != self.request.user
+                and project not in self.request.user.co_projects.all()):
             raise ValidationError(
                 'Можно копировать только в собственные проекты.'
             )
@@ -69,7 +77,11 @@ class ProjectForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = ('name', 'description')
+        fields = ('is_published', 'name', 'description')
+        widgets = {
+            'is_published': forms.CheckboxInput(
+                attrs={'class': 'form-check-input'}),
+        }
 
 
 class UlErrorList(ErrorList):
@@ -87,9 +99,48 @@ class UlErrorList(ErrorList):
 
 class EquipmentForm(forms.ModelForm):
 
+    def as_table(self):
+        equipment_instance = (self.instance.equipment
+                              if self.instance.pk else None)
+        units = equipment_instance.units if equipment_instance else "—"
+        return mark_safe(
+            f"{self.render_non_field_errors()}"
+            f"<tr>"
+            f"<td>{self['equipment']}"
+            f"{self.render_errors(self['equipment'])}</td>"
+            f"<td>{self['amount']}"
+            f"{self.render_errors(self['amount'])}</td>"
+            f"<td>{units}</td>"
+            '<td>'
+            '<button type="button" class="btn btn-outline-danger remove-row">'
+            'Удалить</button></td>'
+            f"{self['DELETE'].as_hidden()}"
+            f"{self['id'].as_hidden()}"
+            "</tr>"
+        )
+
+    def render_errors(self, field):
+        if field.errors:
+            return ('<div class="text-danger">'
+                    f'{" ".join(field.errors)}</div>')
+        return ''
+
     class Meta:
         model = EquipmentPanelAmount
         fields = ('equipment', 'amount')
+
+    def render_non_field_errors(self):
+        """Вывод NON_FIELD_ERRORS для строки формы."""
+        errors = self.non_field_errors()
+        if errors:
+            return (
+                f"<tr>"
+                f"<td colspan='4'><div class='text-danger'>"
+                f"{' '.join(errors)}"
+                f"</div></td>"
+                f"</tr>"
+            )
+        return ''
 
 
 class AttachmentForm(forms.ModelForm):
@@ -100,5 +151,31 @@ class AttachmentForm(forms.ModelForm):
 
 
 EquipmentFormset = forms.inlineformset_factory(
-    Panel, EquipmentPanelAmount, form=EquipmentForm, extra=0
+    Panel, EquipmentPanelAmount, form=EquipmentForm, extra=1
 )
+
+
+class CoAuthorForm(forms.Form):
+    co_author = forms.ModelChoiceField(
+        queryset=User.objects.all(),
+        label="Соавтор",
+        widget=forms.Select(attrs={"class": "form-control"}),
+        required=False
+    )
+    co_authors = forms.CharField(widget=forms.HiddenInput(), required=False)
+
+    def __init__(self, *args, project=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        if not project:
+            raise ValueError("Необходимо передать проект")
+        self.project = project
+
+    def save(self):
+        if self.cleaned_data['co_authors']:
+            co_authors_ids = [
+                int(id) for id in self.cleaned_data['co_authors'].split(',')]
+            co_authors = get_list_or_404(User, id__in=co_authors_ids)
+            self.project.co_authors.set(co_authors)
+        else:
+            self.project.co_authors.clear()
+        self.project.save()
