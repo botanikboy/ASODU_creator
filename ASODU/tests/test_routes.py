@@ -29,6 +29,7 @@ from pytest_django.asserts import assertRedirects
         ('panel_copy', 'panel'),
         ('boq_download_panel', 'panel'),
         ('file_add', 'panel'),
+        ('add_author', 'project')
     )
 )
 def test_any_page_redirects_to_login_for_anonymous_user(
