@@ -8,8 +8,8 @@ from django.db.models import Q
 from django.http import FileResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 
-from .forms import (AttachmentForm, EquipmentFormset, PanelCopyForm, PanelForm,
-                    ProjectForm, UlErrorList, CoAuthorForm)
+from .forms import (AttachmentForm, CoAuthorForm, EquipmentFormset,
+                    PanelCopyForm, PanelForm, ProjectForm, UlErrorList)
 from .models import Attachment, EquipmentPanelAmount, Panel, Project
 from .utils import excelreport, paginator_create, transliterate
 

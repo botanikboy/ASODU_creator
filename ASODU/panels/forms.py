@@ -1,9 +1,9 @@
 from django import forms
-from django.db.models import Q
-from django.shortcuts import get_list_or_404
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ValidationError
+from django.db.models import Q
 from django.forms.utils import ErrorList
+from django.shortcuts import get_list_or_404
 from django.utils.safestring import mark_safe
 
 from .models import Attachment, EquipmentPanelAmount, Panel, Project

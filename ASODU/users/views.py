@@ -1,14 +1,14 @@
-from django.shortcuts import get_object_or_404, render
 from django.contrib.auth import get_user_model
-from django.urls import reverse_lazy
-from django.core.paginator import Paginator
-from django.views.generic import CreateView, UpdateView
-from django.core.exceptions import PermissionDenied
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse_lazy
+from django.views.generic import CreateView, UpdateView
 
-from .forms import CustomUserCreationForm, CustomUserChangeForm
-from panels.models import Project
+from .forms import CustomUserChangeForm, CustomUserCreationForm
 from panels.constants import OBJECTS_COUNT_ON_PAGE
+from panels.models import Project
 
 User = get_user_model()
 
