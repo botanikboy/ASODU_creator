@@ -182,7 +182,6 @@ def panel_edit_contents(request, panel_id):
         context = {
             'equipment_formset': formset,
             'project': project,
-            'is_edit': True,
         }
         return render(request, 'panels/edit_panel.html', context)
 

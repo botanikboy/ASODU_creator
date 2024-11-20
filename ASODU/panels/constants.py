@@ -6,7 +6,7 @@ FUNCTION_TYPE_CHOICES = [
     ('general', 'Общее назначение'),
 ]
 
-OBJECTS_COUNT_ON_PAGE = 3
+OBJECTS_COUNT_ON_PAGE = 5
 
 UNITS_CHOICES = [
     ('шт.', 'шт.'),

@@ -1,10 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}
-{% if is_edit %}
   Щит: {{ equipment_formset.instance }}
-{% else %}
-  Новый щит
-{% endif %}
 {% endblock %}
 {% block header %}
 Проект: {{ project.name }} -> Щит: {{ equipment_formset.instance.name }}
@@ -16,50 +12,78 @@
     <div class="card">
       <div class="card-body">
         <h5 class="card-title">
-          {% if is_edit %}
             {{ equipment_formset.instance }}
-          {% else %}
-            Новый щит
-          {% endif %}
         </h5>
         <h6 class="card-subtitle mb-2 text-muted">
           Тип щита: {{ equipment_formset.instance.get_function_type_display }}
         </h6>
         <p class="card-text">{{ equipment_formset.instance.description }}
           {% load user_filters %}
+        </p>
 
         <template id="id_formset_empty_form">
-          <div class="new-eqipment-form">
-          {{ equipment_formset.empty_form.as_p }}
-          </div>
+          <tr class="new-eqipment-form">
+            {{ equipment_formset.empty_form.as_table|safe }}
+          </tr>
         </template>
 
         <form id="form-container" method="post" action="" enctype="multipart/form-data" autocomplete="off">
           {% csrf_token %}
           {{ equipment_formset.management_form }}
-          {% for form in equipment_formset %}
-            <div class="eqipment-form">
-            {{ form.as_p }}
-            </div>
-          {% endfor %}
 
+          <table class="table table-light">
+            <thead>
+              <tr>
+                <th scope="col">Оборудование</th>
+                <th scope="col">Количество</th>
+                <th scope="col">Единицы измерения</th>
+                <th scope="col">Удалить</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for form in equipment_formset %}
+                <div class="eqipment-form">
+                  {{ form.as_table }}
+                </div>
+              {% endfor %}
+            </tbody>
+          </table>
           <button id="add-form" type="button" class="btn btn-outline-primary">Добавить строку</button>
           <br>
           <br>
           <div class="d-flex justify-content-between">
             <a href="{% url 'panels:panel_detail' equipment_formset.instance.id %}" class="btn btn-outline-dark">Отмена</a></p>
             <button type="submit" class="btn btn-outline-primary">
-              {% if is_edit %}
                 Сохранить изменения
-              {% else %}
-                Добавить в проект
-              {% endif %}
             </button>
           </div>
         </form>
+
       </div>
     </div>
   </div>
+  <script>
+    let templateForm = document.getElementById("id_formset_empty_form");
+    let tbody = document.querySelector("tbody");
+    let addButton = document.querySelector("#add-form");
+    let totalForms = document.querySelector("#id_amounts-TOTAL_FORMS");
+    let formNum = document.querySelectorAll(".eqipment-form").length;
+
+    addButton.addEventListener('click', addForm);
+
+    function addForm(e){
+        e.preventDefault();
+        let newForm = templateForm.content.cloneNode(true);
+        let formFields = newForm.querySelectorAll("[id^=id_amounts-__prefix__-]");
+        formFields.forEach(field => {
+          let formRegex = RegExp("amounts-__prefix__", 'g')
+          field.id = field.id.replace(formRegex, `amounts-${formNum}`)
+          field.name = field.name.replace(formRegex, `amounts-${formNum}`)
+        });
+        tbody.appendChild(newForm);
+        formNum++;
+        totalForms.setAttribute('value', `${formNum}`);
+    }
+  </script>
+</p>
 {% endblock %}
-
-

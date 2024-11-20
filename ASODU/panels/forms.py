@@ -99,6 +99,20 @@ class UlErrorList(ErrorList):
 
 class EquipmentForm(forms.ModelForm):
 
+    def as_table(self):
+        equipment_instance = (self.instance.equipment
+                              if self.instance.pk else None)
+        units = equipment_instance.units if equipment_instance else "—"
+        return mark_safe(
+            f"<tr>"
+            f"<td>{self['equipment']}</td>"
+            f"<td>{self['amount']}</td>"
+            f"<td>{units}</td>"
+            f"<td>{self['DELETE']}</td>"
+            f"<td>{self['id']}</td>"
+            f"</tr>"
+        )
+
     class Meta:
         model = EquipmentPanelAmount
         fields = ('equipment', 'amount')

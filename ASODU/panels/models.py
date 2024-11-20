@@ -174,7 +174,7 @@ class Equipment(models.Model):
         ordering = ('code',)
 
     def __str__(self):
-        return f'{self.group} - {self.code} - {self.description[:80]}'
+        return f'{self.group} - {self.code} - {self.description[:50]}'
 
 
 def get_storage_path(instance, filename):
