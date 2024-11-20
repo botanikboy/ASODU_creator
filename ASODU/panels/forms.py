@@ -104,18 +104,43 @@ class EquipmentForm(forms.ModelForm):
                               if self.instance.pk else None)
         units = equipment_instance.units if equipment_instance else "—"
         return mark_safe(
+            f"{self.render_non_field_errors()}"
             f"<tr>"
-            f"<td>{self['equipment']}</td>"
-            f"<td>{self['amount']}</td>"
+            f"<td>{self['equipment']}"
+            f"{self.render_errors(self['equipment'])}</td>"
+            f"<td>{self['amount']}"
+            f"{self.render_errors(self['amount'])}</td>"
             f"<td>{units}</td>"
-            f"<td>{self['DELETE']}</td>"
-            f"<td>{self['id']}</td>"
-            f"</tr>"
+            '<td>'
+            '<button type="button" class="btn btn-outline-danger remove-row">'
+            'Удалить</button></td>'
+            f"{self['DELETE'].as_hidden()}"
+            f"{self['id'].as_hidden()}"
+            "</tr>"
         )
+
+    def render_errors(self, field):
+        if field.errors:
+            return ('<div class="text-danger">'
+                    f'{" ".join(field.errors)}</div>')
+        return ''
 
     class Meta:
         model = EquipmentPanelAmount
         fields = ('equipment', 'amount')
+
+    def render_non_field_errors(self):
+        """Вывод NON_FIELD_ERRORS для строки формы."""
+        errors = self.non_field_errors()
+        if errors:
+            return (
+                f"<tr>"
+                f"<td colspan='4'><div class='text-danger'>"
+                f"{' '.join(errors)}"
+                f"</div></td>"
+                f"</tr>"
+            )
+        return ''
 
 
 class AttachmentForm(forms.ModelForm):
@@ -126,7 +151,7 @@ class AttachmentForm(forms.ModelForm):
 
 
 EquipmentFormset = forms.inlineformset_factory(
-    Panel, EquipmentPanelAmount, form=EquipmentForm, extra=0
+    Panel, EquipmentPanelAmount, form=EquipmentForm, extra=1
 )
 
 

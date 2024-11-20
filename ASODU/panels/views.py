@@ -175,7 +175,7 @@ def panel_edit_contents(request, panel_id):
                     equipment = EquipmentPanelAmount.objects.get(
                         pk=form.instance.pk)
                     equipment.delete()
-                else:
+                if not form.cleaned_data.get('DELETE'):
                     form.save()
         return redirect('panels:panel_detail', panel.id)
     else:

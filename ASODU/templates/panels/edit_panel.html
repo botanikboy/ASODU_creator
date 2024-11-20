@@ -70,6 +70,11 @@
     let formNum = document.querySelectorAll(".eqipment-form").length;
 
     addButton.addEventListener('click', addForm);
+    tbody.addEventListener('click', function(e) {
+      if (e.target.classList.contains('remove-row')) {
+          removeRow(e.target);
+      }
+    });
 
     function addForm(e){
         e.preventDefault();
@@ -83,6 +88,19 @@
         tbody.appendChild(newForm);
         formNum++;
         totalForms.setAttribute('value', `${formNum}`);
+    }
+
+    function removeRow(button) {
+    let row = button.closest('tr');
+    let deleteInput = row.querySelector('[name$="-DELETE"]');
+    if (deleteInput) {
+        deleteInput.value = true;
+        row.style.display = 'none';
+    } else {
+        row.remove();
+        formNum--;
+        totalForms.setAttribute('value', `${formNum}`);
+    }
     }
   </script>
 </p>

@@ -327,6 +327,8 @@ class EquipmentPanelAmount(models.Model):
             models.UniqueConstraint(
                 fields=['equipment', 'panel'],
                 name='unique_equipment_in_panel',
+                violation_error_message=(
+                    'Такое оборудование уже есть в этом щите')
             )
         ]
         verbose_name = verbose_name_plural = 'Оборудование'
