@@ -141,3 +141,12 @@ def panel_create_form_data():
         'function_type': 'general',
         'description': 'panel description',
     }
+
+
+@pytest.fixture
+def panel_edit_form_data():
+    return {
+        'name': 'edited panel name',
+        'function_type': 'power',
+        'description': 'edited panel description',
+    }

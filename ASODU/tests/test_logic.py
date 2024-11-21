@@ -106,38 +106,6 @@ def test_auhtor_can_view_panel(
     assert response.status_code == expected_status
 
 
-@pytest.mark.parametrize(
-    'param_project, expected_status',
-    (
-        ('project', HTTPStatus.FOUND),
-        ('unpublished_project', HTTPStatus.FOUND),
-        ('alien_project', HTTPStatus.NOT_FOUND),
-        ('alien_unpublished_project', HTTPStatus.NOT_FOUND),
-        ('alien_unpublished_coauthor_project', HTTPStatus.FOUND),
-    )
-)
-def test_author_can_create_panel(
-    request, author_client, param_project, expected_status,
-    panel_create_form_data
-):
-    param_project = request.getfixturevalue(param_project)
-    response = author_client.post(
-        reverse('panels:panel_create', args=(param_project.id,)),
-        data=panel_create_form_data
-    )
-    assert response.status_code == expected_status
-    if expected_status == HTTPStatus.FOUND:
-        assertRedirects(
-            response,
-            reverse('panels:project_detail', args=(param_project.id,))
-        )
-        assert param_project.panels.count() == 1
-        panel = param_project.panels.get()
-        assert panel.name == panel_create_form_data['name']
-        assert panel.function_type == panel_create_form_data['function_type']
-        assert panel.description == panel_create_form_data['description']
-
-
 def test_cant_create_panel_with_nonunique_name_in_project(
     author_client, project, panel, panel_create_form_data
 ):
@@ -151,3 +119,52 @@ def test_cant_create_panel_with_nonunique_name_in_project(
     form = response.context['form']
     assert not form.is_valid()
     assert 'name' in form.errors
+
+
+@pytest.mark.parametrize(
+    'operation, name, form_data, expected_redirect',
+    (
+        ('edit', 'panel_edit', 'panel_edit_form_data', 'panel_detail'),
+        ('create', 'panel_create', 'panel_create_form_data', 'project_detail')
+    )
+)
+@pytest.mark.parametrize(
+    'param_project, expected_status',
+    (
+        ('project', HTTPStatus.FOUND),
+        ('unpublished_project', HTTPStatus.FOUND),
+        ('alien_project', HTTPStatus.NOT_FOUND),
+        ('alien_unpublished_project', HTTPStatus.NOT_FOUND),
+        ('alien_unpublished_coauthor_project', HTTPStatus.FOUND),
+    )
+)
+def test_author_can_create_and_edit_panel(
+    author_client, panels, param_project, expected_status,
+    form_data, request, name, operation, expected_redirect
+):
+    form_data = request.getfixturevalue(form_data)
+    param_project_fixture = request.getfixturevalue(param_project)
+
+    if operation == 'create':
+        args = (param_project_fixture.id,)
+    elif operation == 'edit':
+        args = (panels[param_project].id,)
+    panels_count = param_project_fixture.panels.count()
+
+    response = author_client.post(
+        reverse(f'panels:{name}', args=args), data=form_data)
+
+    assert response.status_code == expected_status
+    if expected_status == HTTPStatus.FOUND:
+        assertRedirects(
+            response,
+            reverse(f'panels:{expected_redirect}', args=args)
+        )
+        assert param_project_fixture.panels.count() == (
+            panels_count + (1 if operation == 'create' else 0))
+        panel = param_project_fixture.panels.order_by('-id').first()
+        assert panel.name == form_data['name']
+        assert panel.function_type == form_data['function_type']
+        assert panel.description == form_data['description']
+    elif expected_status == HTTPStatus.NOT_FOUND:
+        assert param_project_fixture.panels.count() == panels_count
