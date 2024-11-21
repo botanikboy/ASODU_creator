@@ -41,6 +41,7 @@ def unpublished_project(author):
     project = Project.objects.create(
         name='unpub_project_test',
         author=author,
+        is_published=False
     )
     return project
 
@@ -97,7 +98,7 @@ def project_create_form_data():
 @pytest.fixture
 def project_edit_form_data():
     return {
-        'is_published': '0',  # ЗДЕСЬ не срабатывает нужно доделать
+        'is_published': False,
         'name': 'edited project name',
         'description': 'edited project desc',
     }

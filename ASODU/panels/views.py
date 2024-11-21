@@ -45,7 +45,9 @@ def template_list(request):
 def project_detail(request, project_id):
     project = get_object_or_404(
         Project,
-        Q(is_published=True) | Q(id__in=request.user.co_projects.values('id')),
+        Q(is_published=True)
+        | Q(id__in=request.user.co_projects.values_list('id', flat=True))
+        | Q(author=request.user),
         pk=project_id,
     )
     panels = project.panels.all()
@@ -104,8 +106,9 @@ def project_delete(request, project_id):
 def panel_detail(request, panel_id):
     panel = get_object_or_404(
         Panel,
-        Q(project__is_published=True) | Q(
-            project__in=request.user.co_projects.all()),
+        Q(project__is_published=True)
+        | Q(project__in=request.user.co_projects.all())
+        | Q(author=request.user),
         pk=panel_id,
     )
     context = {
@@ -118,8 +121,8 @@ def panel_detail(request, panel_id):
 def panel_create(request, project_id):
     project = get_object_or_404(
         Project,
-        Q(author=request.user) | Q(
-            id__in=request.user.co_projects.values('id')),
+        Q(author=request.user)
+        | Q(id__in=request.user.co_projects.values_list('id', flat=True)),
         pk=project_id,
     )
     form = PanelForm(request.POST or None)
@@ -141,8 +144,8 @@ def panel_create(request, project_id):
 def panel_edit(request, panel_id):
     panel = get_object_or_404(
         Panel,
-        Q(project__author=request.user) | Q(
-            project__in=request.user.co_projects.all()),
+        Q(project__author=request.user)
+        | Q(project__in=request.user.co_projects.all()),
         pk=panel_id,
     )
     form = PanelForm(request.POST or None, instance=panel)
@@ -162,8 +165,8 @@ def panel_edit(request, panel_id):
 def panel_edit_contents(request, panel_id):
     panel = get_object_or_404(
         Panel,
-        Q(project__author=request.user) | Q(
-            project__in=request.user.co_projects.all()),
+        Q(project__author=request.user)
+        | Q(project__in=request.user.co_projects.all()),
         pk=panel_id,)
     formset = EquipmentFormset(
         request.POST or None, instance=panel, error_class=UlErrorList)
@@ -190,8 +193,8 @@ def panel_edit_contents(request, panel_id):
 def panel_delete(request, panel_id):
     panel = get_object_or_404(
         Panel,
-        Q(project__author=request.user) | Q(
-            project__in=request.user.co_projects.all()),
+        Q(project__author=request.user)
+        | Q(project__in=request.user.co_projects.all()),
         pk=panel_id)
     project = panel.project
     if project.author == request.user:
@@ -203,8 +206,9 @@ def panel_delete(request, panel_id):
 def panel_copy(request, panel_id):
     panel = get_object_or_404(
         Panel,
-        Q(project__is_published=True) | Q(
-            project__in=request.user.co_projects.all()),
+        Q(project__is_published=True)
+        | Q(project__in=request.user.co_projects.all())
+        | Q(author=request.user),
         pk=panel_id
     )
     equipment = EquipmentPanelAmount.objects.filter(panel=panel)
@@ -248,15 +252,16 @@ def boq_download(request, obj_id, model):
     if model == 'panel':
         obj = get_object_or_404(
             Panel,
-            Q(project__is_published=True) | Q(
-                project__in=request.user.co_projects.all()),
+            Q(project__is_published=True)
+            | Q(project__in=request.user.co_projects.all())
+            | Q(author=request.user),
             pk=obj_id)
         panels = [obj]
     elif model == 'project':
         obj = get_object_or_404(
             Project,
-            Q(is_published=True) | Q(
-                id__in=request.user.co_projects.values('id')),
+            Q(is_published=True)
+            | Q(id__in=request.user.co_projects.values_list('id', flat=True)),
             pk=obj_id)
         panels = Panel.objects.filter(project=obj).order_by('name')
     else:
@@ -300,8 +305,8 @@ def boq_download(request, obj_id, model):
 def file_add(request, panel_id):
     panel = get_object_or_404(
         Panel,
-        Q(project__author=request.user) | Q(
-            project__in=request.user.co_projects.all()),
+        Q(project__author=request.user)
+        | Q(project__in=request.user.co_projects.all()),
         pk=panel_id)
     form = AttachmentForm(request.POST or None, request.FILES or None)
     if request.method == 'POST':
@@ -324,8 +329,8 @@ def file_add(request, panel_id):
 def file_delete(request, attachment_id):
     attachment = get_object_or_404(
         Attachment,
-        Q(panel__project__author=request.user) | Q(
-            panel__project__in=request.user.co_projects.all()),
+        Q(panel__project__author=request.user)
+        | Q(panel__project__in=request.user.co_projects.all()),
         pk=attachment_id)
     if attachment.panel.project.author == request.user:
         attachment.delete()
