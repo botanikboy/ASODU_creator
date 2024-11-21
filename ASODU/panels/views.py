@@ -108,7 +108,7 @@ def panel_detail(request, panel_id):
         Panel,
         Q(project__is_published=True)
         | Q(project__in=request.user.co_projects.all())
-        | Q(author=request.user),
+        | Q(project__author=request.user),
         pk=panel_id,
     )
     context = {
@@ -208,7 +208,7 @@ def panel_copy(request, panel_id):
         Panel,
         Q(project__is_published=True)
         | Q(project__in=request.user.co_projects.all())
-        | Q(author=request.user),
+        | Q(project__author=request.user),
         pk=panel_id
     )
     equipment = EquipmentPanelAmount.objects.filter(panel=panel)
@@ -254,7 +254,7 @@ def boq_download(request, obj_id, model):
             Panel,
             Q(project__is_published=True)
             | Q(project__in=request.user.co_projects.all())
-            | Q(author=request.user),
+            | Q(project__author=request.user),
             pk=obj_id)
         panels = [obj]
     elif model == 'project':

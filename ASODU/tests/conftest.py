@@ -87,6 +87,36 @@ def panel(project):
 
 
 @pytest.fixture
+def panels(
+    project,
+    unpublished_project,
+    alien_project,
+    alien_unpublished_project,
+    alien_unpublished_coauthor_project
+):
+    panels = {}
+
+    projects = {
+        'project': project,
+        'unpublished_project': unpublished_project,
+        'alien_project': alien_project,
+        'alien_unpublished_project': alien_unpublished_project,
+        'alien_unpublished_coauthor_project':
+            alien_unpublished_coauthor_project,
+    }
+
+    for key, project_obj in projects.items():
+        panel = Panel.objects.create(
+            name=f'{key}_test',
+            description=f'{key}_description',
+            project=project_obj,
+        )
+        panels[key] = panel
+
+    return panels
+
+
+@pytest.fixture
 def project_create_form_data():
     return {
         'is_published': True,
@@ -101,4 +131,13 @@ def project_edit_form_data():
         'is_published': False,
         'name': 'edited project name',
         'description': 'edited project desc',
+    }
+
+
+@pytest.fixture
+def panel_create_form_data():
+    return {
+        'name': 'panel name',
+        'function_type': 'general',
+        'description': 'panel description',
     }

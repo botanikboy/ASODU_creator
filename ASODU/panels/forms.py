@@ -27,9 +27,9 @@ class PanelForm(forms.ModelForm):
         if self.instance:
             matching_panels = matching_panels.exclude(pk=self.instance.pk)
         if matching_panels.exists():
-            raise ValidationError(
-                'Щит с таким именем уже существует в этом проекте.'
-            )
+            raise ValidationError({
+                'name': 'Щит с таким именем уже существует в этом проекте.'
+            })
 
 
 class PanelCopyForm(forms.ModelForm):

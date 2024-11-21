@@ -86,3 +86,68 @@ def test_author_cant_delete_nonempty_project(author_client, project, panel):
     assertRedirects(
         response, reverse('panels:project_detail', args=(project.id,)))
     assert Project.objects.count() == 1
+
+
+@pytest.mark.parametrize(
+    'param_project, expected_status',
+    (
+        ('project', HTTPStatus.OK),
+        ('unpublished_project', HTTPStatus.OK),
+        ('alien_project', HTTPStatus.OK),
+        ('alien_unpublished_project', HTTPStatus.NOT_FOUND),
+        ('alien_unpublished_coauthor_project', HTTPStatus.OK),
+    )
+)
+def test_auhtor_can_view_panel(
+    author_client, panels, param_project, expected_status
+):
+    response = author_client.get(
+        reverse('panels:panel_detail', args=(panels[param_project].id,)))
+    assert response.status_code == expected_status
+
+
+@pytest.mark.parametrize(
+    'param_project, expected_status',
+    (
+        ('project', HTTPStatus.FOUND),
+        ('unpublished_project', HTTPStatus.FOUND),
+        ('alien_project', HTTPStatus.NOT_FOUND),
+        ('alien_unpublished_project', HTTPStatus.NOT_FOUND),
+        ('alien_unpublished_coauthor_project', HTTPStatus.FOUND),
+    )
+)
+def test_author_can_create_panel(
+    request, author_client, param_project, expected_status,
+    panel_create_form_data
+):
+    param_project = request.getfixturevalue(param_project)
+    response = author_client.post(
+        reverse('panels:panel_create', args=(param_project.id,)),
+        data=panel_create_form_data
+    )
+    assert response.status_code == expected_status
+    if expected_status == HTTPStatus.FOUND:
+        assertRedirects(
+            response,
+            reverse('panels:project_detail', args=(param_project.id,))
+        )
+        assert param_project.panels.count() == 1
+        panel = param_project.panels.get()
+        assert panel.name == panel_create_form_data['name']
+        assert panel.function_type == panel_create_form_data['function_type']
+        assert panel.description == panel_create_form_data['description']
+
+
+def test_cant_create_panel_with_nonunique_name_in_project(
+    author_client, project, panel, panel_create_form_data
+):
+    panel_create_form_data['name'] = panel.name
+    response = author_client.post(
+        reverse('panels:panel_create', args=(project.id,)),
+        data=panel_create_form_data
+    )
+    assert response.status_code == HTTPStatus.OK
+    assert project.panels.count() == 1
+    form = response.context['form']
+    assert not form.is_valid()
+    assert 'name' in form.errors
