@@ -7,7 +7,7 @@ from django.db import models
 from django.utils import timezone
 
 from .constants import FUNCTION_TYPE_CHOICES, UNITS_CHOICES
-from panels.utils import transliterate
+from core.utils import transliterate
 from users.models import User
 
 

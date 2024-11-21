@@ -1,21 +1,17 @@
 import io
 
 import xlsxwriter
+from django.db.models import Q
 from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404
 
 from .constants import OBJECTS_COUNT_ON_PAGE
+from .models import Panel, Project
 
 
 def paginator_create(objects_list, page_number):
     paginator = Paginator(objects_list, OBJECTS_COUNT_ON_PAGE)
     return paginator.get_page(page_number)
-
-
-def transliterate(any_string: str) -> str:
-    return any_string.translate(str.maketrans(
-        "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ",
-        "abvgdeejzijklmnoprstufhzcss_y_euaABVGDEEJZIJKLMNOPRSTUFHZCSS_Y_EUA"
-    ))
 
 
 def excelreport(data: list, filename: str):
@@ -53,3 +49,26 @@ def excelreport(data: list, filename: str):
     workbook.close()
     buffer.seek(0)
     return buffer
+
+
+def get_accessible_panel(request, id: int, published: bool = False):
+    query = Q(
+        project__in=request.user.co_projects.all()
+    ) | Q(project__author=request.user)
+
+    if published:
+        query |= Q(project__is_published=True)
+
+    panel = get_object_or_404(Panel, query, pk=id)
+    return panel
+
+
+def get_accessible_project(request, id: int):
+    project = get_object_or_404(
+        Project,
+        Q(is_published=True)
+        | Q(id__in=request.user.co_projects.values_list('id', flat=True))
+        | Q(author=request.user),
+        pk=id,
+    )
+    return project

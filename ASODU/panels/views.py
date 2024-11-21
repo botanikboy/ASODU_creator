@@ -11,7 +11,9 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .forms import (AttachmentForm, CoAuthorForm, EquipmentFormset,
                     PanelCopyForm, PanelForm, ProjectForm, UlErrorList)
 from .models import Attachment, EquipmentPanelAmount, Panel, Project
-from .utils import excelreport, paginator_create, transliterate
+from .utils import (excelreport, get_accessible_panel, get_accessible_project,
+                    paginator_create)
+from core.utils import transliterate
 
 User = get_user_model()
 
@@ -43,13 +45,7 @@ def template_list(request):
 
 @login_required
 def project_detail(request, project_id):
-    project = get_object_or_404(
-        Project,
-        Q(is_published=True)
-        | Q(id__in=request.user.co_projects.values_list('id', flat=True))
-        | Q(author=request.user),
-        pk=project_id,
-    )
+    project = get_accessible_project(request, project_id)
     panels = project.panels.all()
     context = {
         'page_obj': paginator_create(panels, request.GET.get('page')),
@@ -104,13 +100,7 @@ def project_delete(request, project_id):
 
 @login_required
 def panel_detail(request, panel_id):
-    panel = get_object_or_404(
-        Panel,
-        Q(project__is_published=True)
-        | Q(project__in=request.user.co_projects.all())
-        | Q(project__author=request.user),
-        pk=panel_id,
-    )
+    panel = get_accessible_panel(request, panel_id, True)
     context = {
         'panel': panel
     }
@@ -142,12 +132,7 @@ def panel_create(request, project_id):
 
 @login_required
 def panel_edit(request, panel_id):
-    panel = get_object_or_404(
-        Panel,
-        Q(project__author=request.user)
-        | Q(project__in=request.user.co_projects.all()),
-        pk=panel_id,
-    )
+    panel = get_accessible_panel(request, panel_id)
     form = PanelForm(request.POST or None, instance=panel)
     if form.is_valid():
         form.save()
@@ -163,11 +148,7 @@ def panel_edit(request, panel_id):
 
 @login_required
 def panel_edit_contents(request, panel_id):
-    panel = get_object_or_404(
-        Panel,
-        Q(project__author=request.user)
-        | Q(project__in=request.user.co_projects.all()),
-        pk=panel_id,)
+    panel = get_accessible_panel(request, panel_id)
     formset = EquipmentFormset(
         request.POST or None, instance=panel, error_class=UlErrorList)
     project = panel.project
@@ -191,11 +172,7 @@ def panel_edit_contents(request, panel_id):
 
 @login_required
 def panel_delete(request, panel_id):
-    panel = get_object_or_404(
-        Panel,
-        Q(project__author=request.user)
-        | Q(project__in=request.user.co_projects.all()),
-        pk=panel_id)
+    panel = get_accessible_panel(request, panel_id)
     project = panel.project
     if project.author == request.user:
         panel.delete()
@@ -204,13 +181,7 @@ def panel_delete(request, panel_id):
 
 @login_required
 def panel_copy(request, panel_id):
-    panel = get_object_or_404(
-        Panel,
-        Q(project__is_published=True)
-        | Q(project__in=request.user.co_projects.all())
-        | Q(project__author=request.user),
-        pk=panel_id
-    )
+    panel = get_accessible_panel(request, panel_id, True)
     equipment = EquipmentPanelAmount.objects.filter(panel=panel)
     attachments = Attachment.objects.filter(panel=panel)
     form = PanelCopyForm(request.POST or None, instance=panel, request=request)
@@ -250,19 +221,10 @@ def panel_copy(request, panel_id):
 @login_required
 def boq_download(request, obj_id, model):
     if model == 'panel':
-        obj = get_object_or_404(
-            Panel,
-            Q(project__is_published=True)
-            | Q(project__in=request.user.co_projects.all())
-            | Q(project__author=request.user),
-            pk=obj_id)
+        obj = get_accessible_panel(request, obj_id, True)
         panels = [obj]
     elif model == 'project':
-        obj = get_object_or_404(
-            Project,
-            Q(is_published=True)
-            | Q(id__in=request.user.co_projects.values_list('id', flat=True)),
-            pk=obj_id)
+        obj = get_accessible_project(request, obj_id)
         panels = Panel.objects.filter(project=obj).order_by('name')
     else:
         return HttpResponseBadRequest("Invalid model parameter")
@@ -303,11 +265,7 @@ def boq_download(request, obj_id, model):
 
 @login_required
 def file_add(request, panel_id):
-    panel = get_object_or_404(
-        Panel,
-        Q(project__author=request.user)
-        | Q(project__in=request.user.co_projects.all()),
-        pk=panel_id)
+    panel = get_accessible_panel(request, panel_id)
     form = AttachmentForm(request.POST or None, request.FILES or None)
     if request.method == 'POST':
         form.instance.panel = panel
