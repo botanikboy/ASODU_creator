@@ -4,7 +4,7 @@ import shutil
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from django.http import FileResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 
@@ -227,7 +227,13 @@ def boq_download(request, obj_id, model):
         panels = (
             Panel.objects.filter(project=obj)
             .order_by('name')
-            .prefetch_related('amounts')
+            .prefetch_related(
+                Prefetch(
+                    'amounts',
+                    queryset=EquipmentPanelAmount.objects.select_related(
+                        'equipment', 'equipment__vendor')
+                )
+            )
         )
     else:
         return HttpResponseBadRequest("Invalid model parameter")
