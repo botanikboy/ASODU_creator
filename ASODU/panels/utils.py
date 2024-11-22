@@ -2,16 +2,9 @@ import io
 
 import xlsxwriter
 from django.db.models import Q
-from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 
-from .constants import OBJECTS_COUNT_ON_PAGE
 from .models import Panel, Project
-
-
-def paginator_create(objects_list, page_number):
-    paginator = Paginator(objects_list, OBJECTS_COUNT_ON_PAGE)
-    return paginator.get_page(page_number)
 
 
 def excelreport(data: list, filename: str):

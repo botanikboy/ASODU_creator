@@ -1,14 +1,13 @@
 from django.contrib.auth import get_user_model
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from panels.constants import OBJECTS_COUNT_ON_PAGE
 from panels.models import Project
+from core.utils import paginator_create
 
 User = get_user_model()
 
@@ -38,11 +37,8 @@ class UserChangeView(LoginRequiredMixin, UpdateView):
 def user_profile_view(request, username):
     user = get_object_or_404(User, username=username)
     projects = Project.objects.filter(author=user)
-    paginator = Paginator(projects, OBJECTS_COUNT_ON_PAGE)
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
     context = {
         'user': user,
-        'page_obj': page_obj,
+        'page_obj': paginator_create(projects, request.GET.get('page')),
     }
     return render(request, 'users/profile.html', context)

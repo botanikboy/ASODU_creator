@@ -11,9 +11,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from .forms import (AttachmentForm, CoAuthorForm, EquipmentFormset,
                     PanelCopyForm, PanelForm, ProjectForm, UlErrorList)
 from .models import Attachment, EquipmentPanelAmount, Panel, Project
-from .utils import (excelreport, get_accessible_panel, get_accessible_project,
-                    paginator_create)
-from core.utils import transliterate
+from .utils import excelreport, get_accessible_panel, get_accessible_project
+from core.utils import paginator_create, transliterate
 
 User = get_user_model()
 
