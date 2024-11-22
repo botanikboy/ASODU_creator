@@ -172,10 +172,8 @@ def panel_edit_contents(request, panel_id):
 @login_required
 def panel_delete(request, panel_id):
     panel = get_accessible_panel(request, panel_id)
-    project = panel.project
-    if project.author == request.user:
-        panel.delete()
-    return redirect('panels:project_detail', project.id)
+    panel.delete()
+    return redirect('panels:project_detail', panel.project.id)
 
 
 @login_required

@@ -1,6 +1,33 @@
 import pytest
 
-from panels.models import Panel, Project
+from panels.models import Panel, Project, Vendor, EquipmentGroup, Equipment
+
+
+@pytest.fixture
+def vendors():
+    data = [Vendor(name=f'vendor name {i}') for i in range(5)]
+    return Vendor.objects.bulk_create(data)
+
+
+@pytest.fixture
+def equipment_groups():
+    data = [EquipmentGroup(
+        title=f'equipment group name {i}',
+        slug=f'slug{i}',
+    ) for i in range(5)]
+    return EquipmentGroup.objects.bulk_create(data)
+
+
+@pytest.fixture
+def equipment(vendors, groups):
+    data = [Equipment(
+        description=f'equipment description {i}',
+        code=f'code{i}',
+        vendor=vendors[i],
+        group=groups[i],
+        units='шт.'
+    ) for i in range(5)]
+    return EquipmentGroup.objects.bulk_create(data)
 
 
 @pytest.fixture
@@ -149,4 +176,25 @@ def panel_edit_form_data():
         'name': 'edited panel name',
         'function_type': 'power',
         'description': 'edited panel description',
+    }
+
+
+@pytest.fixture
+def coauthor_add_form_data(alien_author):
+    return {
+        'co_authors': f'{alien_author.id}',
+    }
+
+
+@pytest.fixture
+def coauthor_empty_form_data():
+    return {
+        'co_authors': '',
+    }
+
+
+@pytest.fixture
+def coauthor_faulty_form_data():
+    return {
+        'co_authors': '999a',
     }

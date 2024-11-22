@@ -33,6 +33,7 @@ class Vendor(models.Model):
         null=False,
         verbose_name='Завод изготовитель',
         help_text='Введите название',
+        unique=True
     )
 
     class Meta:

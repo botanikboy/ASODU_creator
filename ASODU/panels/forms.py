@@ -170,12 +170,22 @@ class CoAuthorForm(forms.Form):
             raise ValueError("Необходимо передать проект")
         self.project = project
 
-    def save(self):
-        if self.cleaned_data['co_authors']:
+    def clean_co_authors(self):
+        if not self.data['co_authors']:
+            return []
+
+        try:
             co_authors_ids = [
-                int(id) for id in self.cleaned_data['co_authors'].split(',')]
-            co_authors = get_list_or_404(User, id__in=co_authors_ids)
-            self.project.co_authors.set(co_authors)
+                int(id) for id in self.data['co_authors'].split(',')]
+        except ValueError:
+            raise ValidationError('Неверное значение')
+
+        co_authors = User.objects.filter(id__in=co_authors_ids)
+        if co_authors.exists():
+            return co_authors
         else:
-            self.project.co_authors.clear()
+            raise ValidationError('Неверное значение')
+
+    def save(self):
+        self.project.co_authors.set(self.cleaned_data['co_authors'])
         self.project.save()
