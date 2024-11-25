@@ -261,7 +261,6 @@ def test_author_can_copy_panel_to_his_project(
                 equipment=amount.equipment, amount=amount.amount).exists()
 
 
-@pytest.mark.skip
 @pytest.mark.parametrize(
     'param_project, expected_status',
     (
@@ -272,40 +271,18 @@ def test_author_can_copy_panel_to_his_project(
         ('alien_unpublished_coauthor_project', HTTPStatus.FOUND),
     )
 )
-def test_panel_edit_contents(param_project, expected_status):
-    pass
-
-
-@pytest.mark.skip
-def test_boq_download():
-    pass
-
-
-@pytest.mark.skip
-@pytest.mark.parametrize(
-    'param_project, expected_status',
-    (
-        ('project', HTTPStatus.FOUND),
-        ('unpublished_project', HTTPStatus.FOUND),
-        ('alien_project', HTTPStatus.NOT_FOUND),
-        ('alien_unpublished_project', HTTPStatus.NOT_FOUND),
-        ('alien_unpublished_coauthor_project', HTTPStatus.FOUND),
+def test_author_can_edit_panel_contents(
+    author_client, panels, param_project, expected_status, panels_contents,
+    edit_panel_contents_form_data
+):
+    panel = panels[param_project]
+    initial_equipment_count = panel.amounts.count()
+    initial_equipment_amount = panel.amounts.last().amount
+    response = author_client.post(
+        reverse('panels:panel_edit_contents', args=(panel.id,)),
+        data=edit_panel_contents_form_data[param_project]
     )
-)
-def test_file_add(param_project, expected_status):
-    pass
-
-
-@pytest.mark.skip
-@pytest.mark.parametrize(
-    'param_project, expected_status',
-    (
-        ('project', HTTPStatus.FOUND),
-        ('unpublished_project', HTTPStatus.FOUND),
-        ('alien_project', HTTPStatus.NOT_FOUND),
-        ('alien_unpublished_project', HTTPStatus.NOT_FOUND),
-        ('alien_unpublished_coauthor_project', HTTPStatus.FOUND),
-    )
-)
-def test_file_delete(param_project, expected_status):
-    pass
+    assert response.status_code == expected_status
+    if expected_status == HTTPStatus.FOUND:
+        assert panel.amounts.count() == initial_equipment_count - 1
+        assert panel.amounts.last().amount == initial_equipment_amount + 3

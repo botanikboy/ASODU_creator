@@ -227,3 +227,22 @@ def copy_panel_form_data(project):
         'description': 'new copied panel desc',
         'project': project.id
     }
+
+
+@pytest.fixture
+def edit_panel_contents_form_data(panels, panels_contents, equipment):
+    forms = {}
+    for key, panel in panels.items():
+        forms[key] = {
+            'amounts-TOTAL_FORMS': panel.amounts.count(),
+            'amounts-INITIAL_FORMS': panel.amounts.count(),
+            'amounts-MIN_NUM_FORMS': '0',
+            'amounts-MAX_NUM_FORMS': '1000',
+        }
+        for i, amount in enumerate(panel.amounts.all()):
+            forms[key][f'amounts-{i}-equipment'] = amount.equipment.id
+            forms[key][f'amounts-{i}-amount'] = amount.amount + 3
+            forms[key][f'amounts-{i}-DELETE'] = ''
+            forms[key][f'amounts-{i}-id'] = amount.id
+        forms[key]['amounts-0-DELETE'] = True
+    return forms
