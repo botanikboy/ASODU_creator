@@ -1,33 +1,46 @@
+from random import randint, sample
+
 import pytest
 
-from panels.models import Panel, Project, Vendor, EquipmentGroup, Equipment
+from panels.models import (Equipment, EquipmentGroup, EquipmentPanelAmount,
+                           Panel, Project, Vendor)
+
+EQUPMENT_GROUPS_COUNT = 2
+VENDORS_COUNT = 3
+EQUIPMENT_ITEMS_COUNT = 6
+MAX_AMOUNT_IN_PANEL = 100
+EQUIPMENT_ITEMS_IN_PANEL = (EQUIPMENT_ITEMS_COUNT * VENDORS_COUNT) // 2
 
 
 @pytest.fixture
 def vendors():
-    data = [Vendor(name=f'vendor name {i}') for i in range(5)]
+    data = [Vendor(
+        name=f'vendor name {i}') for i in range(VENDORS_COUNT)]
     return Vendor.objects.bulk_create(data)
 
 
 @pytest.fixture
-def equipment_groups():
+def groups():
     data = [EquipmentGroup(
         title=f'equipment group name {i}',
         slug=f'slug{i}',
-    ) for i in range(5)]
+    ) for i in range(EQUPMENT_GROUPS_COUNT)]
     return EquipmentGroup.objects.bulk_create(data)
 
 
 @pytest.fixture
-def equipment(vendors, groups):
+def equipment(db, vendors, groups):
+    groups_count = len(groups)
     data = [Equipment(
         description=f'equipment description {i}',
         code=f'code{i}',
-        vendor=vendors[i],
-        group=groups[i],
-        units='шт.'
-    ) for i in range(5)]
-    return EquipmentGroup.objects.bulk_create(data)
+        vendor=vendors[v],
+        units='шт.',
+        group=groups[i % groups_count]
+    )
+        for i in range(EQUIPMENT_ITEMS_COUNT)
+        for v in range(VENDORS_COUNT)]
+    return Equipment.objects.bulk_create(data)
 
 
 @pytest.fixture
@@ -134,13 +147,27 @@ def panels(
 
     for key, project_obj in projects.items():
         panel = Panel.objects.create(
-            name=f'{key}_test',
-            description=f'{key}_description',
+            name=f'{key}_panel',
+            description=f'{key}_panel_description',
             project=project_obj,
         )
         panels[key] = panel
 
     return panels
+
+
+@pytest.fixture
+def panels_contents(db, panels, equipment):
+    created_objects = []
+    for panel in panels.values():
+        randomized_equipment_list = sample(equipment, k=len(equipment))
+        data = [EquipmentPanelAmount(
+            equipment=randomized_equipment_list[i],
+            panel=panel,
+            amount=randint(1, MAX_AMOUNT_IN_PANEL)
+        ) for i in range(EQUIPMENT_ITEMS_IN_PANEL)]
+        created_objects.extend(EquipmentPanelAmount.objects.bulk_create(data))
+    return created_objects
 
 
 @pytest.fixture
@@ -194,7 +221,9 @@ def coauthor_empty_form_data():
 
 
 @pytest.fixture
-def coauthor_faulty_form_data():
+def copy_panel_form_data(project):
     return {
-        'co_authors': '999a',
+        'name': 'new copied panel name',
+        'description': 'new copied panel desc',
+        'project': project.id
     }

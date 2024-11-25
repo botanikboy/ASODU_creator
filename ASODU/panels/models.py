@@ -146,7 +146,6 @@ class Equipment(models.Model):
         null=False,
         verbose_name='Артикул/код оборудования',
         help_text='Введите артикул/код оборудования',
-        unique=True,
     )
     vendor = models.ForeignKey(
         Vendor,
@@ -173,6 +172,15 @@ class Equipment(models.Model):
         verbose_name = 'Оборудование'
         verbose_name_plural = 'Оборудование'
         ordering = ('code',)
+        constraints = [
+            models.UniqueConstraint(
+                fields=['code', 'vendor'],
+                name='unique_code_in_vendor',
+                violation_error_message=(
+                    'Не может быть два типа оборудования с одинаковым кодом '
+                    'у одного вендора'),
+            )
+        ]
 
     def __str__(self):
         return f'{self.group} - {self.code} - {self.description[:50]}'

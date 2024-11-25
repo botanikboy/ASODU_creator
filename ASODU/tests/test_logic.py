@@ -231,7 +231,6 @@ def test_author_can_add_remove_coauthor(
         )
 
 
-@pytest.mark.skip
 @pytest.mark.parametrize(
     'param_project, expected_status',
     (
@@ -242,8 +241,24 @@ def test_author_can_add_remove_coauthor(
         ('alien_unpublished_coauthor_project', HTTPStatus.FOUND),
     )
 )
-def test_panel_copy(author_client, panels, param_project, expected_status):
-    pass
+def test_author_can_copy_panel_to_his_project(
+    author_client, panels, param_project, expected_status, panels_contents,
+    copy_panel_form_data, project
+):
+    initial_panels_count = project.panels.count()
+    panel = panels[param_project]
+    response = author_client.post(
+        reverse('panels:panel_copy', args=(panel.id,)),
+        data=copy_panel_form_data
+    )
+    assert response.status_code == expected_status
+    if expected_status == HTTPStatus.FOUND:
+        assert project.panels.count() == initial_panels_count + 1
+        last_added_panel = project.panels.order_by('id').last()
+        assert last_added_panel.function_type == panel.function_type
+        for amount in panel.amounts.all():
+            assert last_added_panel.amounts.filter(
+                equipment=amount.equipment, amount=amount.amount).exists()
 
 
 @pytest.mark.skip

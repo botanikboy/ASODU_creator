@@ -10,11 +10,7 @@
         </h5>
         <h6 class="card-subtitle mb-2 text-muted">Дата создания: {{ project.created|date:"d E Y" }}</h6>
         <p class="card-text">
-          {% if project.description|length > 100 %}
-            {{ project.description|slice:":100" }} ...
-          {% else %}
             {{ project.description }}
-          {% endif %}
           <p>
             Проект создан пользователем: <a href="{% url 'users:profile' project.author.username %}">{{ project.author.get_full_name }}</a>
             <br>
