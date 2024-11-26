@@ -71,11 +71,8 @@ python manage.py runserver
 #### 1. Управление проектами
 | Главная страница                 | Карточка проекта                 | Соавторы                       |
 |----------------------------------|----------------------------------|----------------------------------|
-| <img src="screenshots/my_projects.png" width="200"> | <img src="screenshots/project_details.png" width="200"> | <img src="screenshots/coauthor.png" width="200"> |
-| Перечень проектов                | Детали проекта                   | Добавление соавтора к проекту    |
+| <img src="screenshots/my_projects.png" width="300"> | <img src="screenshots/project_details.png" width="300"> | <img src="screenshots/coauthor.png" width="300"> |
 
-![главная страница](screenshots/my_projects.png)
-![карточка проекта](screenshots/project_details.png)
 - Создание, редактирование и удаление проектов.
 - Привязка щитов и оборудования к проектам.
 - Возможность скачивать сводную спецификацию по всему оборудованию в проекте в стандартном формате.
@@ -83,12 +80,8 @@ python manage.py runserver
 #### 2. Работа с щитами
 | Карточка щита                     | Редактирование наполнения щита      | Копирование всего щита           |
 |-----------------------------------|-------------------------------------|-----------------------------------|
-| <img src="screenshots/panel_details.png" width="200"> | <img src="screenshots/panel_edit.png" width="200"> | <img src="screenshots/panel_copy.png" width="200"> |
-| Просмотр характеристик щита       | Изменение оборудования в щите       | Создание копии щита для проекта  |
+| <img src="screenshots/panel_details.png" width="300"> | <img src="screenshots/panel_edit.png" width="300"> | <img src="screenshots/panel_copy.png" width="300"> |
 
-![карточка щита](screenshots/panel_details.png)
-![реадактирование наполнения щита](screenshots/panel_edit.png)
-![копирование всего щита](screenshots/panel_copy.png)
 - Добавление оборудования с указанием количества, и модели.
 - Динамическое добавление/удаление строк оборудования через интерфейс.
 - Прикрепление схем и дополнительных файлов к щитам.
