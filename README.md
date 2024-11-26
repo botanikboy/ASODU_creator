@@ -1,4 +1,7 @@
-# ASODU_creator 🤖 ![](screenshots/logo.png)
+<p align="center">
+  <img src="screenshots/logo.png" alt="ASODU_creator Logo" width="100">
+</p>
+# ASODU_creator 🤖
 ![Build Status](https://github.com/botanikboy/ASODU_creator/actions/workflows/main.yml/badge.svg)
 ![Python](https://img.shields.io/badge/python-3.9+-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
