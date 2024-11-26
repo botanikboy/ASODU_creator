@@ -163,4 +163,3 @@ cython_debug/
 static/
 media/
 fixtures.json
-.coveragerc

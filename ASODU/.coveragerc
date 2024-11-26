@@ -1,0 +1,8 @@
+[run]
+omit =
+    */tests/*
+    */migrations/*
+    */media/*
+    */static/*
+    */templates/*
+    
