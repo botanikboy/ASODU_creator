@@ -1,4 +1,4 @@
-# ASODU_creator 🤖
+# ASODU_creator 🤖 ![](screenshots/logo.png)
 ![Build Status](https://github.com/botanikboy/ASODU_creator/actions/workflows/main.yml/badge.svg)
 ![Python](https://img.shields.io/badge/python-3.9+-blue)
 ![License](https://img.shields.io/badge/license-MIT-green)
@@ -69,19 +69,23 @@ python manage.py runserver
 
 ## Основные функции
 #### 1. Управление проектами
+<details>
+<summary>Скриншоты</summary>
 | Главная страница                 | Карточка проекта                 | Соавторы                       |
 |----------------------------------|----------------------------------|----------------------------------|
-| <img src="screenshots/my_projects.png" width="300"> | <img src="screenshots/project_details.png" width="300"> | <img src="screenshots/coauthor.png" width="300"> |
-
+| <img src="screenshots/my_projects.png" width="400"> | <img src="screenshots/project_details.png" width="400"> | <img src="screenshots/coauthor.png" width="400"> |
+</details>
 - Создание, редактирование и удаление проектов.
 - Привязка щитов и оборудования к проектам.
 - Возможность скачивать сводную спецификацию по всему оборудованию в проекте в стандартном формате.
 - Добавление соавторов для совместной разработки проекта.
 #### 2. Работа с щитами
+<details>
+<summary>Скриншоты</summary>
 | Карточка щита                     | Редактирование наполнения щита      | Копирование всего щита           |
 |-----------------------------------|-------------------------------------|-----------------------------------|
-| <img src="screenshots/panel_details.png" width="300"> | <img src="screenshots/panel_edit.png" width="300"> | <img src="screenshots/panel_copy.png" width="300"> |
-
+| <img src="screenshots/panel_details.png" width="400"> | <img src="screenshots/panel_edit.png" width="400"> | <img src="screenshots/panel_copy.png" width="400"> |
+</details>
 - Добавление оборудования с указанием количества, и модели.
 - Динамическое добавление/удаление строк оборудования через интерфейс.
 - Прикрепление схем и дополнительных файлов к щитам.
