@@ -1,11 +1,10 @@
 import io
-import xlsxwriter
 
+import xlsxwriter
 from django.db.models import Prefetch, Q
 from django.shortcuts import get_object_or_404
 
-from .models import EquipmentPanelAmount, Panel, Project
-
+from panels.models import EquipmentPanelAmount, Panel, Project
 
 HEADER_TEXT = (
     '№ п/п',
