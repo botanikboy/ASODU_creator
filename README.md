@@ -1,6 +1,5 @@
-<p align="center">
-  <img src="screenshots/logo.png" alt="ASODU_creator Logo" width="100">
-</p>
+  <img src="screenshots/logo.png" alt="ASODU_creator Logo" width="50">
+
 # ASODU_creator 🤖
 ![Build Status](https://github.com/botanikboy/ASODU_creator/actions/workflows/main.yml/badge.svg)
 ![Python](https://img.shields.io/badge/python-3.9+-blue)
