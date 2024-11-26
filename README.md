@@ -1,4 +1,4 @@
-  <img src="screenshots/logo.png" alt="ASODU_creator Logo" width="50">
+<img src="screenshots/logo.png" alt="ASODU_creator Logo" width="50">
 
 # ASODU_creator 🤖
 ![Build Status](https://github.com/botanikboy/ASODU_creator/actions/workflows/main.yml/badge.svg)
