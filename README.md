@@ -75,12 +75,15 @@ python manage.py runserver
 <summary>Скриншоты</summary>
 
 **Главная страница**
+
   <img src="screenshots/my_projects.png" alt="Главная страница" width="500">
 
 **Карточка проекта**
+
   <img src="screenshots/project_details.png" alt="Карточка проекта" width="500">
 
 **Добавление соавтора к проекту**
+
   <img src="screenshots/coauthor.png" alt="Добавление соавтора к проекту" width="500">
 
 </details>
