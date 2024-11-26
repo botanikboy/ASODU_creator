@@ -96,13 +96,16 @@ python manage.py runserver
 <details>
 <summary>Скриншоты</summary>
 
-- **Карточка щита**
+**Карточка щита**
+
   <img src="screenshots/panel_details.png" alt="Карточка щита" width="500">
 
-- **Редактирование наполнения щита**
+**Редактирование наполнения щита**
+
   <img src="screenshots/panel_edit.png" alt="Редактирование наполнения щита" width="500">
 
-- **Копирование всего щита**
+**Копирование всего щита**
+
   <img src="screenshots/panel_copy.png" alt="Копирование всего щита" width="500">
 
 </details>
