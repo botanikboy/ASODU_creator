@@ -1,5 +1,4 @@
 import io
-
 import xlsxwriter
 from django.db.models import Prefetch, Q
 from django.shortcuts import get_object_or_404
