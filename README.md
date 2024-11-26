@@ -73,9 +73,16 @@ python manage.py runserver
 #### 1. Управление проектами
 <details>
 <summary>Скриншоты</summary>
-<img src="screenshots/my_projects.png" width="500">
-<img src="screenshots/project_details.png" width="500">
-<img src="screenshots/coauthor.png" width="500"> |
+
+- **Главная страница**
+  <img src="screenshots/my_projects.png" alt="Главная страница" width="500">
+
+- **Карточка проекта**
+  <img src="screenshots/project_details.png" alt="Карточка проекта" width="500">
+
+- **Добавление соавтора к проекту**
+  <img src="screenshots/coauthor.png" alt="Добавление соавтора к проекту" width="500">
+
 </details>
 
 - Создание, редактирование и удаление проектов.
@@ -85,10 +92,18 @@ python manage.py runserver
 #### 2. Работа с щитами
 <details>
 <summary>Скриншоты</summary>
-<img src="screenshots/panel_details.png" width="500">
-<img src="screenshots/panel_edit.png" width="500">
-<img src="screenshots/panel_copy.png" width="500"> |
+
+- **Карточка щита**
+  <img src="screenshots/panel_details.png" alt="Карточка щита" width="500">
+
+- **Редактирование наполнения щита**
+  <img src="screenshots/panel_edit.png" alt="Редактирование наполнения щита" width="500">
+
+- **Копирование всего щита**
+  <img src="screenshots/panel_copy.png" alt="Копирование всего щита" width="500">
+
 </details>
+
 
 - Добавление оборудования с указанием количества, и модели.
 - Динамическое добавление/удаление строк оборудования через интерфейс.
