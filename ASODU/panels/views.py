@@ -4,7 +4,7 @@ import shutil
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q, Prefetch
+from django.db.models import Prefetch, Q
 from django.http import FileResponse, HttpResponseBadRequest
 from django.shortcuts import get_object_or_404, redirect, render
 

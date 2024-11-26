@@ -6,8 +6,8 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, UpdateView
 
 from .forms import CustomUserChangeForm, CustomUserCreationForm
-from panels.models import Project
 from core.utils import paginator_create
+from panels.models import Project
 
 User = get_user_model()
 

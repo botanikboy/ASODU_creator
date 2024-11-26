@@ -1,25 +1,26 @@
 import io
 
 import xlsxwriter
-from django.db.models import Q, Prefetch
+from django.db.models import Prefetch, Q
 from django.shortcuts import get_object_or_404
 
-from .models import Panel, Project, EquipmentPanelAmount
+from .models import EquipmentPanelAmount, Panel, Project
+
+
+HEADER_TEXT = (
+    '№ п/п',
+    'Вендор',
+    'Наименование и техническая характеристика',
+    'Артикул/парт. номер',
+    'Ед. изм.',
+    'Кол-во.',
+)
+HEADER_COLOR = '#254E58'
+HEADER_TEXT_COLOR = 'white'
+BOLD_COLOR = '#88BDBC'
 
 
 def excelreport(panels: list[Panel]):
-    HEADER_TEXT = (
-        '№ п/п',
-        'Вендор',
-        'Наименование и техническая характеристика',
-        'Артикул/парт. номер',
-        'Ед. изм.',
-        'Кол-во.',
-    )
-    HEADER_COLOR = '#254E58'
-    HEADER_TEXT_COLOR = 'white'
-    BOLD_COLOR = '#88BDBC'
-
     buffer = io.BytesIO()
     workbook = xlsxwriter.Workbook(buffer)
     worksheet = workbook.add_worksheet()

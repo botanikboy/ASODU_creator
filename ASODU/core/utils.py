@@ -1,6 +1,5 @@
-from django.core.paginator import Paginator
-
 from django.conf import settings
+from django.core.paginator import Paginator
 
 
 def transliterate(any_string: str) -> str:

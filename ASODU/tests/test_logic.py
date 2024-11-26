@@ -4,7 +4,7 @@ import pytest
 from django.urls import reverse
 from pytest_django.asserts import assertRedirects
 
-from panels.models import Project, Panel
+from panels.models import Panel, Project
 
 
 def test_author_can_create_project(author_client, project_create_form_data):
