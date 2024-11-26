@@ -75,7 +75,7 @@ python manage.py runserver
 - **Покрытие кода**: 87%.
 - **Инструменты для тестирования**: [Pytest](https://pytest.org), [Coverage.py](https://coverage.readthedocs.io/).
 
-<img src="/screenshots/tests.png" alt="coverage" width="200">
+<img src="/screenshots/tests.png" alt="coverage" width="300">
 
 Приложение покрыто тестами. Тесты включают:
 - Проверку функциональности работы с проектами.
