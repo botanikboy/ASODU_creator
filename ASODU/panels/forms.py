@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.forms.utils import ErrorList
 from django.utils.safestring import mark_safe
 
-from .models import Attachment, EquipmentPanelAmount, Panel, Project
+from .models import Attachment, Equipment, EquipmentPanelAmount, Panel, Project
 
 User = get_user_model()
 
@@ -97,6 +97,11 @@ class UlErrorList(ErrorList):
 
 
 class EquipmentForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['equipment'].queryset = Equipment.objects.select_related(
+            'group')
 
     def as_table(self):
         equipment_instance = (self.instance.equipment

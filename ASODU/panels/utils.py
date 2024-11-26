@@ -1,10 +1,10 @@
 import io
 
 import xlsxwriter
-from django.db.models import Q
+from django.db.models import Q, Prefetch
 from django.shortcuts import get_object_or_404
 
-from .models import Panel, Project
+from .models import Panel, Project, EquipmentPanelAmount
 
 
 def excelreport(panels: list[Panel]):
@@ -86,13 +86,20 @@ def get_accessible_panel(request, id: int, published: bool = False):
     if published:
         query |= Q(project__is_published=True)
 
-    panel = get_object_or_404(Panel, query, pk=id)
+    panel = get_object_or_404(Panel.objects.prefetch_related(
+        Prefetch(
+            'amounts',
+            queryset=EquipmentPanelAmount.objects.select_related(
+                'equipment', 'equipment__vendor', 'equipment__group')
+        ),
+        'attachments'
+    ).select_related('project'), query, pk=id)
     return panel
 
 
 def get_accessible_project(request, id: int):
     project = get_object_or_404(
-        Project,
+        Project.objects.select_related('author'),
         Q(is_published=True)
         | Q(id__in=request.user.co_projects.values_list('id', flat=True))
         | Q(author=request.user),

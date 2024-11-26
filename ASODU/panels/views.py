@@ -45,7 +45,13 @@ def template_list(request):
 @login_required
 def project_detail(request, project_id):
     project = get_accessible_project(request, project_id)
-    panels = project.panels.all()
+    panels = project.panels.all().prefetch_related(
+        Prefetch(
+            'amounts',
+            queryset=EquipmentPanelAmount.objects.select_related(
+                'equipment', 'equipment__vendor')
+        )
+    )
     context = {
         'page_obj': paginator_create(panels, request.GET.get('page')),
         'project': project
@@ -179,17 +185,15 @@ def panel_delete(request, panel_id):
 @login_required
 def panel_copy(request, panel_id):
     panel = get_accessible_panel(request, panel_id, True)
-    equipment = EquipmentPanelAmount.objects.filter(panel=panel)
-    attachments = Attachment.objects.filter(panel=panel)
     form = PanelCopyForm(request.POST or None, instance=panel, request=request)
     form.instance.pk = None
     if form.is_valid():
         form.save()
-        for item in equipment:
+        for item in panel.amounts.all():
             item.pk = None
             item.panel = form.instance
             item.save()
-        for attachment in attachments:
+        for attachment in panel.attachments.all():
             attachment.pk = None
             attachment.panel = form.instance
             source_path = attachment.drawing.path
@@ -247,7 +251,6 @@ def file_add(request, panel_id):
     form = AttachmentForm(request.POST or None, request.FILES or None)
     if request.method == 'POST':
         form.instance.panel = panel
-    print(form.errors)
     if form.is_valid():
         file = form.save(commit=False)
         file.panel = panel
