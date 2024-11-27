@@ -10,12 +10,25 @@ services:
     ports:
       - 5432:5432
 
-  nginx:
-    image: nginx:1.19.3
+  redis:
+    image: redis/redis-stack
     ports:
-      - "80:80"
+      - 6379:6379
+      - 8001:8001
+    restart: always
+
+  celery:
+    build:
+      context: ../
+      dockerfile: ASODU/Dockerfile
+    command: celery -A ASODU worker --loglevel=info
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - db
     volumes:
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./logs/celery:/app/logs
 
 volumes:
   db_data:
