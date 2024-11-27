@@ -158,6 +158,7 @@ pytest --cov-report=html
 - [PostgreSQL](https://www.postgresql.org/)
 - [Django Debug Toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/)
 ## Будущие планы
+- Настройка выполнения фоновых задач (генерация отчетов, отправка email) через Celery и Redis
 - Разделение оборудования по группам в интерфейсе редактирования щита.
 - Добавление REST API для интеграции с внешними системами.
 - Расширение функционала работы с вложениями.
