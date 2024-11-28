@@ -139,3 +139,13 @@ CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', default='redis://loca
 CELERY_IMPORTS = ('panels.tasks', )
 
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': os.getenv('REDIS_CACHE', default='redis://localhost:6379/1'),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
+}
