@@ -1,0 +1,17 @@
+FROM python:3.10-slim
+
+RUN adduser --disabled-password --gecos "" celeryuser
+
+RUN mkdir -p /app/logs/celery
+
+RUN chown -R celeryuser:celeryuser /app/logs
+
+WORKDIR /app
+
+COPY ASODU/requirements_for_container.txt .
+
+RUN pip3 install psycopg2-binary==2.9.6 --no-cache-dir
+
+RUN pip3 install -r requirements_for_container.txt --no-cache-dir
+
+USER celeryuser
