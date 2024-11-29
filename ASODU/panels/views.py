@@ -1,24 +1,24 @@
+import io
 import os
 import shutil
-import io
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
+from django.core.cache import cache
 from django.db.models import Prefetch, Q
-from django.http import (
-    FileResponse, HttpResponseBadRequest, Http404, JsonResponse)
+from django.http import (FileResponse, Http404, HttpResponseBadRequest,
+                         JsonResponse)
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
 from .forms import (AttachmentForm, CoAuthorForm, EquipmentFormset,
                     PanelCopyForm, PanelForm, ProjectForm, UlErrorList)
 from .models import Attachment, EquipmentPanelAmount, Panel, Project
-from . serializers import PanelSerializer
+from .serializers import PanelSerializer
 from .tasks import generate_excel_report
 from .utils import get_accessible_panel, get_accessible_project
 from core.utils import paginator_create, transliterate
-from django.core.cache import cache
 
 User = get_user_model()
 

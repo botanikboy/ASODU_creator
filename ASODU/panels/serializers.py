@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from .models import (Panel, EquipmentPanelAmount, Equipment, Vendor,
-                     EquipmentGroup)
+
+from .models import (Equipment, EquipmentGroup, EquipmentPanelAmount, Panel,
+                     Vendor)
 
 
 class EquipmentGroupSerializer(serializers.ModelSerializer):

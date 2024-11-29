@@ -1,12 +1,9 @@
 import io
 import logging
 
-from django.core.cache import cache
-# import redis
 import xlsxwriter
 from celery import shared_task
-
-# redis_client = redis.StrictRedis(host='redis', port=6379, db=1)
+from django.core.cache import cache
 
 logger = logging.getLogger(__name__)
 
