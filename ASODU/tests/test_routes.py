@@ -33,7 +33,7 @@ from pytest_django.asserts import assertRedirects
     )
 )
 def test_any_page_redirects_to_login_for_anonymous_user(
-        client, name, data, request, param_client, expected_status):
+        client, name, data, request, param_client, expected_status, panels):
     if data is not None:
         data = (request.getfixturevalue(data).pk,)
     url = reverse(f'panels:{name}', args=data)

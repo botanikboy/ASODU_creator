@@ -1,18 +1,24 @@
 import os
 import shutil
+import io
 
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.db.models import Prefetch, Q
-from django.http import FileResponse, HttpResponseBadRequest
+from django.http import (
+    FileResponse, HttpResponseBadRequest, Http404, JsonResponse)
 from django.shortcuts import get_object_or_404, redirect, render
+from django.utils import timezone
 
 from .forms import (AttachmentForm, CoAuthorForm, EquipmentFormset,
                     PanelCopyForm, PanelForm, ProjectForm, UlErrorList)
 from .models import Attachment, EquipmentPanelAmount, Panel, Project
-from .utils import excelreport, get_accessible_panel, get_accessible_project
+from . serializers import PanelSerializer
+from .tasks import generate_excel_report
+from .utils import get_accessible_panel, get_accessible_project
 from core.utils import paginator_create, transliterate
+from django.core.cache import cache
 
 User = get_user_model()
 
@@ -222,27 +228,43 @@ def panel_copy(request, panel_id):
 @login_required
 def boq_download(request, obj_id, model):
     if model == 'panel':
-        obj = get_accessible_panel(request, obj_id, True)
-        panels = [obj]
+        panels = [get_accessible_panel(request, obj_id, True)]
     elif model == 'project':
-        obj = get_accessible_project(request, obj_id)
-        panels = (
-            Panel.objects.filter(project=obj)
-            .order_by('name')
-            .prefetch_related(
-                Prefetch(
-                    'amounts',
-                    queryset=EquipmentPanelAmount.objects.select_related(
-                        'equipment', 'equipment__vendor')
-                )
-            )
-        )
+        project = get_accessible_project(request, obj_id)
+        panels = get_accessible_panel(request, obj_id, True, project.id)
     else:
         return HttpResponseBadRequest("Invalid model parameter")
 
-    filename = f'{obj.name} спецификация.xlsx'
-    report = excelreport(panels)
-    return FileResponse(report, as_attachment=True, filename=filename)
+    panels_data = PanelSerializer(panels, many=True).data
+    report_key = f'{request.user}-{model}-{obj_id}-{timezone.now()}'
+    generate_excel_report.delay(panels_data, report_key)
+
+    context = {
+        'report_key': report_key
+    }
+    return render(request, 'panels/report_done.html', context)
+
+
+@login_required
+def download_report(request, report_key):
+    report_data = cache.get(f"report:{report_key}")
+    if not report_data:
+        raise Http404(
+            'Спецификация еще не собрана, обновите страницу позже. '
+            'Если спецификация запрошена более 10 минут назад нужно '
+            'запросить её заново.')
+
+    buffer = io.BytesIO(report_data)
+    return FileResponse(
+        buffer, as_attachment=True,
+        filename=f'{report_key[:-13]}-спецификация.xlsx')
+
+
+@login_required
+def report_status(request, report_key):
+    status = cache.get(f"report_status:{report_key}", "pending")
+    print(status)
+    return JsonResponse({"status": status})
 
 
 @login_required
@@ -277,7 +299,7 @@ def file_delete(request, attachment_id):
 
 
 @login_required
-def author_add(request, project_id):
+def coauthors_set(request, project_id):
     project = get_object_or_404(
         Project,
         author=request.user,

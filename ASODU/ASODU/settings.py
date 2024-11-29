@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'panels.apps.PanelsConfig',
     'core.apps.CoreConfig',
     'django_bootstrap5',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -98,7 +99,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'ru-ru'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = os.getenv('TIME_ZONE', default='UTC')
 
 USE_I18N = True
 
@@ -149,3 +150,7 @@ CACHES = {
         }
     }
 }
+
+CELERY_TIMEZONE = TIME_ZONE
+
+CELERY_ENABLE_UTC = False

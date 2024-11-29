@@ -11,12 +11,13 @@
 
 - Управление проектами и связанными щитами.
 - Настройка оборудования через пользовательские формы.
-- Выгрузка спецификаций по щитам и проектам в стандартном формате в Excell.
+- Выгрузка спецификаций по щитам и проектам в стандартном формате в Excell (асинхронное формирование отчета через Celery).
 - Работа с вложениями и файлами.
 - Разграничение доступа к проектам.
 - Поддержка оптимизированных формсетов с динамическим добавлением/удалением строк.
 - Оптимизация, использование `select_related` и `prefetch_related` для снижения количества SQL-запросов.
-- Настраиваемые формы для гибкости отображения данных.
+- Кеширование запрошенных отчетов в Redis, а также автоматическая проверка их статуса с фронтенда.
+- Динамические формы для гибкости отображения данных.
 
 ## Установка
 <details>
@@ -40,20 +41,20 @@ pip install -r requirements.txt
 ### 3. Настройка базы данных
 Создате `.env` файл, указав параметры подключения к вашей базе данных и режим работы сервера, (см. [`.env.example`](/infra-dev/.env.example) для примера). Разместите файл в папке `infra-dev`, а также рядом с файлом [`settings.py`](/ASODU/ASODU/settings.py) (для запуска dev сервера).
 
-В репозитории в папке `infra-dev` лежит .yaml файл для запуска базы данных и nginx в контейнере.
-Для ознакомления рекомендуется запустить только контейнер базы данных (имя контейнера - `db`) и воспользоваться development сервером django.
+В репозитории в папке `infra-dev` лежит .yaml файл для запуска базы данных, nginx, redis и celery в контейнере.
+Для ознакомления рекомендуется запустить контейнеры в конфигурации для разработки и воспользоваться development сервером django.
 ```bash
-docker compose up db -d
+docker compose -f ./infra-dev/docker-compose.yml up -d
 ```
 Создайте базу данных и примените миграции:
 
 ```bash
+cd ASODU
 python manage.py migrate
 ```
 ### 4. Запуск тестов
 Запустите тесты для проверки функционирования проекта
 ```bash
-cd ASODU
 pytest
 ```
 Дождитесь выполнения всех тестов.
@@ -125,16 +126,16 @@ pytest --cov-report=html
 <summary>Скриншоты</summary>
 
 **Карточка щита**
-
   <img src="screenshots/panel_details.png" alt="Карточка щита" width="500">
 
 **Редактирование наполнения щита**
-
   <img src="screenshots/panel_edit.png" alt="Редактирование наполнения щита" width="500">
 
 **Копирование всего щита**
-
   <img src="screenshots/panel_copy.png" alt="Копирование всего щита" width="500">
+
+**Скачивание отчета**
+  <img src="screenshots/report.png" alt="Скачивание отчета" width="500">
 
 </details>
 
@@ -152,14 +153,14 @@ pytest --cov-report=html
 - [Python](https://www.python.org/)
 - [Django](https://www.djangoproject.com/)
 - [Docker](https://www.docker.com/)
+- [Redis](https://redis.io/)
+- [Celery](https://docs.celeryq.dev/en/stable/index.html)
 - [Nginx](https://nginx.org/)
 - [Bootstrap5](https://getbootstrap.com/docs/5.0/getting-started/introduction/)
 - [Pytest](https://docs.pytest.org/en/stable/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Django Debug Toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/)
 ## Будущие планы
-- Настройка выполнения фоновых задач (генерация отчетов, отправка email) через Celery и Redis
-- Настройка кеширования
 - Разделение оборудования по группам в интерфейсе редактирования щита.
 - Добавление REST API для интеграции с внешними системами.
 - Расширение функционала работы с вложениями.

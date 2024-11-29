@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% block title %}Загрузка спецификации{% endblock %}
+{% block content %}
+  {% load user_filters %}
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 p-5">
+        <div class="card">
+          <div class="card-header">
+            Загрузка спецификации
+          </div>
+          <div class="card-body text-center">
+            <div id="loading-spinner" style="display: block;">
+                <div class="spinner-border text-primary" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <p id="status-text">Отчёт готовится...</p>
+            </div>
+            <p>
+              <span class="fw-bold text-dark fs-5">Процесс запущен, оставайтесь на странице.</span>
+              <br>
+              <span class="text-muted small">
+                Скачивание начнется автоматически после сборки данных на сервере.
+                <br>
+                Если вам не терпится или скачивание не началось автоматически, попробуйте перейти по ссылке вручную:
+                <br>
+                <a href="#" onclick="manualDownload(event)" class="link-secondary small">
+                  Прямая ссылка на скачивание спецификации
+                </a>
+              </span>
+            </p>
+            <input type="button" class="btn btn-outline-dark" value="Вернуться назад без спецификации" onClick="javascript:history.go(-1);">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    const reportKey = "{{ report_key }}";
+    const statusUrl = "{% url 'panels:report_status' report_key %}";
+    const downloadUrl = "{% url 'panels:report_download' report_key %}";
+
+    let intervalId;
+
+    function checkStatus() {
+        fetch(statusUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === "ready") {
+                    clearInterval(intervalId);
+                    window.location.href = downloadUrl;
+                    setTimeout(() => {
+                        history.go(-1);
+                    }, 1000);
+                }
+            });
+    }
+
+    function manualDownload(event) {
+      event.preventDefault();
+      window.location.href = downloadUrl;
+      setTimeout(() => {
+          history.go(-1);
+      }, 1000);
+  }
+
+    intervalId = setInterval(checkStatus, 5000);
+</script>
+{% endblock %}

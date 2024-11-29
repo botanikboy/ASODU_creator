@@ -3,7 +3,7 @@
   Щит: {{ panel.name }}
 {% endblock %}
 {% block header %}
-Проект: {{ panel.project }} -> Щит: {{ panel.name }}
+Проект: <a href="{% url 'panels:project_detail' panel.project.id %}">{{ panel.project }}</a> -> Щит: <a>{{ panel.name }}</a>
 {% endblock %}
 {% block content %}
 <p>

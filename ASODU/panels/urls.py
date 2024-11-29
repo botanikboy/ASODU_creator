@@ -93,7 +93,17 @@ urlpatterns = [
     ),
     path(
         'projects/<int:project_id>/add_author/',
-        views.author_add,
+        views.coauthors_set,
         name='add_author'
-    )
+    ),
+    path(
+        'panels/report_status/<str:report_key>/',
+        views.report_status,
+        name='report_status'
+    ),
+    path(
+        'panels/report_download/<str:report_key>/',
+        views.download_report,
+        name='report_download'
+    ),
 ]
