@@ -126,15 +126,19 @@ pytest --cov-report=html
 <summary>Скриншоты</summary>
 
 **Карточка щита**
+
   <img src="screenshots/panel_details.png" alt="Карточка щита" width="500">
 
 **Редактирование наполнения щита**
+
   <img src="screenshots/panel_edit.png" alt="Редактирование наполнения щита" width="500">
 
 **Копирование всего щита**
+
   <img src="screenshots/panel_copy.png" alt="Копирование всего щита" width="500">
 
 **Скачивание отчета**
+
   <img src="screenshots/report.png" alt="Скачивание отчета" width="500">
 
 </details>
