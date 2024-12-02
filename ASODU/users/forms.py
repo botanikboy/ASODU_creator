@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.forms import (UserChangeForm, UserCreationForm,
-                                       PasswordResetForm)
+from django.contrib.auth.forms import (PasswordResetForm, UserChangeForm,
+                                       UserCreationForm)
 from django.template.loader import render_to_string
 
 from .tasks import send_email_task
