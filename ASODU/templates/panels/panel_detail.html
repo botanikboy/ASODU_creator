@@ -6,7 +6,7 @@
 Проект: <a href="{% url 'panels:project_detail' panel.project.id %}">{{ panel.project }}</a> -> Щит: <a>{{ panel.name }}</a>
 {% endblock %}
 {% block content %}
+{% include 'panels/includes/panel_content.html' %}
 <p>
   <a href="{% url 'panels:project_detail' panel.project.id %}" class="btn btn-light">Вернуться к списку щитов в проекте</a></p>
-{% include 'panels/includes/panel_content.html' %}
 {% endblock %}
