@@ -140,7 +140,7 @@ if EMAIL_BACKEND == 'django.core.mail.backends.smtp.EmailBackend':
 
 CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
 
-OBJECTS_COUNT_ON_PAGE = 5
+OBJECTS_COUNT_ON_PAGE = 10
 
 CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', default='redis://localhost:6379/0')
 

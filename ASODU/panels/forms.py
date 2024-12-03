@@ -100,17 +100,26 @@ class EquipmentForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.fields['equipment'].queryset = Equipment.objects.select_related(
-            'group')
+        if not self.instance.pk:
+            self.fields['equipment'].queryset = (
+                Equipment.objects.select_related('group'))
+        else:
+            self.fields['equipment'].required = False
 
     def as_table(self):
         equipment_instance = (self.instance.equipment
                               if self.instance.pk else None)
+        if self.instance.pk:
+            equipment_display = (str(equipment_instance)
+                                 if equipment_instance else "—")
+            equipment_field = f"<span>{equipment_display}</span>"
+        else:
+            equipment_field = str(self['equipment'])
         units = equipment_instance.units if equipment_instance else "—"
         return mark_safe(
             f"{self.render_non_field_errors()}"
             f"<tr>"
-            f"<td>{self['equipment']}"
+            f"<td>{equipment_field}"
             f"{self.render_errors(self['equipment'])}</td>"
             f"<td>{self['amount']}"
             f"{self.render_errors(self['amount'])}</td>"
@@ -129,10 +138,6 @@ class EquipmentForm(forms.ModelForm):
                     f'{" ".join(field.errors)}</div>')
         return ''
 
-    class Meta:
-        model = EquipmentPanelAmount
-        fields = ('equipment', 'amount')
-
     def render_non_field_errors(self):
         """Вывод NON_FIELD_ERRORS для строки формы."""
         errors = self.non_field_errors()
@@ -146,6 +151,24 @@ class EquipmentForm(forms.ModelForm):
             )
         return ''
 
+    def is_empty(self):
+        equipment = self.cleaned_data.get('equipment')
+        amount = self.cleaned_data.get('amount')
+        return not equipment and not amount
+
+    def clean_equipment(self):
+        if self.instance.pk:
+            return self.instance.equipment
+        equipment = self.cleaned_data.get('equipment')
+        if not equipment:
+            raise forms.ValidationError(
+                'Поле "Оборудование" обязательно для новых строк.')
+        return equipment
+
+    class Meta:
+        model = EquipmentPanelAmount
+        fields = ('equipment', 'amount')
+
 
 class AttachmentForm(forms.ModelForm):
 
@@ -155,7 +178,11 @@ class AttachmentForm(forms.ModelForm):
 
 
 EquipmentFormset = forms.inlineformset_factory(
-    Panel, EquipmentPanelAmount, form=EquipmentForm, extra=1
+    Panel,
+    EquipmentPanelAmount,
+    form=EquipmentForm,
+    extra=1,
+    can_delete=True
 )
 
 
