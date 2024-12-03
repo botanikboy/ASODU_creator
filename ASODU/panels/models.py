@@ -2,7 +2,8 @@ import os
 import shutil
 
 from django.conf import settings
-from django.core.validators import MinValueValidator, RegexValidator
+from django.core.validators import (MaxValueValidator, MinValueValidator,
+                                    RegexValidator)
 from django.db import models
 from django.utils import timezone
 
@@ -121,11 +122,18 @@ class EquipmentGroup(models.Model):
     )
     slug = models.SlugField(unique=True)
     description = models.TextField()
+    group_priority = models.IntegerField(
+        'Приоритет сортировки',
+        help_text=('0-255, чем меньше значение тем выше в списке оборудования '
+                   'будет отображаться эта группа'),
+        validators=[MinValueValidator(0), MaxValueValidator(255)],
+        default=100
+    )
 
     class Meta():
         verbose_name = 'Группа оборудования'
         verbose_name_plural = 'Группы оборудования'
-        ordering = ('title',)
+        ordering = ('group_priority', 'title',)
 
     def __str__(self):
         return self.title

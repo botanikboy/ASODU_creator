@@ -125,7 +125,8 @@ class EquipmentForm(forms.ModelForm):
             f"{self.render_errors(self['amount'])}</td>"
             f"<td>{units}</td>"
             '<td>'
-            '<button type="button" class="btn btn-outline-danger remove-row">'
+            '<button type="button" class="btn btn-outline-danger '
+            'btn-sm remove-row">'
             'Удалить</button></td>'
             f"{self['DELETE'].as_hidden()}"
             f"{self['id'].as_hidden()}"
@@ -168,6 +169,14 @@ class EquipmentForm(forms.ModelForm):
     class Meta:
         model = EquipmentPanelAmount
         fields = ('equipment', 'amount')
+        widgets = {
+            'amount': forms.NumberInput(attrs={
+                'class': 'form-control w-60',
+                'step': 1,
+                'min': 0,
+                'max': 99999,
+            }),
+        }
 
 
 class AttachmentForm(forms.ModelForm):

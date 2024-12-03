@@ -109,11 +109,21 @@ def project_delete(request, project_id):
     return redirect('panels:index')
 
 
+def amounts_by_group(panel: Panel) -> dict:
+    amounts_by_group = {}
+    for amount in panel.amounts.all():
+        group = amount.equipment.group
+        amounts_by_group[group] = amounts_by_group.get(group, [])
+        amounts_by_group[group].append(amount)
+    return amounts_by_group
+
+
 @login_required
 def panel_detail(request, panel_id):
     panel = get_accessible_panel(request, panel_id, True)
     context = {
-        'panel': panel
+        'panel': panel,
+        'amounts_by_group': amounts_by_group(panel),
     }
     return render(request, 'panels/panel_detail.html', context)
 
@@ -157,15 +167,20 @@ def panel_edit(request, panel_id):
         return render(request, 'panels/create_panel.html', context)
 
 
-def set_dynamic_querysets(formset, existing_equipment_ids):
+def set_dynamic_querysets(formset, existing_equipment_ids, group):
     """
     Устанавливает динамические queryset для новых строк.
     """
+
+    filtered_set = Equipment.objects.filter(
+        group=group
+    ).exclude(
+        id__in=existing_equipment_ids
+    )
     for form in formset.forms:
         if not form.instance.pk:
-            form.fields['equipment'].queryset = Equipment.objects.exclude(
-                id__in=existing_equipment_ids
-            )
+            form.fields['equipment'].queryset = filtered_set
+    formset.empty_form.fields['equipment'].queryset = filtered_set
 
 
 def process_formset(formset):
@@ -204,25 +219,40 @@ def process_formset(formset):
 @login_required
 def panel_edit_contents(request, panel_id):
     panel = get_accessible_panel(request, panel_id)
-    project = panel.project
-    existing_equipment_ids = panel.amounts.values_list(
-        'equipment_id', flat=True)
-    formset = EquipmentFormset(
-        request.POST or None,
-        instance=panel,
-        error_class=UlErrorList,
-        queryset=panel.amounts.all(),
-    )
+    grouped_amounts = amounts_by_group(panel)
 
-    set_dynamic_querysets(formset, existing_equipment_ids)
+    group_formsets = []
+    for group, amounts in grouped_amounts.items():
+        existing_equipment_ids = [amount.equipment.id for amount in amounts]
+        amounts_in_panel = [amount.id for amount in amounts]
+        amounts = EquipmentPanelAmount.objects.filter(
+            id__in=amounts_in_panel)
+        formset = EquipmentFormset(
+            request.POST or None,
+            instance=panel,
+            error_class=UlErrorList,
+            queryset=amounts.all(),
+            prefix=f'group_{group.id if group else "no_group"}',
+        )
+        set_dynamic_querysets(formset, existing_equipment_ids, group)
+        group_formsets.append({'group': group, 'formset': formset})
 
-    if formset.is_valid():
-        process_formset(formset)
-        return redirect('panels:panel_detail', panel.id)
+    if request.method == 'POST':
+        all_valid = True
+        for group_data in group_formsets:
+            formset = group_data['formset']
+            if not formset.is_valid():
+                all_valid = False
+                break
+
+        if all_valid:
+            for group_data in group_formsets:
+                process_formset(group_data['formset'])
+            return redirect('panels:panel_detail', panel.id)
 
     context = {
-        'equipment_formset': formset,
-        'project': project,
+        'group_formsets': group_formsets,
+        'panel': panel
     }
     return render(request, 'panels/edit_panel.html', context)
 

@@ -5,9 +5,9 @@
         <h6 class="card-subtitle mb-2 text-muted">Тип щита: {{ panel.get_function_type_display }}</h6>
         <p class="card-text">{{ panel.description }}
           <a href="{% url 'panels:panel_edit' panel.id %}">Изменить название и описание</a>
-          <table class="table table-light table-striped">
+          <table class="table table-hover">
             <thead>
-              <tr>
+              <tr class="table-secondary">
                 <th scope="col">№ п/п</th>
                 <th scope="col">Завод изготовитель</th>
                 <th scope="col">Артикул</th>
@@ -17,19 +17,24 @@
               </tr>
             </thead>
             <tbody>
-              {% for item in panel.amounts.all|slice:":200" %}
-                <tr>
-                  <td>{{ forloop.counter }}</td>
-                  <td>{{ item.equipment.vendor }}</td>
-                  <td>{{ item.equipment.code }}</td>
-                  <td>{{ item.equipment.description }}</td>
-                  <td>{{ item.equipment.get_units_display }}</td>
-                  <td>{{ item.amount }}</td>
-                </tr>
+              {% for group, amounts in amounts_by_group.items %}
+                {% with parent=forloop.counter %}
+                  <thead class="bg-primary text-white">
+                    <tr class="table-secondary">
+                      <th colspan="100%">{{ parent }}. {{ group.title }}</th>
+                  </thead>
+                    {% for amount in amounts %}
+                      <tr>
+                        <td>{{ parent }}.{{ forloop.counter }}</td>
+                        <td>{{ amount.equipment.vendor }}</td>
+                        <td>{{ amount.equipment.code }}</td>
+                        <td>{{ amount.equipment.description }}</td>
+                        <td>{{ amount.equipment.get_units_display }}</td>
+                        <td>{{ amount.amount }}</td>
+                      </tr>
+                    {% endfor %}
+                  {% endwith %}
               {% endfor %}
-              {% if panel.amounts.all|length > 200 %}
-                <td colspan="6">. . .</td>
-              {% endif %}
             </tbody>
           </table>
         </p>
