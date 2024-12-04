@@ -233,6 +233,7 @@ def prepare_formset_for_group(request, panel, group, amounts):
     )
 
 
+# TODO optimize SQL queries for lists choices
 @login_required
 def panel_edit_contents(request, panel_id):
     panel = get_accessible_panel(request, panel_id)
