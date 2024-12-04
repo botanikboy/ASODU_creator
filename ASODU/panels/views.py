@@ -228,7 +228,7 @@ def prepare_formset_for_group(request, panel, group, amounts):
             return formfield
         return field.formfield(**kwargs)
 
-    EquipmentFormset = inlineformset_factory(
+    EquipmentFormset = inlineformset_factory(  # noqa: N806
         Panel,
         EquipmentPanelAmount,
         form=EquipmentForm,
