@@ -195,21 +195,6 @@ def process_formset(formset):
         EquipmentPanelAmount.objects.bulk_create(to_create)
 
 
-def formfield_callback(field, **kwargs):
-    """
-    Обратный вызов для настройки полей формы.
-    """
-    if isinstance(field, models.ForeignKey) and field.name == 'equipment':
-        def filtered_formfield(*args, **kwargs):
-            formfield = field.formfield(*args, **kwargs)
-            formfield.queryset = kwargs.get('queryset')
-            return formfield
-
-        return filtered_formfield(**kwargs)
-
-    return field.formfield(**kwargs)
-
-
 def prepare_formset_for_group(request, panel, group, amounts):
     """
     Подготавливает формсет для определённой группы оборудования.
@@ -217,14 +202,16 @@ def prepare_formset_for_group(request, panel, group, amounts):
     existing_equipment_ids = [amount.equipment.id for amount in amounts]
     amounts_in_panel = [amount.id for amount in amounts]
     amounts_queryset = EquipmentPanelAmount.objects.filter(
-        id__in=amounts_in_panel)
+        id__in=amounts_in_panel).select_related(
+            'equipment', 'equipment__group')
+    equipment_queryset = Equipment.objects.exclude(
+        id__in=existing_equipment_ids).select_related('group')
 
     def dynamic_formfield_callback(field, **kwargs):
         if isinstance(field, models.ForeignKey) and field.name == 'equipment':
             formfield = field.formfield()
-            formfield.queryset = Equipment.objects.filter(
-                group=group
-            ).exclude(id__in=existing_equipment_ids)
+            formfield.queryset = equipment_queryset.filter(
+                group=group).select_related('group')
             return formfield
         return field.formfield(**kwargs)
 
@@ -241,7 +228,7 @@ def prepare_formset_for_group(request, panel, group, amounts):
         request.POST or None,
         instance=panel,
         error_class=UlErrorList,
-        queryset=amounts_queryset.all(),
+        queryset=amounts_queryset,
         prefix=f'group_{group.id if group else "no_group"}',
     )
 

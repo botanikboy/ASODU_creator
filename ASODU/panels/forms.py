@@ -111,7 +111,7 @@ class EquipmentForm(forms.ModelForm):
                                  if equipment_instance else "—")
             equipment_field = f"<span>{equipment_display}</span>"
         else:
-            equipment_field = str(self['equipment'])
+            equipment_field = self['equipment']
         units = equipment_instance.units if equipment_instance else "—"
         return mark_safe(
             f"{self.render_non_field_errors()}"

@@ -19,12 +19,12 @@ jobs:
         pip install flake8 pep8-naming flake8-broken-line flake8-return flake8-isort
         pip install -r ASODU/requirements.txt 
 
-    - name: Test with flake8 pytest
+    - name: Test with flake8
       run: |
         cd ASODU/
         python -m flake8
 
-    - name: Test with flake8 pytest
+    - name: Test with pytest
       run: |
         cd ASODU/
         pytest

@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from django.db.models import Prefetch, Q
 from django.shortcuts import get_list_or_404, get_object_or_404
 
@@ -42,9 +44,9 @@ def get_accessible_project(request, id: int):
 
 
 def amounts_by_group(panel: Panel) -> dict:
-    amounts_by_group = {}
-    for amount in panel.amounts.all():
+    amounts_by_group = defaultdict(list)
+    for amount in panel.amounts.select_related(
+            'equipment', 'equipment__group'):
         group = amount.equipment.group
-        amounts_by_group[group] = amounts_by_group.get(group, [])
         amounts_by_group[group].append(amount)
-    return amounts_by_group
+    return dict(amounts_by_group)
