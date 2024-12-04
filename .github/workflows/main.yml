@@ -23,4 +23,8 @@ jobs:
       run: |
         cd ASODU/
         python -m flake8
+
+    - name: Test with flake8 pytest
+      run: |
+        cd ASODU/
         pytest

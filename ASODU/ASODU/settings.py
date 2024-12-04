@@ -73,8 +73,8 @@ WSGI_APPLICATION = 'ASODU.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.postgresql'),
-        'NAME': os.getenv('POSTGRES_DB', default='postgres'),
+        'ENGINE': os.getenv('DB_ENGINE', default='django.db.backends.sqlite3'),
+        'NAME': os.getenv('POSTGRES_DB', default='mydatabase'),
         'USER': os.getenv('POSTGRES_USER', default='postgres'),
         'PASSWORD': os.getenv('POSTGRES_PASSWORD', default='postgres'),
         'HOST': os.getenv('DB_HOST', default='localhost'),
@@ -142,9 +142,9 @@ CSRF_FAILURE_VIEW = 'core.views.csrf_failure'
 
 OBJECTS_COUNT_ON_PAGE = 10
 
-CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', default='redis://localhost:6379/0')
+CELERY_BROKER_URL = os.getenv('CELERY_BROKER_URL', default='NOT_FOUND')
 
-CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', default='redis://localhost:6379/0')
+CELERY_RESULT_BACKEND = os.getenv('CELERY_RESULT_BACKEND', default='NOT_FOUND')
 
 CELERY_IMPORTS = ('panels.tasks', )
 

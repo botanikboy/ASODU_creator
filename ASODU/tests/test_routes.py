@@ -1,6 +1,7 @@
 from http import HTTPStatus
 
 import pytest
+from django.conf import settings
 from django.urls import reverse
 from pytest_django.asserts import assertRedirects
 
@@ -23,11 +24,25 @@ from pytest_django.asserts import assertRedirects
         ('project_create', None),
         ('panel_detail', 'panel'),
         ('panel_create', 'project'),
-        ('boq_download_project', 'project'),
+        pytest.param(
+            'boq_download_project',
+            'project',
+            marks=pytest.mark.skipif(
+                settings.CELERY_BROKER_URL == 'NOT_FOUND',
+                reason="Celery broker URL is set to 'NOT_FOUND'"
+            )
+        ),
         ('panel_edit', 'panel'),
         ('panel_edit_contents', 'panel'),
         ('panel_copy', 'panel'),
-        ('boq_download_panel', 'panel'),
+        pytest.param(
+            'boq_download_panel',
+            'panel',
+            marks=pytest.mark.skipif(
+                settings.CELERY_BROKER_URL == 'NOT_FOUND',
+                reason="Celery broker URL is set to 'NOT_FOUND'"
+            )
+        ),
         ('file_add', 'panel'),
         ('add_author', 'project')
     )

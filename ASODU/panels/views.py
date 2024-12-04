@@ -265,7 +265,6 @@ def panel_edit_contents(request, panel_id):
         group_formsets.append({'group': group, 'formset': formset})
 
     if request.method == 'POST':
-        print(request.POST)
         all_valid = all(
             formset['formset'].is_valid() for formset in group_formsets
         )
