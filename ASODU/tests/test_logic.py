@@ -284,5 +284,5 @@ def test_author_can_edit_panel_contents(
     )
     assert response.status_code == expected_status
     if expected_status == HTTPStatus.FOUND:
-        assert panel.amounts.count() == initial_equipment_count - 1
+        assert panel.amounts.count() == initial_equipment_count - 2
         assert panel.amounts.last().amount == initial_equipment_amount + 3

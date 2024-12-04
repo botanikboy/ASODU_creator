@@ -4,6 +4,7 @@ import pytest
 
 from panels.models import (Equipment, EquipmentGroup, EquipmentPanelAmount,
                            Panel, Project, Vendor)
+from panels.utils import amounts_by_group
 
 EQUPMENT_GROUPS_COUNT = 2
 VENDORS_COUNT = 3
@@ -233,16 +234,30 @@ def copy_panel_form_data(project):
 def edit_panel_contents_form_data(panels, panels_contents, equipment):
     forms = {}
     for key, panel in panels.items():
-        forms[key] = {
-            'amounts-TOTAL_FORMS': panel.amounts.count(),
-            'amounts-INITIAL_FORMS': panel.amounts.count(),
-            'amounts-MIN_NUM_FORMS': '0',
-            'amounts-MAX_NUM_FORMS': '1000',
-        }
-        for i, amount in enumerate(panel.amounts.all()):
-            forms[key][f'amounts-{i}-equipment'] = amount.equipment.id
-            forms[key][f'amounts-{i}-amount'] = amount.amount + 3
-            forms[key][f'amounts-{i}-DELETE'] = ''
-            forms[key][f'amounts-{i}-id'] = amount.id
-        forms[key]['amounts-0-DELETE'] = True
+        grouped_amounts = amounts_by_group(panel)
+        forms[key] = {}
+
+        for group_id, amounts in grouped_amounts.items():
+            group_prefix = f'group_{group_id.id if group_id else "no_group"}'
+            forms[key][f'{group_prefix}-TOTAL_FORMS'] = str(len(amounts))
+            forms[key][f'{group_prefix}-INITIAL_FORMS'] = str(len(amounts))
+            forms[key][f'{group_prefix}-MIN_NUM_FORMS'] = '0'
+            forms[key][f'{group_prefix}-MAX_NUM_FORMS'] = '1000'
+
+            for i, amount in enumerate(amounts):
+                forms[key][f'{group_prefix}-{i}-amount'] = amount.amount + 3
+                forms[key][f'{group_prefix}-{i}-DELETE'] = ''
+                forms[key][f'{group_prefix}-{i}-id'] = amount.id
+            if amounts:
+                forms[key][f'{group_prefix}-0-DELETE'] = True
+
+        all_groups = EquipmentGroup.objects.all()
+        missing_groups = all_groups.exclude(
+            id__in=[g.id for g in grouped_amounts.keys() if g])
+        for group in missing_groups:
+            group_prefix = f'group_{group.id}'
+            forms[key][f'{group_prefix}-TOTAL_FORMS'] = '0'
+            forms[key][f'{group_prefix}-INITIAL_FORMS'] = '0'
+            forms[key][f'{group_prefix}-MIN_NUM_FORMS'] = '0'
+            forms[key][f'{group_prefix}-MAX_NUM_FORMS'] = '1000'
     return forms

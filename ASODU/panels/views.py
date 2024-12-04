@@ -6,18 +6,22 @@ from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
+from django.db import models
 from django.db.models import Prefetch, Q
+from django.forms import inlineformset_factory
 from django.http import (FileResponse, Http404, HttpResponseBadRequest,
                          JsonResponse)
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
-from .forms import (AttachmentForm, CoAuthorForm, EquipmentFormset,
-                    PanelCopyForm, PanelForm, ProjectForm, UlErrorList)
-from .models import Attachment, Equipment, EquipmentPanelAmount, Panel, Project
+from .forms import (AttachmentForm, CoAuthorForm, EquipmentForm, PanelCopyForm,
+                    PanelForm, ProjectForm, UlErrorList)
+from .models import (Attachment, Equipment, EquipmentGroup,
+                     EquipmentPanelAmount, Panel, Project)
 from .serializers import PanelSerializer
 from .tasks import generate_excel_report
-from .utils import get_accessible_panel, get_accessible_project
+from .utils import (amounts_by_group, get_accessible_panel,
+                    get_accessible_project)
 from core.utils import paginator_create, transliterate
 
 User = get_user_model()
@@ -109,15 +113,6 @@ def project_delete(request, project_id):
     return redirect('panels:index')
 
 
-def amounts_by_group(panel: Panel) -> dict:
-    amounts_by_group = {}
-    for amount in panel.amounts.all():
-        group = amount.equipment.group
-        amounts_by_group[group] = amounts_by_group.get(group, [])
-        amounts_by_group[group].append(amount)
-    return amounts_by_group
-
-
 @login_required
 def panel_detail(request, panel_id):
     panel = get_accessible_panel(request, panel_id, True)
@@ -167,22 +162,6 @@ def panel_edit(request, panel_id):
         return render(request, 'panels/create_panel.html', context)
 
 
-def set_dynamic_querysets(formset, existing_equipment_ids, group):
-    """
-    Устанавливает динамические queryset для новых строк.
-    """
-
-    filtered_set = Equipment.objects.filter(
-        group=group
-    ).exclude(
-        id__in=existing_equipment_ids
-    )
-    for form in formset.forms:
-        if not form.instance.pk:
-            form.fields['equipment'].queryset = filtered_set
-    formset.empty_form.fields['equipment'].queryset = filtered_set
-
-
 def process_formset(formset):
     """
     Обрабатывает формы: сохраняет новые, обновляет существующие,
@@ -216,39 +195,85 @@ def process_formset(formset):
         EquipmentPanelAmount.objects.bulk_create(to_create)
 
 
+def formfield_callback(field, **kwargs):
+    """
+    Обратный вызов для настройки полей формы.
+    """
+    if isinstance(field, models.ForeignKey) and field.name == 'equipment':
+        def filtered_formfield(*args, **kwargs):
+            formfield = field.formfield(*args, **kwargs)
+            formfield.queryset = kwargs.get('queryset')
+            return formfield
+
+        return filtered_formfield(**kwargs)
+
+    return field.formfield(**kwargs)
+
+
+def prepare_formset_for_group(request, panel, group, amounts):
+    """
+    Подготавливает формсет для определённой группы оборудования.
+    """
+    existing_equipment_ids = [amount.equipment.id for amount in amounts]
+    amounts_in_panel = [amount.id for amount in amounts]
+    amounts_queryset = EquipmentPanelAmount.objects.filter(
+        id__in=amounts_in_panel)
+
+    def dynamic_formfield_callback(field, **kwargs):
+        if isinstance(field, models.ForeignKey) and field.name == 'equipment':
+            formfield = field.formfield()
+            formfield.queryset = Equipment.objects.filter(
+                group=group
+            ).exclude(id__in=existing_equipment_ids)
+            return formfield
+        return field.formfield(**kwargs)
+
+    EquipmentFormset = inlineformset_factory(
+        Panel,
+        EquipmentPanelAmount,
+        form=EquipmentForm,
+        extra=0,
+        can_delete=True,
+        formfield_callback=dynamic_formfield_callback,
+    )
+
+    return EquipmentFormset(
+        request.POST or None,
+        instance=panel,
+        error_class=UlErrorList,
+        queryset=amounts_queryset.all(),
+        prefix=f'group_{group.id if group else "no_group"}',
+    )
+
+
 @login_required
 def panel_edit_contents(request, panel_id):
     panel = get_accessible_panel(request, panel_id)
     grouped_amounts = amounts_by_group(panel)
+    processed_groups_ids = [group.id for group in set(grouped_amounts.keys())]
+    missing_groups = EquipmentGroup.objects.exclude(
+        id__in=processed_groups_ids)
 
     group_formsets = []
+
     for group, amounts in grouped_amounts.items():
-        existing_equipment_ids = [amount.equipment.id for amount in amounts]
-        amounts_in_panel = [amount.id for amount in amounts]
-        amounts = EquipmentPanelAmount.objects.filter(
-            id__in=amounts_in_panel)
-        formset = EquipmentFormset(
-            request.POST or None,
-            instance=panel,
-            error_class=UlErrorList,
-            queryset=amounts.all(),
-            prefix=f'group_{group.id if group else "no_group"}',
-        )
-        set_dynamic_querysets(formset, existing_equipment_ids, group)
+        formset = prepare_formset_for_group(request, panel, group, amounts)
+        group_formsets.append({'group': group, 'formset': formset})
+
+    for group in missing_groups:
+        formset = prepare_formset_for_group(request, panel, group, [])
         group_formsets.append({'group': group, 'formset': formset})
 
     if request.method == 'POST':
-        all_valid = True
-        for group_data in group_formsets:
-            formset = group_data['formset']
-            if not formset.is_valid():
-                all_valid = False
-                break
+        print(request.POST)
+        all_valid = all(
+            formset['formset'].is_valid() for formset in group_formsets
+        )
 
         if all_valid:
             for group_data in group_formsets:
                 process_formset(group_data['formset'])
-            return redirect('panels:panel_detail', panel.id)
+            return redirect('panels:panel_edit_contents', panel.id)
 
     context = {
         'group_formsets': group_formsets,

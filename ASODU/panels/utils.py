@@ -39,3 +39,12 @@ def get_accessible_project(request, id: int):
         pk=id,
     )
     return project
+
+
+def amounts_by_group(panel: Panel) -> dict:
+    amounts_by_group = {}
+    for amount in panel.amounts.all():
+        group = amount.equipment.group
+        amounts_by_group[group] = amounts_by_group.get(group, [])
+        amounts_by_group[group].append(amount)
+    return amounts_by_group

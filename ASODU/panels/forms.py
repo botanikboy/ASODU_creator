@@ -5,7 +5,7 @@ from django.db.models import Q
 from django.forms.utils import ErrorList
 from django.utils.safestring import mark_safe
 
-from .models import Attachment, Equipment, EquipmentPanelAmount, Panel, Project
+from .models import Attachment, EquipmentPanelAmount, Panel, Project
 
 User = get_user_model()
 
@@ -100,10 +100,7 @@ class EquipmentForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        if not self.instance.pk:
-            self.fields['equipment'].queryset = (
-                Equipment.objects.select_related('group'))
-        else:
+        if self.instance.pk:
             self.fields['equipment'].required = False
 
     def as_table(self):
@@ -184,15 +181,6 @@ class AttachmentForm(forms.ModelForm):
     class Meta:
         model = Attachment
         fields = ('drawing', 'description')
-
-
-EquipmentFormset = forms.inlineformset_factory(
-    Panel,
-    EquipmentPanelAmount,
-    form=EquipmentForm,
-    extra=1,
-    can_delete=True
-)
 
 
 class CoAuthorForm(forms.Form):
