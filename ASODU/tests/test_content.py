@@ -48,3 +48,7 @@ def test_author_or_coauthor_can_see_project_details(
     response = author_client.get(
         reverse('panels:project_detail', args=(param_project.id,)))
     assert response.status_code == expected_status
+
+
+def mock_test():
+    pass
