@@ -255,6 +255,10 @@ def test_author_can_copy_panel_to_his_project(
     if expected_status == HTTPStatus.FOUND:
         assert project.panels.count() == initial_panels_count + 1
         last_added_panel = project.panels.order_by('id').last()
+        assertRedirects(
+            response,
+            reverse('panels:panel_detail', args=(last_added_panel.id,))
+        )
         assert last_added_panel.function_type == panel.function_type
         for amount in panel.amounts.all():
             assert last_added_panel.amounts.filter(

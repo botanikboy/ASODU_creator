@@ -1,4 +1,5 @@
 import os
+import sys
 from pathlib import Path
 
 from django.core.management.utils import get_random_secret_key
@@ -7,6 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+TESTING = 'pytest' in sys.modules or 'PYTEST_CURRENT_TEST' in os.environ
 
 SECRET_KEY = os.getenv('SECRET_KEY', default=get_random_secret_key())
 
@@ -150,15 +152,28 @@ CELERY_IMPORTS = ('panels.tasks', )
 
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': os.getenv('REDIS_CACHE', default='redis://localhost:6379/1'),
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+if TESTING:
+    CELERY_BROKER_URL = 'memory://'
+    CELERY_RESULT_BACKEND = 'cache+memory://'
+    CELERY_TASK_ALWAYS_EAGER = True
+    CELERY_TASK_EAGER_PROPAGATES = True
+    CACHES = {
+        'default': {
+            'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         }
     }
-}
+else:
+    CACHES = {
+        'default': {
+            'BACKEND': 'django_redis.cache.RedisCache',
+            'LOCATION': os.getenv(
+                'REDIS_CACHE', default='redis://localhost:6379/1'
+            ),
+            'OPTIONS': {
+                'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+            }
+        }
+    }
 
 CELERY_TIMEZONE = TIME_ZONE
 

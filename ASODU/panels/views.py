@@ -1,28 +1,21 @@
 import io
-import os
-import shutil
 
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.core.cache import cache
-from django.db import models
 from django.db.models import Prefetch, Q
-from django.forms import inlineformset_factory
 from django.http import (FileResponse, Http404, HttpResponseBadRequest,
                          JsonResponse)
 from django.shortcuts import get_object_or_404, redirect, render
-from django.utils import timezone
 
-from .forms import (AttachmentForm, CoAuthorForm, EquipmentForm, PanelCopyForm,
-                    PanelForm, ProjectForm, UlErrorList)
-from .models import (Attachment, Equipment, EquipmentGroup,
-                     EquipmentPanelAmount, Panel, Project)
-from .serializers import PanelSerializer
-from .tasks import generate_excel_report
+from .forms import (AttachmentForm, CoAuthorForm, PanelCopyForm, PanelForm,
+                    ProjectForm)
+from .models import Attachment, EquipmentPanelAmount, Panel, Project
+from .services import (build_panel_group_formsets, copy_panel,
+                       enqueue_excel_report, save_panel_group_formsets)
 from .utils import (amounts_by_group, get_accessible_panel,
                     get_accessible_project)
-from core.utils import paginator_create, transliterate
+from core.utils import paginator_create
 
 User = get_user_model()
 
@@ -161,95 +154,10 @@ def panel_edit(request, panel_id):
         }
         return render(request, 'panels/create_panel.html', context)
 
-
-def process_formset(formset):
-    """
-    Обрабатывает формы: сохраняет новые, обновляет существующие,
-    удаляет помеченные на удаление.
-    """
-    to_update = []
-    to_create = []
-    to_delete = []
-
-    for form in formset:
-        if form.is_empty():
-            continue
-        if form.cleaned_data.get('DELETE') and form.instance.pk:
-            to_delete.append(form.instance)
-        elif not form.cleaned_data.get('DELETE'):
-            instance = form.save(commit=False)
-            if instance.pk:
-                to_update.append(instance)
-            else:
-                to_create.append(instance)
-
-    if to_delete:
-        EquipmentPanelAmount.objects.filter(
-            pk__in=[obj.pk for obj in to_delete]
-        ).delete()
-
-    if to_update:
-        EquipmentPanelAmount.objects.bulk_update(to_update, ['amount'])
-
-    if to_create:
-        EquipmentPanelAmount.objects.bulk_create(to_create)
-
-
-def prepare_formset_for_group(request, panel, group, amounts):
-    """
-    Подготавливает формсет для определённой группы оборудования.
-    """
-    existing_equipment_ids = [amount.equipment.id for amount in amounts]
-    amounts_in_panel = [amount.id for amount in amounts]
-    amounts_queryset = EquipmentPanelAmount.objects.filter(
-        id__in=amounts_in_panel).select_related(
-            'equipment', 'equipment__group')
-    equipment_queryset = Equipment.objects.exclude(
-        id__in=existing_equipment_ids).select_related('group')
-
-    def dynamic_formfield_callback(field, **kwargs):
-        if isinstance(field, models.ForeignKey) and field.name == 'equipment':
-            formfield = field.formfield()
-            formfield.queryset = equipment_queryset.filter(
-                group=group).select_related('group')
-            return formfield
-        return field.formfield(**kwargs)
-
-    EquipmentFormset = inlineformset_factory(  # noqa: N806
-        Panel,
-        EquipmentPanelAmount,
-        form=EquipmentForm,
-        extra=0,
-        can_delete=True,
-        formfield_callback=dynamic_formfield_callback,
-    )
-
-    return EquipmentFormset(
-        request.POST or None,
-        instance=panel,
-        error_class=UlErrorList,
-        queryset=amounts_queryset,
-        prefix=f'group_{group.id if group else "no_group"}',
-    )
-
-
 @login_required
 def panel_edit_contents(request, panel_id):
     panel = get_accessible_panel(request, panel_id)
-    grouped_amounts = amounts_by_group(panel)
-    processed_groups_ids = [group.id for group in set(grouped_amounts.keys())]
-    missing_groups = EquipmentGroup.objects.exclude(
-        id__in=processed_groups_ids)
-
-    group_formsets = []
-
-    for group, amounts in grouped_amounts.items():
-        formset = prepare_formset_for_group(request, panel, group, amounts)
-        group_formsets.append({'group': group, 'formset': formset})
-
-    for group in missing_groups:
-        formset = prepare_formset_for_group(request, panel, group, [])
-        group_formsets.append({'group': group, 'formset': formset})
+    group_formsets = build_panel_group_formsets(request, panel)
 
     if request.method == 'POST':
         all_valid = all(
@@ -257,8 +165,7 @@ def panel_edit_contents(request, panel_id):
         )
 
         if all_valid:
-            for group_data in group_formsets:
-                process_formset(group_data['formset'])
+            save_panel_group_formsets(group_formsets)
             return redirect('panels:panel_edit_contents', panel.id)
 
     context = {
@@ -278,31 +185,23 @@ def panel_delete(request, panel_id):
 @login_required
 def panel_copy(request, panel_id):
     panel = get_accessible_panel(request, panel_id, True)
-    form = PanelCopyForm(request.POST or None, instance=panel, request=request)
-    form.instance.pk = None
+    form = PanelCopyForm(
+        request.POST or None,
+        request=request,
+        initial={
+            'name': panel.name,
+            'description': panel.description,
+            'project': panel.project_id,
+        }
+    )
     if form.is_valid():
-        form.save()
-        for item in panel.amounts.all():
-            item.pk = None
-            item.panel = form.instance
-            item.save()
-        for attachment in panel.attachments.all():
-            attachment.pk = None
-            attachment.panel = form.instance
-            source_path = attachment.drawing.path
-            new_folder = os.path.join(
-                settings.MEDIA_ROOT,
-                'panels/',
-                f'{panel.project.pk}',
-                f'{form.instance.pk}_{transliterate(form.instance.name)}'
-            )
-            os.makedirs(new_folder, exist_ok=True)
-            new_file = os.path.join(new_folder, os.path.basename(source_path))
-            shutil.copy2(source_path, new_file)
-            attachment.drawing.name = os.path.relpath(
-                new_file, settings.MEDIA_ROOT)
-            attachment.save()
-        return redirect('panels:panel_detail', panel.id)
+        copied_panel = copy_panel(
+            panel,
+            project=form.cleaned_data['project'],
+            name=form.cleaned_data['name'],
+            description=form.cleaned_data['description'],
+        )
+        return redirect('panels:panel_detail', copied_panel.id)
     else:
         context = {
             'form': form,
@@ -322,9 +221,12 @@ def boq_download(request, obj_id, model):
     else:
         return HttpResponseBadRequest("Invalid model parameter")
 
-    panels_data = PanelSerializer(panels, many=True).data
-    report_key = f'{request.user}-{model}-{obj_id}-{timezone.now()}'
-    generate_excel_report.delay(panels_data, report_key)
+    report_key = enqueue_excel_report(
+        panels=panels,
+        user=request.user,
+        model=model,
+        obj_id=obj_id,
+    )
 
     context = {
         'report_key': report_key
@@ -344,7 +246,7 @@ def download_report(request, report_key):
     buffer = io.BytesIO(report_data)
     return FileResponse(
         buffer, as_attachment=True,
-        filename=f'{report_key[:-13]}-спецификация.xlsx')
+        filename=f'{report_key.rsplit("-", 1)[0]}-спецификация.xlsx')
 
 
 @login_required
