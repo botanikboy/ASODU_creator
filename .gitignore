@@ -165,3 +165,5 @@ static/
 media/
 fixtures.json
 *.pyc
+.DS_Store
+.idea
