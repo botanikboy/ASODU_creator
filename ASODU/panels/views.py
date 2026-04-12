@@ -294,7 +294,7 @@ def panel_copy(request, panel_id):
             new_folder = os.path.join(
                 settings.MEDIA_ROOT,
                 'panels/',
-                f'{panel.project.pk}',
+                f'{form.instance.project.pk}',
                 f'{form.instance.pk}_{transliterate(form.instance.name)}'
             )
             os.makedirs(new_folder, exist_ok=True)

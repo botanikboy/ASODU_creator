@@ -1,10 +1,14 @@
+from pathlib import Path
+from tempfile import TemporaryDirectory
 from http import HTTPStatus
 
 import pytest
+from django.core.files.uploadedfile import SimpleUploadedFile
 from django.urls import reverse
+from django.test import override_settings
 from pytest_django.asserts import assertRedirects
 
-from panels.models import Panel, Project
+from panels.models import Attachment, Panel, Project
 
 
 def test_author_can_create_project(author_client, project_create_form_data):
@@ -259,6 +263,42 @@ def test_author_can_copy_panel_to_his_project(
         for amount in panel.amounts.all():
             assert last_added_panel.amounts.filter(
                 equipment=amount.equipment, amount=amount.amount).exists()
+
+
+def test_copied_attachments_are_saved_under_destination_project(
+    author_client, panels, project
+):
+    source_panel = panels['alien_project']
+    copy_form_data = {
+        'name': 'copied panel with attachment',
+        'description': 'copied panel desc',
+        'project': project.id,
+    }
+
+    with TemporaryDirectory() as media_root:
+        with override_settings(MEDIA_ROOT=media_root):
+            Attachment.objects.create(
+                panel=source_panel,
+                description='schema',
+                drawing=SimpleUploadedFile('schema.txt', b'schema contents'),
+            )
+
+            response = author_client.post(
+                reverse('panels:panel_copy', args=(source_panel.id,)),
+                data=copy_form_data,
+            )
+
+            assert response.status_code == HTTPStatus.FOUND
+
+            copied_panel = project.panels.order_by('id').last()
+            copied_attachment = copied_panel.attachments.get()
+            copied_path = Path(copied_attachment.drawing.name)
+
+            assert copied_path.parts[0] == 'panels'
+            assert copied_path.parts[1] == str(project.id)
+            assert copied_attachment.drawing.storage.exists(
+                copied_attachment.drawing.name
+            )
 
 
 @pytest.mark.parametrize(
